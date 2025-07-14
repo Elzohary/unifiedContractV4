@@ -174,6 +174,24 @@ export class MockDatabaseService {
     this.updateAllSubjects();
   }
 
+  // Deep merge utility for objects and arrays
+  private deepMerge(target: any, source: any): any {
+    if (Array.isArray(target) && Array.isArray(source)) {
+      return [...target, ...source.filter((s: any) => !target.some((t: any) => t.id === s.id))];
+    } else if (typeof target === 'object' && typeof source === 'object') {
+      const merged: any = { ...target };
+      for (const key of Object.keys(source)) {
+        if (key in target) {
+          merged[key] = this.deepMerge(target[key], source[key]);
+        } else {
+          merged[key] = source[key];
+        }
+      }
+      return merged;
+    }
+    return source;
+  }
+
   // ===== WORK ORDERS =====
 
   getWorkOrders(): Observable<WorkOrder[]> {
@@ -203,17 +221,19 @@ export class MockDatabaseService {
   }
 
   updateWorkOrder(id: string, updates: Partial<WorkOrder>): Observable<WorkOrder> {
+    console.log('[DEBUG] MockDB.updateWorkOrder called with:', id, updates);
     const index = this.data.workOrders.findIndex(wo => wo.id === id);
     if (index !== -1) {
-      // Deep merge for permits array
       const existing = this.data.workOrders[index];
-      let merged: WorkOrder;
-      if ('permits' in updates) {
-        merged = { ...existing, ...updates, permits: updates.permits };
-      } else {
-        merged = { ...existing, ...updates, permits: existing.permits };
+      // Deep merge all properties, including arrays and objects
+      const merged: WorkOrder = this.deepMerge(existing, updates);
+      // Force direct replacement for siteReports if present in updates
+      if ('siteReports' in updates) {
+        merged.siteReports = updates.siteReports;
       }
+      console.log('[DEBUG] MockDB.updateWorkOrder merged result:', merged);
       this.data.workOrders[index] = merged;
+      console.log('[DEBUG] MockDB.updateWorkOrder final saved:', this.data.workOrders[index]);
       this.workOrdersSubject.next([...this.data.workOrders]);
       this.saveToStorage();
       return of(this.data.workOrders[index]).pipe(delay(environment.mockDataDelay));

@@ -6,40 +6,34 @@
     </h2>
     <button mat-raised-button color="primary" (click)="openSampleFormDialog()">
       <mat-icon>add</mat-icon>
-      Add a Sample Form
+      Add Site Report
     </button>
   </div>
-  <ng-container *ngIf="siteReports.length; else noReports">
-    <div *ngFor="let date of sortedDates" class="date-group">
+  <ng-container *ngIf="groupedReportsFlat.length; else noReports">
+    <div *ngFor="let group of groupedReportsFlat" class="date-group">
       <mat-divider></mat-divider>
       <h3 class="date-title">
         <mat-icon>event</mat-icon>
-        {{ date }}
+        {{ group.date }}
       </h3>
-      <div *ngFor="let foreman of getForemen(date)" class="foreman-group">
-        <mat-card class="foreman-card">
-          <mat-card-header>
-            <mat-card-title>
-              <mat-icon color="primary">person</mat-icon>
-              {{ foreman }}
-            </mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <mat-list>
-              <mat-list-item *ngFor="let report of groupedReports[date][foreman]">
-                <div class="report-content">
-                  <div class="report-meta">
-                    <span class="report-time"><mat-icon>schedule</mat-icon> {{ report.createdAt | date:'shortTime' }}</span>
+      <div *ngFor="let foremanGroup of group.foremen">
+        <div *ngFor="let report of foremanGroup.reports">
+          <mat-card class="foreman-card" (click)="openReport(report)" style="cursor:pointer;">
+            <mat-card-content>
+              <div class="report-row">
+                <div class="report-main">
+                  <div class="report-header">
+                    <span class="foreman-name">{{ foremanGroup.foreman }}</span>
+                    <span class="report-time">{{ report.createdAt ? (report.createdAt | date:'shortTime') : '' }}</span>
                   </div>
-                  <div class="report-materials" *ngIf="report.materialsUsed?.length">
-                    <mat-icon>construction</mat-icon>
-                    <span>Materials Used:</span>
+                  <div *ngIf="report.notes" class="report-notes">{{ report.notes }}</div>
+                  <div *ngIf="report.materialsUsed?.length" class="report-materials">
+                    <span>Materials:</span>
                     <span *ngFor="let m of report.materialsUsed" class="material-chip">
                       {{ m.materialName }} ({{ m.quantity }})
                     </span>
                   </div>
-                  <div class="report-photos" *ngIf="report.photos?.length">
-                    <mat-icon>photo_library</mat-icon>
+                  <div *ngIf="report.photos?.length" class="report-photos">
                     <span>Photos:</span>
                     <div class="photo-thumbnails">
                       <a *ngFor="let photo of report.photos" [href]="photo.url" target="_blank">
@@ -47,15 +41,16 @@
                       </a>
                     </div>
                   </div>
-                  <div class="report-notes" *ngIf="report.notes">
-                    <mat-icon>notes</mat-icon>
-                    <span>{{ report.notes }}</span>
-                  </div>
                 </div>
-              </mat-list-item>
-            </mat-list>
-          </mat-card-content>
-        </mat-card>
+                <div class="report-actions">
+                  <button mat-icon-button color="warn" (click)="deleteReport(report)" matTooltip="Delete Report">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
       </div>
     </div>
   </ng-container>

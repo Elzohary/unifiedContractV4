@@ -319,6 +319,7 @@ export interface WorkOrder {
     labor: number;
     other: number;
   };
+  siteReports?: SiteReport[];
 }
 
 export interface workOrderDetail {
@@ -476,6 +477,8 @@ export interface SiteReport {
   workOrderId: string;
   foremanId: string;
   foremanName: string;
+  workDone: string; // Description of work performed
+  actualQuantity?: number; // Quantity of work done (optional)
   date: string | Date;
   materialsUsed: Array<{
     materialId: string;

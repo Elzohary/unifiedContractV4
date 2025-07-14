@@ -229,8 +229,14 @@ export class WorkOrderService {
   }
 
   updateWorkOrder(id: string, workOrderData: Partial<WorkOrder>): Observable<WorkOrder> {
+    console.log('[DEBUG] Service.updateWorkOrder called with:', id, workOrderData);
     if (environment.useMockData) {
-      return this.mockDatabaseService.updateWorkOrder(id, workOrderData);
+      return this.mockDatabaseService.updateWorkOrder(id, workOrderData).pipe(
+        map(result => {
+          console.log('[DEBUG] Service.updateWorkOrder mock DB returned:', result);
+          return result;
+        })
+      );
     } else {
       return this.apiService.put<WorkOrder>(`${this.endpoint}/${id}`, workOrderData).pipe(
         map(response => response.data)

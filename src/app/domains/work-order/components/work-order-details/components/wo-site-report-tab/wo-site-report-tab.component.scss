@@ -104,4 +104,50 @@
   font-size: 1.1em;
   margin-top: 32px;
   justify-content: center;
+}
+
+.empty-field {
+  color: #bbb;
+  font-size: 0.95em;
+  margin-left: 24px;
+}
+
+.report-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.report-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.report-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.foreman-name {
+  color: #1976d2;
+  font-weight: 600;
+  font-size: 1.05em;
+}
+
+.report-time {
+  color: #888;
+  font-size: 0.97em;
+}
+
+.report-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
 } 

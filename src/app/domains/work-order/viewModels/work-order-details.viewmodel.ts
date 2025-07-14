@@ -109,13 +109,16 @@ export class WorkOrderDetailsViewModel {
    * Update the entire work order (e.g., after permits or other fields change)
    */
   updateWorkOrder(updatedWorkOrder: WorkOrder): void {
+    console.log('[DEBUG] ViewModel.updateWorkOrder called with:', updatedWorkOrder);
     this.updateState({ loading: true, error: null });
     this.workOrderService.updateWorkOrder(updatedWorkOrder.id, updatedWorkOrder)
       .pipe(
         finalize(() => this.updateState({ loading: false })),
         map((wo) => {
+          console.log('[DEBUG] ViewModel.updateWorkOrder service returned:', wo);
           // Always emit a new object reference
           this.updateState({ workOrder: { ...wo } });
+          console.log('[DEBUG] ViewModel state after update:', this.getCurrentState());
         }),
         catchError(error => {
           this.updateState({ error: 'Failed to update work order' });

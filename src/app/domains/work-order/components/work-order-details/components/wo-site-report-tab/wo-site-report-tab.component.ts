@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, OnInit, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,6 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { WorkOrder, SiteReport } from '../../../../models/work-order.model';
 import { SiteReportFormComponent } from './site-report-form.component';
+import { WorkOrderService } from '../../../../services/work-order.service';
+import { SiteReportViewDialogComponent } from './site-report-view-dialog.component';
 
 @Component({
   selector: 'app-wo-site-report-tab',
@@ -25,18 +27,19 @@ import { SiteReportFormComponent } from './site-report-form.component';
     SiteReportFormComponent
   ]
 })
-export class WoSiteReportTabComponent implements OnInit {
+export class WoSiteReportTabComponent implements OnInit, OnChanges {
   @Input() workOrder!: WorkOrder;
-  siteReports: SiteReport[] = [];
+  @Output() updated = new EventEmitter<any>();
+  @Output() deleted = new EventEmitter<SiteReport>();
 
   constructor(
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private workOrderService: WorkOrderService
   ) {}
 
-  ngOnInit(): void {
-    // In a real app, fetch site reports from backend by workOrder.id
-    this.siteReports = (this.workOrder as any).siteReports || [];
-  }
+  ngOnInit(): void {}
+
+  ngOnChanges(changes: SimpleChanges): void {}
 
   openSampleFormDialog() {
     this.dialog.open(SiteReportFormComponent, {
@@ -44,16 +47,31 @@ export class WoSiteReportTabComponent implements OnInit {
       data: { workOrder: this.workOrder }
     }).afterClosed().subscribe(result => {
       if (result) {
-        // Handle the submitted form result here (e.g., add to siteReports or show a snackbar)
         console.log('Sample form submitted', result);
+        this.updated.emit(result); // FIX: Emit event so parent can update SSOT
       }
     });
   }
 
+  onSiteReportFormUpdated(newReport: SiteReport) {
+    this.updated.emit(newReport);
+  }
+
+  deleteReport(report: SiteReport) {
+    this.deleted.emit(report);
+  }
+
+  openReport(report: SiteReport) {
+    this.dialog.open(SiteReportViewDialogComponent, {
+      width: '500px',
+      data: { report }
+    });
+  }
+
   get groupedReports() {
-    // Group by date, then by foreman
+    const siteReports = (this.workOrder && this.workOrder.siteReports) ? this.workOrder.siteReports : [];
     const groups: { [date: string]: { [foreman: string]: SiteReport[] } } = {};
-    for (const report of this.siteReports) {
+    for (const report of siteReports) {
       const date = new Date(report.date).toLocaleDateString();
       if (!groups[date]) groups[date] = {};
       if (!groups[date][report.foremanName]) groups[date][report.foremanName] = [];
@@ -62,10 +80,27 @@ export class WoSiteReportTabComponent implements OnInit {
     return groups;
   }
 
+  get groupedReportsFlat() {
+    const siteReports = (this.workOrder && this.workOrder.siteReports) ? this.workOrder.siteReports : [];
+    const groups: { [date: string]: { [foreman: string]: SiteReport[] } } = {};
+    for (const report of siteReports) {
+      const date = new Date(report.date).toLocaleDateString();
+      if (!groups[date]) groups[date] = {};
+      if (!groups[date][report.foremanName]) groups[date][report.foremanName] = [];
+      groups[date][report.foremanName].push(report);
+    }
+    // Flatten to array for template
+    return Object.entries(groups).map(([date, foremen]) => ({
+      date,
+      foremen: Object.entries(foremen).map(([foreman, reports]) => ({
+        foreman,
+        reports
+      }))
+    })).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  }
+
   get sortedDates(): string[] {
-    // Sort dates descending (latest first)
     return Object.keys(this.groupedReports).sort((a, b) => {
-      // Parse as date for robust sorting
       const dateA = new Date(a).getTime();
       const dateB = new Date(b).getTime();
       return dateB - dateA;

@@ -19,7 +19,7 @@ import { WorkOrderRemarksViewModel } from '../../viewModels/work-order-remarks.v
 import { WorkOrderMaterialsViewModel } from '../../viewModels/work-order-materials.viewmodel';
 
 // Models
-import { WorkOrder, WorkOrderStatus, Task, workOrderDetail, Permit } from '../../models/work-order.model';
+import { WorkOrder, WorkOrderStatus, Task, Permit, SiteReport } from '../../models/work-order.model';
 import { ActivityLog } from '../../../../shared/services/activity-log.service';
 
 // Sub-components
@@ -80,6 +80,7 @@ export class WorkOrderDetailsRefactoredComponent implements OnInit, OnDestroy {
 
   // Component state
   selectedTabIndex = 0;
+  currentWorkOrder: WorkOrder | null = null;
 
   // Tab mapping
   private tabIndexMap: Record<string, number> = {
@@ -140,6 +141,10 @@ export class WorkOrderDetailsRefactoredComponent implements OnInit, OnDestroy {
         this.handleError(error);
       }
     });
+
+    this.workOrder$.subscribe(wo => {
+      this.currentWorkOrder = wo;
+    });
   }
 
   ngOnDestroy(): void {
@@ -160,7 +165,13 @@ export class WorkOrderDetailsRefactoredComponent implements OnInit, OnDestroy {
    * Reload the work order details by id (used for itemsChanged event)
    */
   reloadWorkOrder(id: string): void {
-    this.loadWorkOrderDetails(id);
+    this.workOrderDetailsViewModel.loadWorkOrderDetails(id);
+    this.workOrder$.subscribe(wo => {
+      console.log('[DEBUG] Reloaded work order:', wo);
+      if (wo) {
+        console.log('[DEBUG] Reloaded siteReports:', wo.siteReports);
+      }
+    }).unsubscribe();
   }
 
   /**
@@ -268,12 +279,132 @@ export class WorkOrderDetailsRefactoredComponent implements OnInit, OnDestroy {
     this.workOrder$.subscribe(wo => currentWorkOrder = wo).unsubscribe();
     if (currentWorkOrder && typeof currentWorkOrder === 'object') {
       const workOrder = currentWorkOrder as WorkOrder;
-      // Merge updated statuses into the original permits array
-      const updatedPermits = ((workOrder.permits || []) as Permit[]).map((permit: Permit) => {
-        const updated = updatedStatuses.find(u => u.type === permit.type);
-        return updated ? { ...permit, status: updated.status as Permit['status'] } : permit;
+      const existingPermits = Array.isArray(workOrder.permits) ? [...workOrder.permits] : [];
+      // Ensure all permit types from the dialog are present
+      const allPermitTypes = ['Initial', 'Municipality', 'RoadDepartment', 'Traffic'];
+      const updatedPermits = allPermitTypes.map(type => {
+        const updated = updatedStatuses.find(u => u.type === type);
+        const existing = existingPermits.find(p => p.type === type);
+        if (updated) {
+          return existing ? { ...existing, status: updated.status as Permit['status'] } : {
+            id: Date.now().toString() + type,
+            type,
+            status: (updated.status === 'approved' ? 'approved' : updated.status === 'pending' ? 'pending' : 'pending') as Permit['status'],
+            title: '',
+            description: '',
+            number: '',
+            authority: '',
+            issueDate: new Date(),
+            expiryDate: new Date(),
+            issuedBy: '',
+            documentRef: '',
+            attachments: []
+          };
+        } else {
+          // If not updated, keep existing or add as pending
+          return existing ? existing : {
+            id: Date.now().toString() + type,
+            type,
+            status: 'pending' as Permit['status'],
+            title: '',
+            description: '',
+            number: '',
+            authority: '',
+            issueDate: new Date(),
+            expiryDate: new Date(),
+            issuedBy: '',
+            documentRef: '',
+            attachments: []
+          };
+        }
       });
       const updatedWorkOrder = { ...workOrder, permits: updatedPermits };
+      this.workOrderDetailsViewModel.updateWorkOrder(updatedWorkOrder);
+    }
+  }
+
+  onSiteReportAdded(formValue: any) {
+    if (this.currentWorkOrder && typeof this.currentWorkOrder === 'object') {
+      // Construct a valid SiteReport object
+      const newReport: SiteReport = {
+        id: typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(),
+        workOrderId: this.currentWorkOrder.id,
+        foremanId: 'currentUserId', // TODO: Replace with actual user ID from auth
+        foremanName: formValue.foremanName,
+        workDone: formValue.workDone === 'other' ? formValue.workDoneOther : (this.currentWorkOrder.items.find((item: any) => item.id === formValue.workDone)?.itemDetail.shortDescription || ''),
+        actualQuantity: typeof formValue.actualQuantity === 'number' ? formValue.actualQuantity : undefined,
+        date: formValue.date,
+        materialsUsed: (formValue.materialsUsed || []).map((m: any) => {
+          // Lookup material name from workOrder.materials
+          let materialName = 'Unknown';
+          const mat = (this.currentWorkOrder!.materials || []).find((mat: any) => mat.id === m.materialId);
+          if (mat) {
+            materialName = mat.purchasableMaterial?.name || mat.receivableMaterial?.name || 'Unknown';
+          }
+          return {
+            materialId: m.materialId,
+            materialName,
+            quantity: m.quantity
+          };
+        }),
+        photos: (formValue.photos || []).map((p: any) => ({
+          id: typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(),
+          url: p.url,
+          caption: p.caption
+        })),
+        notes: formValue.notes,
+        createdAt: new Date()
+      };
+
+      // Update actualQuantity if workDone is a valid item
+      let updatedItems = Array.isArray(this.currentWorkOrder.items) ? [...this.currentWorkOrder.items] : [];
+      if (formValue.workDone && formValue.workDone !== 'other' && typeof formValue.actualQuantity === 'number') {
+        const itemIndex = updatedItems.findIndex(item => item.id === formValue.workDone);
+        if (itemIndex !== -1) {
+          updatedItems[itemIndex] = {
+            ...updatedItems[itemIndex],
+            actualQuantity: formValue.actualQuantity
+          };
+        }
+      }
+
+      const siteReports: SiteReport[] = Array.isArray(this.currentWorkOrder.siteReports)
+        ? [...this.currentWorkOrder.siteReports, newReport]
+        : [newReport];
+
+      const updatedWorkOrder = {
+        ...this.currentWorkOrder,
+        siteReports,
+        items: updatedItems
+      };
+      console.log('[DEBUG] Submitting updatedWorkOrder with siteReports:', updatedWorkOrder.siteReports);
+      this.workOrderDetailsViewModel.updateWorkOrder(updatedWorkOrder);
+    }
+  }
+
+  onSiteReportDeleted(deletedReport: SiteReport) {
+    if (this.currentWorkOrder && typeof this.currentWorkOrder === 'object') {
+      const siteReports: SiteReport[] = Array.isArray(this.currentWorkOrder.siteReports)
+        ? (this.currentWorkOrder.siteReports as SiteReport[]).filter((r: SiteReport) => r.id !== deletedReport.id)
+        : [];
+      const updatedItems = Array.isArray(this.currentWorkOrder.items) ? [...this.currentWorkOrder.items] : [];
+      // If the deleted report is linked to a work order item, reset its actualQuantity
+      if ((deletedReport as unknown as { workDone?: string }).workDone && (deletedReport as unknown as { workDone?: string }).workDone !== 'other') {
+        const workDoneId = (deletedReport as unknown as { workDone?: string }).workDone;
+        const itemIndex = updatedItems.findIndex((item: { id: string }) => item.id === workDoneId);
+        if (itemIndex !== -1) {
+          updatedItems[itemIndex] = {
+            ...updatedItems[itemIndex],
+            actualQuantity: 0
+          };
+        }
+      }
+      const updatedWorkOrder = {
+        ...this.currentWorkOrder,
+        siteReports,
+        items: updatedItems
+      };
+      console.log('[DEBUG] Deleting report, submitting updatedWorkOrder with siteReports:', updatedWorkOrder.siteReports);
       this.workOrderDetailsViewModel.updateWorkOrder(updatedWorkOrder);
     }
   }

@@ -80,7 +80,7 @@
       <!-- Site Reports Tab -->
       <mat-tab label="Site Reports">
         <ng-template matTabContent>
-          <app-wo-site-report-tab [workOrder]="workOrder"></app-wo-site-report-tab>
+          <app-wo-site-report-tab [workOrder]="workOrder" (updated)="onSiteReportAdded($event)" (deleted)="onSiteReportDeleted($event)"></app-wo-site-report-tab>
         </ng-template>
       </mat-tab>
 
