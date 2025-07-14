@@ -1,0 +1,20 @@
+.edit-dialog-container {
+  width: 100%;
+  max-width: 600px;
+  padding: 24px;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.form-field.full-width {
+  flex: 1 1 100%;
+} 

@@ -106,6 +106,46 @@ export class WorkOrderDetailsViewModel {
   }
 
   /**
+   * Update the entire work order (e.g., after permits or other fields change)
+   */
+  updateWorkOrder(updatedWorkOrder: WorkOrder): void {
+    this.updateState({ loading: true, error: null });
+    this.workOrderService.updateWorkOrder(updatedWorkOrder.id, updatedWorkOrder)
+      .pipe(
+        finalize(() => this.updateState({ loading: false })),
+        map((wo) => {
+          // Always emit a new object reference
+          this.updateState({ workOrder: { ...wo } });
+        }),
+        catchError(error => {
+          this.updateState({ error: 'Failed to update work order' });
+          return of(null);
+        })
+      )
+      .subscribe();
+  }
+
+  /**
+   * Update permits for the current work order
+   */
+  updatePermits(workOrderId: string, updatedStatuses: {type: string, status: string}[]): void {
+    this.updateState({ loading: true, error: null });
+    this.workOrderService.updateWorkOrderPermits(workOrderId, updatedStatuses)
+      .pipe(
+        finalize(() => this.updateState({ loading: false })),
+        map((updatedWorkOrder) => {
+          this.updateState({ workOrder: { ...updatedWorkOrder } });
+          console.log('ViewModel updatePermits - updated work order:', updatedWorkOrder);
+        }),
+        catchError(error => {
+          this.updateState({ error: 'Failed to update permits' });
+          return of(null);
+        })
+      )
+      .subscribe();
+  }
+
+  /**
    * Set active tab
    */
   setActiveTab(tab: string): void {

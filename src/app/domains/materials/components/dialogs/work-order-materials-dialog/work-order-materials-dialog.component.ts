@@ -74,8 +74,7 @@ export class WorkOrderMaterialsDialogComponent implements OnInit {
     private dialog: MatDialog
   ) {
     this.statusUpdateForm = this.formBuilder.group({
-      status: ['', Validators.required],
-      notes: ['']
+      status: ['', Validators.required]
     });
   }
 
@@ -123,8 +122,7 @@ export class WorkOrderMaterialsDialogComponent implements OnInit {
     this.editingMaterialId = material.id;
     const currentStatus = this.getCurrentStatus(material);
     this.statusUpdateForm.patchValue({
-      status: currentStatus,
-      notes: ''
+      status: currentStatus
     });
   }
 
@@ -263,8 +261,7 @@ export class WorkOrderMaterialsDialogComponent implements OnInit {
         quantityUsed: result.quantityUsed,
         cumulativeQuantityUsed: result.quantityUsed,
         usagePercentage: (result.quantityUsed / material.purchasableMaterial.quantity) * 100,
-        remainingQuantity: material.purchasableMaterial.quantity - result.quantityUsed,
-        usageNotes: result.usageNotes
+        remainingQuantity: material.purchasableMaterial.quantity - result.quantityUsed
       };
 
       const newUsageRecords = [usageRecord];
@@ -302,8 +299,7 @@ export class WorkOrderMaterialsDialogComponent implements OnInit {
         quantityUsed: result.quantityUsed,
         cumulativeQuantityUsed: result.quantityUsed,
         usagePercentage: (result.quantityUsed / material.receivableMaterial.estimatedQuantity) * 100,
-        remainingQuantity: material.receivableMaterial.estimatedQuantity - result.quantityUsed,
-        usageNotes: result.usageNotes
+        remainingQuantity: material.receivableMaterial.estimatedQuantity - result.quantityUsed
       };
 
       updateData.receivableMaterial = {

@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { WorkOrderListComponent } from './components/work-order-list/work-order-list.component';
+import { WorkOrderDetailsRefactoredComponent } from './components/work-order-details/work-order-details-refactored.component';
 
 export const WORK_ORDER_ROUTES: Routes = [
   // Default route for the domain
@@ -12,6 +13,12 @@ export const WORK_ORDER_ROUTES: Routes = [
   {
     path: 'list',
     component: WorkOrderListComponent
+  },
+
+  // Details route for a specific work order
+  {
+    path: 'details/:id',
+    component: WorkOrderDetailsRefactoredComponent
   }
 
   // Will add more routes as we create more components

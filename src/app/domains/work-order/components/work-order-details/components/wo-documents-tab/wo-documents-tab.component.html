@@ -1,0 +1,44 @@
+<div class="documents-section">
+  <h2 class="section-title">
+    <mat-icon>folder</mat-icon>
+    Permit Documents
+  </h2>
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let permit of approvedPermits" class="permit-doc-group">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon color="primary">gavel</mat-icon>
+          {{ permit.title || permit.type }}
+        </mat-panel-title>
+        <mat-panel-description>
+          <span class="permit-meta">#{{ permit.number }} | {{ permit.authority }}</span>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="upload-section">
+        <input type="file" #fileInput (change)="onFileSelected($event, permit)" style="display:none" multiple />
+        <button mat-stroked-button color="primary" (click)="fileInput.click()" [disabled]="uploading[permit.id]">
+          <mat-icon>upload_file</mat-icon>
+          Upload Files
+        </button>
+        <mat-progress-bar *ngIf="uploading[permit.id]" mode="indeterminate"></mat-progress-bar>
+      </div>
+      <mat-list *ngIf="documents[permit.id]?.length" class="file-list">
+        <mat-list-item *ngFor="let doc of documents[permit.id]">
+          <mat-icon matListIcon>{{ doc.fileType.startsWith('image') ? 'image' : (doc.fileType === 'application/pdf' ? 'picture_as_pdf' : 'insert_drive_file') }}</mat-icon>
+          <span matLine>{{ doc.fileName }}</span>
+          <span class="file-meta" matLine>{{ doc.fileType | uppercase }} • {{ doc.fileSize / 1024 | number:'1.0-1' }} KB</span>
+          <button mat-icon-button color="warn" (click)="removeDocument(doc, permit)" matTooltip="Delete">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <a mat-icon-button [href]="doc.fileUrl" target="_blank" matTooltip="View/Download">
+            <mat-icon>download</mat-icon>
+          </a>
+        </mat-list-item>
+      </mat-list>
+      <div *ngIf="!documents[permit.id]?.length" class="empty-docs">
+        <mat-icon>info</mat-icon>
+        <span>No documents uploaded for this permit.</span>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div> 

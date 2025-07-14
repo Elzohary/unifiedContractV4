@@ -678,4 +678,97 @@ export class WorkOrderService {
       );
     }
   }
+
+  /**
+   * Add an item to a work order and update expected cost (SSOT)
+   */
+  addItemToWorkOrder(workOrderId: string, newItem: any): Observable<WorkOrder> {
+    if (environment.useMockData) {
+      return this.mockDatabaseService.getWorkOrderById(workOrderId).pipe(
+        switchMap(workOrder => {
+          if (!workOrder) {
+            throw new Error(`Work order with id ${workOrderId} not found`);
+          }
+          const items = workOrder.items || [];
+          // Wrap the new item in the correct structure
+          const workOrderItem = {
+            id: crypto.randomUUID(),
+            itemDetail: {
+              id: newItem.id,
+              itemNumber: newItem.itemNumber,
+              lineType: newItem.lineType,
+              shortDescription: newItem.shortDescription,
+              longDescription: newItem.longDescription,
+              UOM: newItem.UOM,
+              currency: newItem.currency,
+              unitPrice: newItem.unitPrice,
+              paymentType: newItem.paymentType,
+              managementArea: newItem.managementArea
+            },
+            estimatedQuantity: newItem.estimatedQuantity,
+            estimatedPrice: (newItem.unitPrice || 0) * (newItem.estimatedQuantity || 0),
+            estimatedPriceWithVAT: 0,
+            actualQuantity: 0,
+            actualPrice: 0,
+            actualPriceWithVAT: 0,
+            reasonForFinalQuantity: ''
+          };
+          const updatedItems = [...items, workOrderItem];
+          // Recalculate expected cost
+          const totalEstimatedPrice = updatedItems.reduce((sum, item) => sum + (item.estimatedPrice || 0), 0);
+          const updatedWorkOrder = {
+            ...workOrder,
+            items: updatedItems,
+            details: {
+              ...workOrder.details,
+              estimatedPrice: totalEstimatedPrice
+            }
+          };
+          return this.mockDatabaseService.updateWorkOrder(workOrderId, updatedWorkOrder);
+        })
+      );
+    } else {
+      // Real API call (assumes PUT endpoint for items)
+      // Should also wrap the item as above if needed by backend
+      return this.apiService.put<WorkOrder>(`${this.endpoint}/${workOrderId}/items`, { item: newItem }).pipe(
+        map((response: any) => response.data)
+      );
+    }
+  }
+
+  updateWorkOrderPermits(workOrderId: string, updatedStatuses: {type: string, status: string}[]): Observable<WorkOrder> {
+    if (environment.useMockData) {
+      return this.mockDatabaseService.getWorkOrderById(workOrderId).pipe(
+        switchMap(workOrder => {
+          if (!workOrder) {
+            throw new Error(`Work order with id ${workOrderId} not found`);
+          }
+          const allowedStatuses = ['pending', 'approved', 'rejected', 'expired'] as const;
+          console.log('Original permits:', workOrder.permits);
+          console.log('Updated statuses:', updatedStatuses);
+          let updatedPermits = (workOrder.permits || []).map(permit => {
+            const updated = updatedStatuses.find(u => u.type === permit.type);
+            let newStatus = permit.status;
+            if (updated && allowedStatuses.includes(updated.status as any)) {
+              newStatus = updated.status as typeof allowedStatuses[number];
+            }
+            return { ...permit, status: newStatus };
+          });
+          console.log('Merged updatedPermits:', updatedPermits);
+          if (!updatedPermits.length && workOrder.permits && workOrder.permits.length) {
+            updatedPermits = workOrder.permits;
+          }
+          const updatedWorkOrder = {
+            ...workOrder,
+            permits: updatedPermits
+          };
+          return this.mockDatabaseService.updateWorkOrder(workOrderId, updatedWorkOrder);
+        })
+      );
+    } else {
+      return this.apiService.put<WorkOrder>(`${this.endpoint}/${workOrderId}/permits`, { permits: updatedStatuses }).pipe(
+        map(response => response.data)
+      );
+    }
+  }
 }

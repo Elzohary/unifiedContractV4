@@ -19,7 +19,7 @@ import { WorkOrderRemarksViewModel } from '../../viewModels/work-order-remarks.v
 import { WorkOrderMaterialsViewModel } from '../../viewModels/work-order-materials.viewmodel';
 
 // Models
-import { WorkOrder, WorkOrderStatus, Task, workOrderDetail } from '../../models/work-order.model';
+import { WorkOrder, WorkOrderStatus, Task, workOrderDetail, Permit } from '../../models/work-order.model';
 import { ActivityLog } from '../../../../shared/services/activity-log.service';
 
 // Sub-components
@@ -28,6 +28,8 @@ import { WoOverviewTabComponent } from './components/wo-overview-tab/wo-overview
 import { WoTasksTabComponent } from './components/wo-tasks-tab/wo-tasks-tab.component';
 import { WoIssuesTabComponent } from './components/wo-issues-tab/wo-issues-tab.component';
 import { WoMaterialsTabComponent } from './components/wo-materials-tab/wo-materials-tab.component';
+import { WoDocumentsTabComponent } from './components/wo-documents-tab/wo-documents-tab.component';
+import { WoSiteReportTabComponent } from './components/wo-site-report-tab/wo-site-report-tab.component';
 
 @Component({
   selector: 'app-work-order-details-refactored',
@@ -51,7 +53,9 @@ import { WoMaterialsTabComponent } from './components/wo-materials-tab/wo-materi
     WoOverviewTabComponent,
     WoTasksTabComponent,
     WoIssuesTabComponent,
-    WoMaterialsTabComponent
+    WoMaterialsTabComponent,
+    WoDocumentsTabComponent,
+    WoSiteReportTabComponent
   ]
 })
 export class WorkOrderDetailsRefactoredComponent implements OnInit, OnDestroy {
@@ -153,6 +157,13 @@ export class WorkOrderDetailsRefactoredComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Reload the work order details by id (used for itemsChanged event)
+   */
+  reloadWorkOrder(id: string): void {
+    this.loadWorkOrderDetails(id);
+  }
+
+  /**
    * Navigate back to work orders list
    */
   goBack(): void {
@@ -250,6 +261,21 @@ export class WorkOrderDetailsRefactoredComponent implements OnInit, OnDestroy {
           this.snackBar.open('Task deleted successfully', 'Close', { duration: 3000 });
         }
       });
+  }
+
+  onPermitsChanged(updatedStatuses: {type: string, status: string}[]) {
+    let currentWorkOrder: WorkOrder | null = null;
+    this.workOrder$.subscribe(wo => currentWorkOrder = wo).unsubscribe();
+    if (currentWorkOrder && typeof currentWorkOrder === 'object') {
+      const workOrder = currentWorkOrder as WorkOrder;
+      // Merge updated statuses into the original permits array
+      const updatedPermits = ((workOrder.permits || []) as Permit[]).map((permit: Permit) => {
+        const updated = updatedStatuses.find(u => u.type === permit.type);
+        return updated ? { ...permit, status: updated.status as Permit['status'] } : permit;
+      });
+      const updatedWorkOrder = { ...workOrder, permits: updatedPermits };
+      this.workOrderDetailsViewModel.updateWorkOrder(updatedWorkOrder);
+    }
   }
 
   /**

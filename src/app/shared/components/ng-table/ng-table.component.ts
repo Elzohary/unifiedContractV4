@@ -240,8 +240,8 @@ export class NgTableComponent<T = Record<string, unknown>> implements OnInit, On
       case 'boolean':
         return value ? 'Yes' : 'No';
       case 'currency':
-        // Simple currency formatting - in real app you'd use a proper currency pipe
-        return typeof value === 'number' ? `$${value.toFixed(2)}` : '';
+        // Use Angular currency pipe for SAR
+        return typeof value === 'number' ? new Intl.NumberFormat('en-SA', { style: 'currency', currency: 'SAR', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) : '';
       default:
         return String(value);
     }

@@ -24,6 +24,17 @@
   width: 100%;
 }
 
+.items-card-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
 // Common Card Styles
 mat-card {
   height: 100%;
@@ -226,6 +237,108 @@ mat-card {
   }
 }
 
+// Price Details Cards Section
+.price-details-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.price-card {
+  .mat-card-header {
+    background: #f5f5f5;
+    border-radius: 8px 8px 0 0;
+    padding: 20px 24px 12px 24px;
+  }
+  .mat-card-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.15rem;
+    font-weight: 600;
+  }
+  .mat-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 20px 28px 20px 28px;
+  }
+}
+
+.price-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.08rem;
+  padding: 8px 0;
+  letter-spacing: 0.01em;
+}
+
+.price-card.estimated-card {
+  border-left: 4px solid #1976d2;
+}
+.price-card.actual-card {
+  border-left: 4px solid #388e3c;
+}
+.price-card.final-card {
+  border-left: 4px solid #fbc02d;
+}
+.price-card.partial-card {
+  min-height: 180px;
+}
+.price-card.partial-card .mat-card-content {
+  min-height: 120px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  justify-content: center;
+}
+.price-card.partial-card .price-detail-row {
+  min-height: 36px;
+  align-items: center;
+}
+.price-card.partial-card .mat-form-field {
+  margin: 0 !important;
+  padding: 0 !important;
+  vertical-align: middle;
+  height: 32px;
+}
+.price-card.partial-card input[matInput] {
+  height: 32px;
+  padding: 0 8px;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.price-card.partial-card {
+  border-left: 4px solid #7b1fa2;
+}
+
+.price-detail-row.total-row {
+  font-weight: 700;
+  font-size: 1.12rem;
+}
+
+.price-card.final-card .price-detail-row.total-row {
+  color: #fbc02d;
+}
+
+.price-card.actual-card .price-detail-row.total-row {
+  color: #388e3c;
+}
+
+.price-detail-row.section-label {
+  font-weight: 600;
+  color: #7b1fa2;
+  font-size: 1.05rem;
+  margin-top: 8px;
+  margin-bottom: 2px;
+  letter-spacing: 0.01em;
+}
+
 // Responsive design
 @media (max-width: 768px) {
   .overview-container {
@@ -251,4 +364,142 @@ mat-card {
       min-width: 800px;
     }
   }
+} 
+
+.permits-header-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
+.spacer {
+  flex: 1 1 auto;
+} 
+
+// Responsive
+@media (max-width: 900px) {
+  .price-details-cards-grid {
+    grid-template-columns: 1fr;
+  }
+} 
+
+.info-icon {
+  font-size: 18px;
+  color: #b0b0b0;
+  margin-left: 4px;
+  vertical-align: middle;
+  opacity: 0.5;
+  cursor: pointer;
+  transition: color 0.2s, opacity 0.2s;
+}
+
+.price-detail-row span:hover .info-icon {
+  color: #1976d2;
+  opacity: 1;
+} 
+
+.qty-inline-input {
+  border: none;
+  background: transparent;
+  font: inherit;
+  font-size: inherit;
+  width: 60px;
+  height: 32px;
+  padding: 0 2px;
+  text-align: left;
+  outline: none;
+  box-shadow: none;
+  vertical-align: middle;
+}
+
+.qty-inline-input:focus {
+  border-bottom: 1.5px solid #1976d2;
+  background: #f5faff;
+}
+
+.qty-float-bar {
+  position: absolute;
+  left: 670px;
+  top: 8px;
+  display: flex;
+  gap: 2px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  border-radius: 6px;
+  padding: 2px 4px;
+  z-index: 100;
+  align-items: center;
+}
+
+.table-container {
+  position: relative;
+}
+
+.items-table td, .items-table th {
+  height: 44px;
+  vertical-align: middle;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.items-table .mat-form-field {
+  margin: 0;
+  padding: 0;
+}
+
+.items-table .mat-form-field-infix {
+  padding: 0 4px !important;
+}
+
+.items-table .mat-icon-button {
+  padding: 2px;
+  margin-left: 2px;
+  vertical-align: middle;
+}
+
+.items-table .mat-icon {
+  font-size: 20px;
+  vertical-align: middle;
+} 
+
+.items-table th.mat-column-actualQty,
+.items-table td.mat-column-actualQty,
+.items-table td.mat-footer-cell.mat-column-actualQty {
+  width: 110px;
+  min-width: 110px;
+  max-width: 110px;
+  text-align: left;
+} 
+
+.items-table td.mat-column-actualQty {
+  position: static;
+} 
+
+// Floating action bar for partial payment edit
+.partial-float-bar {
+  position: absolute;
+  top: -48px; /* Move higher to overlap card, adjust as needed */
+  left: 0;
+  display: flex;
+  gap: 8px;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  padding: 4px 8px;
+  z-index: 20;
+  align-items: center;
+  pointer-events: auto;
+  width: max-content;
+  min-width: 0;
+  height: auto;
+  margin-bottom: 0 !important;
+}
+
+// Ensure the price-detail-row is relatively positioned for absolute children
+.price-detail-row {
+  position: relative;
+  overflow: visible !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
 } 

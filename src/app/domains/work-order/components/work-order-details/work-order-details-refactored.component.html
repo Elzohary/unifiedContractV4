@@ -36,7 +36,17 @@
       <!-- Overview Tab -->
       <mat-tab label="Overview">
         <ng-template matTabContent>
-          <app-wo-overview-tab [workOrder]="workOrder"></app-wo-overview-tab>
+          <app-wo-overview-tab [workOrder]="workOrder" (permitsChanged)="onPermitsChanged($event)" (itemsChanged)="reloadWorkOrder(workOrder.id)"></app-wo-overview-tab>
+        </ng-template>
+      </mat-tab>
+
+      <!-- Materials Tab -->
+      <mat-tab label="Materials">
+        <ng-template matTabContent>
+          <app-wo-materials-tab 
+            [workOrderId]="workOrder.id"
+            [workOrderClient]="workOrder.details.client">
+          </app-wo-materials-tab>
         </ng-template>
       </mat-tab>
 
@@ -60,23 +70,17 @@
         </ng-template>
       </mat-tab>
 
-      <!-- Materials Tab -->
-      <mat-tab label="Materials">
-        <ng-template matTabContent>
-          <app-wo-materials-tab 
-            [workOrderId]="workOrder.id"
-            [workOrderClient]="workOrder.details.client">
-          </app-wo-materials-tab>
-        </ng-template>
-      </mat-tab>
-
       <!-- Documents Tab -->
       <mat-tab label="Documents">
         <ng-template matTabContent>
-          <div class="tab-placeholder">
-            <mat-icon>folder</mat-icon>
-            <p>Documents management coming soon</p>
-          </div>
+          <app-wo-documents-tab [workOrder]="workOrder"></app-wo-documents-tab>
+        </ng-template>
+      </mat-tab>
+
+      <!-- Site Reports Tab -->
+      <mat-tab label="Site Reports">
+        <ng-template matTabContent>
+          <app-wo-site-report-tab [workOrder]="workOrder"></app-wo-site-report-tab>
         </ng-template>
       </mat-tab>
 

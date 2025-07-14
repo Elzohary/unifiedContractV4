@@ -32,7 +32,6 @@ export interface MaterialUsageResult {
   wasteReason?: string;
   returnReason?: string;
   disposition: 'waste' | 'warehouse' | 'reserve-for-workorder';
-  usageNotes?: string;
   photos?: File[];
 }
 
@@ -98,7 +97,6 @@ export class MaterialUsageDialogComponent implements OnInit {
       wasteReason: [''],
       returnReason: [''],
       disposition: ['waste', Validators.required],
-      usageNotes: [''],
       hasWaste: [false],
       hasReturns: [false]
     });
@@ -229,7 +227,6 @@ export class MaterialUsageDialogComponent implements OnInit {
         wasteReason: formValue.hasWaste ? formValue.wasteReason : undefined,
         returnReason: formValue.hasReturns ? formValue.returnReason : undefined,
         disposition: formValue.disposition,
-        usageNotes: formValue.usageNotes,
         photos: this.uploadedPhotos.length > 0 ? this.uploadedPhotos : undefined
       };
 

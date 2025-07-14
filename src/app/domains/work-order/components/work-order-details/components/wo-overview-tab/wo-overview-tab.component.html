@@ -24,8 +24,8 @@
             <span class="info-value">{{ workOrder.details['class'] || 'N/A' }}</span>
           </div>
           <div class="info-item">
-            <span class="info-label">Estimated Price</span>
-            <span class="info-value">{{ getTotalEstimatedPrice() | currency }}</span>
+            <span class="info-label">Invoice Status</span>
+            <span class="info-value">{{ workOrder.details['invoiceStatus'] || 'Not Invoiced' }}</span>
           </div>
         </div>
       </mat-card-content>
@@ -44,28 +44,28 @@
           <mat-list-item>
             <span matListItemTitle>Materials</span>
             <span matListItemLine class="expense-amount">
-              ${{ workOrder.expenseBreakdown.materials | number:'1.2-2' }}
+              {{ workOrder.expenseBreakdown.materials | currency:'SAR':'symbol':'1.2-2':'en-SA' }}
             </span>
           </mat-list-item>
           <mat-divider></mat-divider>
           <mat-list-item>
             <span matListItemTitle>Labor</span>
             <span matListItemLine class="expense-amount">
-              ${{ workOrder.expenseBreakdown.labor | number:'1.2-2' }}
+              {{ workOrder.expenseBreakdown.labor | currency:'SAR':'symbol':'1.2-2':'en-SA' }}
             </span>
           </mat-list-item>
           <mat-divider></mat-divider>
           <mat-list-item>
             <span matListItemTitle>Other</span>
             <span matListItemLine class="expense-amount">
-              ${{ workOrder.expenseBreakdown.other | number:'1.2-2' }}
+              {{ workOrder.expenseBreakdown.other | currency:'SAR':'symbol':'1.2-2':'en-SA' }}
             </span>
           </mat-list-item>
           <mat-divider></mat-divider>
           <mat-list-item class="total-row">
             <span matListItemTitle><strong>Total</strong></span>
             <span matListItemLine class="expense-amount total">
-              <strong>${{ getTotalExpense() | number:'1.2-2' }}</strong>
+              <strong>{{ getTotalExpense() | currency:'SAR':'symbol':'1.2-2':'en-SA' }}</strong>
             </span>
           </mat-list-item>
         </mat-list>
@@ -96,10 +96,16 @@
     <!-- Permits Card -->
     <mat-card class="permits-card">
       <mat-card-header>
-        <mat-card-title>
-          <mat-icon>verified</mat-icon>
-          Required Permits
-        </mat-card-title>
+        <div class="permits-header-row">
+          <mat-card-title>
+            <mat-icon>verified</mat-icon>
+            Required Permits
+          </mat-card-title>
+          <span class="spacer"></span>
+          <button mat-icon-button aria-label="Edit Permits" (click)="openPermitChecklistDialog()">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
       </mat-card-header>
       <mat-card-content>
         <div class="permits-grid">
@@ -152,65 +158,212 @@
         </div>
       </mat-card-content>
     </mat-card>
+  </div>
 
+  <!-- Price Details Cards Section -->
+  <div class="price-details-cards-grid">
+    <!-- Estimated Items Prices Details -->
+    <mat-card class="price-card estimated-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>calculate</mat-icon>
+          Estimated Items Prices Details
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="price-detail-row">
+          <span>Total Estimated Price:
+            <mat-icon class="info-icon" matTooltip="Sum of all items' estimated prices">info</mat-icon>
+          </span>
+          <span>{{ getEstimatedItemsDetails().totalEstimatedPrice | currency:'SAR':'symbol':'1.2-2':'en-SA' }}</span>
+        </div>
+        <div class="price-detail-row">
+          <span>Estimation VAT
+            <mat-icon class="info-icon" matTooltip="15% VAT applied to total estimated price">info</mat-icon>
+          </span>
+          <span>{{ getEstimatedItemsDetails().estimationVAT | currency:'SAR':'symbol':'1.2-2':'en-SA' }}</span>
+        </div>
+        <div class="price-detail-row total-row">
+          <span>Total Estimated Price + VAT
+            <mat-icon class="info-icon" matTooltip="Total Estimated Price plus VAT">info</mat-icon>
+          </span>
+          <span>{{ getEstimatedItemsDetails().totalEstimatedPriceWithVAT | currency:'SAR':'symbol':'1.2-2':'en-SA' }}</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <!-- Actual Items Prices Details -->
+    <mat-card class="price-card actual-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>fact_check</mat-icon>
+          Actual Items Prices Details
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="price-detail-row">
+          <span>Total Actual Price:
+            <mat-icon class="info-icon" matTooltip="Sum of all items' actual prices">info</mat-icon>
+          </span>
+          <span>{{ getActualItemsDetails().totalActualPrice | currency:'SAR':'symbol':'1.2-2':'en-SA' }}</span>
+        </div>
+        <div class="price-detail-row">
+          <span>Actual VAT
+            <mat-icon class="info-icon" matTooltip="15% VAT applied to total actual price">info</mat-icon>
+          </span>
+          <span>{{ getActualItemsDetails().actualVAT | currency:'SAR':'symbol':'1.2-2':'en-SA' }}</span>
+        </div>
+        <div class="price-detail-row total-row">
+          <span>Total Actual Price + VAT
+            <mat-icon class="info-icon" matTooltip="Total Actual Price plus VAT">info</mat-icon>
+          </span>
+          <span>{{ getActualItemsDetails().totalActualPriceWithVAT | currency:'SAR':'symbol':'1.2-2':'en-SA' }}</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <!-- Partial Payment Details Card -->
+    <mat-card class="price-card partial-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>payments</mat-icon>
+          Partial Payment Details
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="price-detail-row">
+          <span>Partial Payment Amount
+            <mat-icon class="info-icon" matTooltip="Enter the partial payment amount as per contract or agreement">info</mat-icon>
+          </span>
+          <span>
+            <ng-container *ngIf="!editPartialPayment; else editPartialField">
+              {{ partialPaymentAmount | currency:'SAR':'symbol':'1.2-2':'en-SA' }}
+              <button mat-icon-button color="primary" (click)="startEditPartialPayment()">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </ng-container>
+            <ng-template #editPartialField>
+              <mat-form-field appearance="outline" style="max-width: 140px; margin: 0; vertical-align: middle;">
+                <input matInput type="number" min="0" [(ngModel)]="tempPartialPaymentAmount" placeholder="Amount">
+              </mat-form-field>
+              <div class="partial-float-bar">
+                <button mat-icon-button color="primary" (click)="savePartialPayment()">
+                  <mat-icon>save</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="cancelEditPartialPayment()">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </div>
+            </ng-template>
+          </span>
+        </div>
+        <div class="price-detail-row">
+          <span>Partial Payment VAT
+            <mat-icon class="info-icon" matTooltip="15% VAT applied to partial payment amount">info</mat-icon>
+          </span>
+          <span>{{ partialPaymentVAT | currency:'SAR':'symbol':'1.2-2':'en-SA' }}</span>
+        </div>
+        <div class="price-detail-row total-row">
+          <span>Partial Payment Total
+            <mat-icon class="info-icon" matTooltip="Partial payment total including VAT (Amount + VAT)">info</mat-icon>
+          </span>
+          <span>{{ partialPaymentTotalWithVAT | currency:'SAR':'symbol':'1.2-2':'en-SA' }}</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
 
   <!-- Work Order Items Section -->
   <div class="items-section">
     <mat-card class="items-card">
       <mat-card-header>
-        <mat-card-title>
-          <mat-icon>list_alt</mat-icon>
-          Work Order Items
-        </mat-card-title>
+        <div class="items-card-header">
+          <mat-card-title>
+            <mat-icon>list_alt</mat-icon>
+            Work Order Items
+          </mat-card-title>
+          <span class="spacer"></span>
+          <button *ngIf="canAddItems" mat-raised-button color="primary" (click)="addItem()" aria-label="Add Item">
+            <mat-icon>add</mat-icon>
+            Add
+          </button>
+        </div>
       </mat-card-header>
       <mat-card-content>
+        
+        <div class="table-container" style="position:relative;">
         <table mat-table [dataSource]="workOrder.items" class="items-table">
           <!-- Item Number Column -->
           <ng-container matColumnDef="itemNumber">
             <th mat-header-cell *matHeaderCellDef>Item No.</th>
-            <td mat-cell *matCellDef="let item">{{ item.itemDetail.itemNumber }}</td>
+            <td mat-cell *matCellDef="let item">{{ item.itemDetail?.itemNumber }}</td>
+            <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 
           <!-- Description Column -->
           <ng-container matColumnDef="description">
             <th mat-header-cell *matHeaderCellDef>Description</th>
-            <td mat-cell *matCellDef="let item">{{ item.itemDetail.shortDescription }}</td>
+            <td mat-cell *matCellDef="let item">{{ item.itemDetail?.shortDescription }}</td>
+            <td mat-footer-cell *matFooterCellDef><strong>Totals</strong></td>
           </ng-container>
 
           <!-- UOM Column -->
           <ng-container matColumnDef="uom">
             <th mat-header-cell *matHeaderCellDef>UOM</th>
-            <td mat-cell *matCellDef="let item">{{ item.itemDetail.UOM }}</td>
+            <td mat-cell *matCellDef="let item">{{ item.itemDetail?.UOM }}</td>
+            <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 
           <!-- Estimated Quantity Column -->
           <ng-container matColumnDef="estimatedQty">
             <th mat-header-cell *matHeaderCellDef>Est. Qty</th>
             <td mat-cell *matCellDef="let item">{{ item.estimatedQuantity }}</td>
+            <td mat-footer-cell *matFooterCellDef><strong>{{ getItemsTotal('estimatedQuantity') }}</strong></td>
           </ng-container>
 
           <!-- Estimated Price Column -->
           <ng-container matColumnDef="estimatedPrice">
             <th mat-header-cell *matHeaderCellDef>Est. Price</th>
-            <td mat-cell *matCellDef="let item">{{ item.estimatedPrice | currency }}</td>
+            <td mat-cell *matCellDef="let item">{{ item.estimatedPrice | currency:'SAR':'symbol':'1.2-2':'en-SA' }}</td>
+            <td mat-footer-cell *matFooterCellDef><strong>{{ getItemsTotal('estimatedPrice') | currency:'SAR':'symbol':'1.2-2':'en-SA' }}</strong></td>
           </ng-container>
 
-          <!-- Actual Quantity Column -->
+          <!-- Actual Quantity Column (editable) -->
           <ng-container matColumnDef="actualQty">
             <th mat-header-cell *matHeaderCellDef>Act. Qty</th>
-            <td mat-cell *matCellDef="let item">{{ item.actualQuantity }}</td>
+            <td mat-cell *matCellDef="let item; let i = index">
+              <ng-container *ngIf="editActualQtyIndex !== i; else editQtyField">
+                {{ item.actualQuantity }}
+                <button mat-icon-button color="primary" (click)="startEditActualQty(i, item)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </ng-container>
+              <ng-template #editQtyField>
+                <input matInput type="number" min="0" [(ngModel)]="tempActualQty" class="qty-inline-input">
+                <!-- Floating action bar for save/cancel -->
+                <div *ngIf="editActualQtyIndex === i" class="qty-float-bar">
+                  <button mat-icon-button color="primary" (click)="saveActualQuantity(item, i)">
+                    <mat-icon>save</mat-icon>
+                  </button>
+                  <button mat-icon-button color="warn" (click)="cancelEditActualQty()">
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </div>
+              </ng-template>
+            </td>
+            <td mat-footer-cell *matFooterCellDef><strong>{{ getItemsTotal('actualQuantity') }}</strong></td>
           </ng-container>
 
           <!-- Actual Price Column -->
           <ng-container matColumnDef="actualPrice">
             <th mat-header-cell *matHeaderCellDef>Act. Price</th>
-            <td mat-cell *matCellDef="let item">{{ item.actualPrice | currency }}</td>
+            <td mat-cell *matCellDef="let item">{{ item.actualPrice | currency:'SAR':'symbol':'1.2-2':'en-SA' }}</td>
+            <td mat-footer-cell *matFooterCellDef><strong>{{ getItemsTotal('actualPrice') | currency:'SAR':'symbol':'1.2-2':'en-SA' }}</strong></td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumns;"></tr>
+          <tr mat-footer-row *matFooterRowDef="displayedColumns" class="totals-row"></tr>
         </table>
+        </div>
       </mat-card-content>
     </mat-card>
   </div>

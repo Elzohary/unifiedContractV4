@@ -470,3 +470,23 @@ export interface WorkOrderInvoice {
   paidBy?: string;
   url: string;
 }
+
+export interface SiteReport {
+  id: string;
+  workOrderId: string;
+  foremanId: string;
+  foremanName: string;
+  date: string | Date;
+  materialsUsed: Array<{
+    materialId: string;
+    materialName: string;
+    quantity: number;
+  }>;
+  photos: Array<{
+    id: string;
+    url: string;
+    caption?: string;
+  }>;
+  notes?: string;
+  createdAt: string | Date;
+}

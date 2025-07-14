@@ -132,6 +132,11 @@ export const DATE_FORMATS = {
  * Example of how to configure currency formatters
  */
 export const CURRENCY_FORMATS = {
+  SAR: {
+    currency: 'SAR',
+    symbolDisplay: true,
+    digits: '1.2-2'
+  },
   USD: {
     currency: 'USD',
     symbolDisplay: true,
@@ -139,11 +144,6 @@ export const CURRENCY_FORMATS = {
   },
   EUR: {
     currency: 'EUR',
-    symbolDisplay: true,
-    digits: '1.2-2'
-  },
-  SAR: {
-    currency: 'SAR',
     symbolDisplay: true,
     digits: '1.2-2'
   }

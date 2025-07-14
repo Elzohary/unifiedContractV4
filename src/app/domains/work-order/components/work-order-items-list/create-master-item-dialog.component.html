@@ -1,0 +1,66 @@
+<div class="create-dialog-container">
+  <h2 mat-dialog-title>{{ dialogTitle }}</h2>
+  <mat-dialog-content>
+    <form [formGroup]="itemForm" class="create-form">
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field full-width">
+          <mat-label>Item Number</mat-label>
+          <input matInput formControlName="itemNumber" required />
+        </mat-form-field>
+      </div>
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field full-width">
+          <mat-label>Line Type</mat-label>
+          <mat-select formControlName="lineType">
+            <mat-option value="Description">Description</mat-option>
+            <mat-option value="Breakdown">Breakdown</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field full-width">
+          <mat-label>Short Description</mat-label>
+          <input matInput formControlName="shortDescription" required />
+        </mat-form-field>
+      </div>
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field full-width">
+          <mat-label>Long Description</mat-label>
+          <input matInput formControlName="longDescription" />
+        </mat-form-field>
+      </div>
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>UOM</mat-label>
+          <input matInput formControlName="UOM" required />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Currency</mat-label>
+          <input matInput formControlName="currency" required />
+        </mat-form-field>
+      </div>
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Unit Price</mat-label>
+          <input matInput type="number" formControlName="unitPrice" required min="0" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Payment Type</mat-label>
+          <input matInput formControlName="paymentType" required />
+        </mat-form-field>
+      </div>
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field full-width">
+          <mat-label>Management Area</mat-label>
+          <input matInput formControlName="managementArea" required />
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!itemForm.valid">
+      Create
+    </button>
+  </mat-dialog-actions>
+</div> 

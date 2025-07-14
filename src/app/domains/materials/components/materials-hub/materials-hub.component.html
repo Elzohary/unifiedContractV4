@@ -113,6 +113,54 @@
     </div>
   </div>
 
+  <!-- Navigation Cards -->
+  <div class="navigation-section">
+    <h2>Materials Management Modules</h2>
+    <div class="nav-grid">
+      <mat-card class="nav-card" 
+         (click)="navigateTo('/materials/dashboard')" 
+         aria-label="Go to Inventory Dashboard" matTooltip="Go to Inventory Dashboard">
+        <mat-card-content>
+          <div class="nav-icon-container">
+            <mat-icon class="nav-icon">dashboard</mat-icon>
+            <div class="nav-badge" *ngIf="overviewData.lowStockAlerts > 0">
+              {{overviewData.lowStockAlerts}}
+            </div>
+          </div>
+          <h3>Inventory Dashboard</h3>
+          <p>Monitor stock levels, movements, and inventory health across all locations</p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="nav-card" 
+         (click)="navigateTo('/materials/catalog/list')" 
+         aria-label="Go to Material Catalog" matTooltip="Go to Material Catalog">
+        <mat-card-content>
+          <div class="nav-icon-container">
+            <mat-icon class="nav-icon">library_books</mat-icon>
+          </div>
+          <h3>Material Catalog</h3>
+          <p>Manage material definitions, specifications, and properties</p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="nav-card" 
+         (click)="navigateTo('/materials/work-order-hub')" 
+         aria-label="Go to Work Order Materials" matTooltip="Go to Work Order Materials">
+        <mat-card-content>
+          <div class="nav-icon-container">
+            <mat-icon class="nav-icon">engineering</mat-icon>
+            <div class="nav-badge" *ngIf="overviewData.pendingAllocations > 0">
+              {{overviewData.pendingAllocations}}
+            </div>
+          </div>
+          <h3>Work Order Materials</h3>
+          <p>Integrate materials with work orders and track material usage</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
   <!-- Work Orders Requiring Materials -->
   <div class="work-orders-section" *ngIf="workOrdersRequiringMaterials.length > 0">
     <div class="section-header">
@@ -159,71 +207,6 @@
             View Details
           </button>
         </mat-card-actions>
-      </mat-card>
-    </div>
-  </div>
-
-  <!-- Navigation Cards -->
-  <div class="navigation-section">
-    <h2>Materials Management Modules</h2>
-    <div class="nav-grid">
-      <mat-card class="nav-card" 
-         (click)="navigateTo('/materials/dashboard')" 
-         aria-label="Go to Inventory Dashboard" matTooltip="Go to Inventory Dashboard">
-        <mat-card-content>
-          <div class="nav-icon-container">
-            <mat-icon class="nav-icon">dashboard</mat-icon>
-            <div class="nav-badge" *ngIf="overviewData.lowStockAlerts > 0">
-              {{overviewData.lowStockAlerts}}
-            </div>
-          </div>
-          <h3>Inventory Dashboard</h3>
-          <p>Monitor stock levels, movements, and inventory health across all locations</p>
-        </mat-card-content>
-      </mat-card>
-
-      <mat-card class="nav-card" 
-         (click)="navigateTo('/materials/catalog/list')" 
-         aria-label="Go to Material Catalog" matTooltip="Go to Material Catalog">
-        <mat-card-content>
-          <div class="nav-icon-container">
-            <mat-icon class="nav-icon">library_books</mat-icon>
-          </div>
-          <h3>Material Catalog</h3>
-          <p>Manage material definitions, specifications, and properties</p>
-        </mat-card-content>
-      </mat-card>
-
-      <mat-card class="nav-card" 
-         (click)="navigateTo('/materials/work-order-hub')" 
-         aria-label="Go to Work Order Materials" matTooltip="Go to Work Order Materials">
-        <mat-card-content>
-          <div class="nav-icon-container">
-            <mat-icon class="nav-icon">engineering</mat-icon>
-            <div class="nav-badge" *ngIf="overviewData.pendingAllocations > 0">
-              {{overviewData.pendingAllocations}}
-            </div>
-          </div>
-          <h3>Work Order Materials</h3>
-          <p>Integrate materials with work orders and track material usage</p>
-        </mat-card-content>
-      </mat-card>
-
-
-
-      <mat-card class="nav-card" 
-         (click)="navigateTo('/materials/purchase-orders')" 
-         aria-label="Go to Purchase Orders" matTooltip="Go to Purchase Orders">
-        <mat-card-content>
-          <div class="nav-icon-container">
-            <mat-icon class="nav-icon">shopping_cart</mat-icon>
-            <div class="nav-badge" *ngIf="overviewData.activePurchaseOrders > 0">
-              {{overviewData.activePurchaseOrders}}
-            </div>
-          </div>
-          <h3>Purchase Orders</h3>
-          <p>Create and manage material procurement processes</p>
-        </mat-card-content>
       </mat-card>
     </div>
   </div>

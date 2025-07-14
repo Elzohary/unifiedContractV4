@@ -1,0 +1,61 @@
+<div class="edit-dialog-container">
+  <h2 mat-dialog-title>{{ dialogTitle }}</h2>
+
+  <mat-dialog-content>
+    <div *ngIf="fetchError" class="error-message">{{ fetchError }}</div>
+    <form [formGroup]="assignForm" class="edit-form">
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field full-width">
+          <mat-label>Select Item</mat-label>
+          <mat-select formControlName="itemId" (selectionChange)="onItemSelect($event.value)" aria-label="Select Item">
+            <mat-option>
+              <input #searchBox matInput placeholder="Search..." (input)="onFilterChange(searchBox.value)" aria-label="Search Items">
+            </mat-option>
+            <mat-option *ngFor="let item of filteredItems" [value]="item.id">
+              {{ item.itemNumber }} - {{ item.shortDescription }} - {{ item.longDescription }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <ng-container *ngIf="selectedItem">
+        <mat-card class="item-summary">
+          <mat-card-content>
+            <div><strong>Item Number:</strong> {{ selectedItem.itemNumber }}</div>
+            <div><strong>Short Description:</strong> {{ selectedItem.shortDescription }}</div>
+            <div><strong>Long Description:</strong> {{ selectedItem.longDescription }}</div>
+            <div><strong>UOM:</strong> {{ selectedItem.UOM }}</div>
+            <div><strong>Currency:</strong> {{ selectedItem.currency }}</div>
+            <div><strong>Payment Type:</strong> {{ selectedItem.paymentType }}</div>
+            <div><strong>Management Area:</strong> {{ selectedItem.managementArea }}</div>
+            <div><strong>Unit Price:</strong> {{ selectedItem.unitPrice | number:'1.2-2' }}</div>
+          </mat-card-content>
+        </mat-card>
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Estimated Quantity</mat-label>
+            <input matInput type="number" formControlName="estimatedQuantity" required min="1" aria-label="Estimated Quantity">
+            <mat-error *ngIf="assignForm.get('estimatedQuantity')?.hasError('required')">
+              Quantity is required
+            </mat-error>
+            <mat-error *ngIf="assignForm.get('estimatedQuantity')?.hasError('min')">
+              Quantity must be at least 1
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-row" *ngIf="canOverridePrice">
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Override Unit Price</mat-label>
+            <input matInput type="number" formControlName="overrideUnitPrice" min="0" aria-label="Override Unit Price">
+          </mat-form-field>
+        </div>
+      </ng-container>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!assignForm.valid || !selectedItem">
+      Assign
+    </button>
+  </mat-dialog-actions>
+</div> 

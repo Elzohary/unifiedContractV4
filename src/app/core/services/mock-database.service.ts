@@ -205,7 +205,15 @@ export class MockDatabaseService {
   updateWorkOrder(id: string, updates: Partial<WorkOrder>): Observable<WorkOrder> {
     const index = this.data.workOrders.findIndex(wo => wo.id === id);
     if (index !== -1) {
-      this.data.workOrders[index] = { ...this.data.workOrders[index], ...updates };
+      // Deep merge for permits array
+      const existing = this.data.workOrders[index];
+      let merged: WorkOrder;
+      if ('permits' in updates) {
+        merged = { ...existing, ...updates, permits: updates.permits };
+      } else {
+        merged = { ...existing, ...updates, permits: existing.permits };
+      }
+      this.data.workOrders[index] = merged;
       this.workOrdersSubject.next([...this.data.workOrders]);
       this.saveToStorage();
       return of(this.data.workOrders[index]).pipe(delay(environment.mockDataDelay));
@@ -560,7 +568,7 @@ export class MockDatabaseService {
           status: 'in-progress' as any,
           priority: 'medium' as any,
           category: 'Electrical',
-          completionPercentage: 35,
+          completionPercentage: 0,
           receivedDate: new Date('2024-02-01'),
           startDate: new Date('2024-02-15'),
           dueDate: new Date('2024-05-30'),
@@ -624,7 +632,12 @@ export class MockDatabaseService {
             storingLocation: 'Main Warehouse'
           }
         ],
-        permits: [],
+        permits: [
+          { id: 'permit-1', type: 'Initial', title: 'Initial Permit', description: '', number: '', issueDate: new Date(), expiryDate: new Date(), status: 'pending', issuedBy: '', authority: '', documentRef: '' },
+          { id: 'permit-2', type: 'Municipality', title: 'Baladya', description: '', number: '', issueDate: new Date(), expiryDate: new Date(), status: 'pending', issuedBy: '', authority: '', documentRef: '' },
+          { id: 'permit-3', type: 'RoadDepartment', title: 'Road Department', description: '', number: '', issueDate: new Date(), expiryDate: new Date(), status: 'pending', issuedBy: '', authority: '', documentRef: '' },
+          { id: 'permit-4', type: 'Traffic', title: 'Traffic', description: '', number: '', issueDate: new Date(), expiryDate: new Date(), status: 'pending', issuedBy: '', authority: '', documentRef: '' }
+        ],
         tasks: [
           {
             id: 'task-001',
@@ -642,6 +655,38 @@ export class MockDatabaseService {
             createdAt: new Date('2024-02-15')
           }
         ]
+      },
+      {
+        id: 'ddf8943e-d144-442f-8040-2f774b722b5f',
+        details: {
+          workOrderNumber: 'WO-2024-003',
+          internalOrderNumber: 'INT-2024-003',
+          title: 'Test Work Order for Permits',
+          description: 'This work order is for testing the Required Permits card and event flow.',
+          client: 'Test Client',
+          location: 'Test Location',
+          status: 'pending' as any,
+          priority: 'medium' as any,
+          category: 'Test',
+          completionPercentage: 0,
+          receivedDate: new Date('2024-03-01'),
+          startDate: new Date('2024-03-05'),
+          dueDate: new Date('2024-04-01'),
+          targetEndDate: new Date('2024-03-30'),
+          createdDate: new Date('2024-03-01'),
+          createdBy: 'Test User'
+        },
+        items: [],
+        remarks: [],
+        issues: [],
+        materials: [],
+        permits: [
+          { id: 'permit-1', type: 'Initial', title: 'Initial Permit', description: '', number: '', issueDate: new Date(), expiryDate: new Date(), status: 'pending', issuedBy: '', authority: '', documentRef: '' },
+          { id: 'permit-2', type: 'Municipality', title: 'Baladya', description: '', number: '', issueDate: new Date(), expiryDate: new Date(), status: 'pending', issuedBy: '', authority: '', documentRef: '' },
+          { id: 'permit-3', type: 'RoadDepartment', title: 'Road Department', description: '', number: '', issueDate: new Date(), expiryDate: new Date(), status: 'pending', issuedBy: '', authority: '', documentRef: '' },
+          { id: 'permit-4', type: 'Traffic', title: 'Traffic', description: '', number: '', issueDate: new Date(), expiryDate: new Date(), status: 'pending', issuedBy: '', authority: '', documentRef: '' }
+        ],
+        tasks: []
       }
     ];
     this.workOrdersSubject.next([...this.data.workOrders]);

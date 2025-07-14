@@ -1,0 +1,37 @@
+.site-report-form-card {
+  margin: 16px 0;
+  padding: 16px;
+}
+
+.site-report-form-title{
+  margin-bottom: 20px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.full-width {
+  width: 100%;
+}
+.materials-section, .photos-section {
+  margin: 16px 0;
+}
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.material-row, .photo-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+} 

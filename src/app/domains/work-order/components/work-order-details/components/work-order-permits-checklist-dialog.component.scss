@@ -1,0 +1,29 @@
+.permits-checklist-dialog-container {
+  width: 100%;
+  max-width: 400px;
+  padding: 24px;
+}
+
+.permits-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.permit-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.status-icon {
+  font-size: 24px;
+}
+
+.status-icon.approved {
+  color: #4caf50;
+}
+
+.status-icon.pending {
+  color: #f44336;
+} 

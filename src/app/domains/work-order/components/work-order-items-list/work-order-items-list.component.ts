@@ -15,7 +15,7 @@ import { finalize, catchError, takeUntil } from 'rxjs/operators';
 import { EMPTY, Subject } from 'rxjs';
 import { WorkOrderItemService } from '../../services/work-order-item.service';
 import { Iitem } from '../../models/work-order-item.model';
-import { WorkOrderItemDialogComponent } from '../work-order-item-dialog/work-order-item-dialog.component';
+import { CreateMasterItemDialogComponent } from './create-master-item-dialog.component';
 import { NgCardComponent } from '../../../../shared/components/ng-card/ng-card.component';
 
 @Component({
@@ -114,28 +114,13 @@ export class WorkOrderItemsListComponent implements OnInit, AfterViewInit, OnDes
   }
 
   openAddDialog(): void {
-    const emptyItem: Iitem = {
-      id: '',
-      itemNumber: '',
-      lineType: 'Description',
-      shortDescription: '',
-      longDescription: '',
-      UOM: '',
-      currency: '',
-      paymentType: '',
-      managementArea: '',
-      unitPrice: 0
-    };
-
-    const dialogRef = this.dialog.open(WorkOrderItemDialogComponent, {
-      width: '800px',
+    const dialogRef = this.dialog.open(CreateMasterItemDialogComponent, {
+      width: '600px',
       maxWidth: '100vw',
       maxHeight: '100vh',
       panelClass: 'full-screen-dialog',
       data: {
-        item: emptyItem,
-        dialogMode: 'create',
-        title: 'Create New Work Order Item'
+        title: 'Create New Master Item'
       }
     });
 
@@ -143,7 +128,7 @@ export class WorkOrderItemsListComponent implements OnInit, AfterViewInit, OnDes
       if (result) {
         // Optimistic UI update - add temporary item with loading state
         const tempId = 'temp-' + new Date().getTime();
-        const tempItem: Iitem = { ...result, id: tempId };
+        const tempItem = { ...result, id: tempId };
 
         // Add to current data and update view
         const currentData = [...this.dataSource.data];
@@ -172,42 +157,7 @@ export class WorkOrderItemsListComponent implements OnInit, AfterViewInit, OnDes
   }
 
   openEditDialog(item: Iitem): void {
-    const dialogRef = this.dialog.open(WorkOrderItemDialogComponent, {
-      width: '800px',
-      maxWidth: '100vw',
-      maxHeight: '100vh',
-      panelClass: 'full-screen-dialog',
-      data: {
-        item: { ...item },
-        dialogMode: 'edit',
-        title: `Edit Work Order Item #${item.itemNumber}`
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // Optimistic UI update - update item immediately
-        const updatedItems = this.dataSource.data.map(i =>
-          i.id === result.id ? { ...result } : i
-        );
-        this.dataSource.data = updatedItems;
-
-        // Make actual API call
-        this.workOrderItemService.updateItem(result.id, result)
-          .pipe(
-            catchError(error => {
-              // Revert to original item on error
-              this.loadItems(); // Reload all data to ensure consistency
-              this.showErrorMessage('Failed to update item. Please try again.');
-              console.error('Error updating item:', error);
-              return EMPTY;
-            })
-          )
-          .subscribe(() => {
-            this.showSuccessMessage('Item updated successfully');
-          });
-      }
-    });
+    // Remove any usage of WorkOrderItemDialogComponent (should only use CreateMasterItemDialogComponent now)
   }
 
   // Confirm delete with the user

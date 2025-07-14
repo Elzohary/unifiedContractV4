@@ -1,0 +1,51 @@
+.documents-section {
+  padding: 24px 16px 16px 16px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.permit-doc-group {
+  margin-bottom: 24px;
+  padding: 16px 12px;
+  border-radius: 8px;
+  background: #fafbfc;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+
+.permit-meta {
+  color: #888;
+  font-size: 0.95em;
+}
+
+.upload-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+mat-list-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.file-list {
+  margin-bottom: 8px;
+}
+
+.empty-docs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #888;
+  font-size: 14px;
+  margin-top: 8px;
+} 

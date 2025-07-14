@@ -1,0 +1,68 @@
+<div class="site-reports-section">
+  <div class="site-reports-header">
+    <h2 class="section-title">
+      <mat-icon>assignment</mat-icon>
+      Site Reports
+    </h2>
+    <button mat-raised-button color="primary" (click)="openSampleFormDialog()">
+      <mat-icon>add</mat-icon>
+      Add a Sample Form
+    </button>
+  </div>
+  <ng-container *ngIf="siteReports.length; else noReports">
+    <div *ngFor="let date of sortedDates" class="date-group">
+      <mat-divider></mat-divider>
+      <h3 class="date-title">
+        <mat-icon>event</mat-icon>
+        {{ date }}
+      </h3>
+      <div *ngFor="let foreman of getForemen(date)" class="foreman-group">
+        <mat-card class="foreman-card">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon color="primary">person</mat-icon>
+              {{ foreman }}
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-list>
+              <mat-list-item *ngFor="let report of groupedReports[date][foreman]">
+                <div class="report-content">
+                  <div class="report-meta">
+                    <span class="report-time"><mat-icon>schedule</mat-icon> {{ report.createdAt | date:'shortTime' }}</span>
+                  </div>
+                  <div class="report-materials" *ngIf="report.materialsUsed?.length">
+                    <mat-icon>construction</mat-icon>
+                    <span>Materials Used:</span>
+                    <span *ngFor="let m of report.materialsUsed" class="material-chip">
+                      {{ m.materialName }} ({{ m.quantity }})
+                    </span>
+                  </div>
+                  <div class="report-photos" *ngIf="report.photos?.length">
+                    <mat-icon>photo_library</mat-icon>
+                    <span>Photos:</span>
+                    <div class="photo-thumbnails">
+                      <a *ngFor="let photo of report.photos" [href]="photo.url" target="_blank">
+                        <img [src]="photo.url" [alt]="photo.caption || 'Site Photo'" class="photo-thumb" />
+                      </a>
+                    </div>
+                  </div>
+                  <div class="report-notes" *ngIf="report.notes">
+                    <mat-icon>notes</mat-icon>
+                    <span>{{ report.notes }}</span>
+                  </div>
+                </div>
+              </mat-list-item>
+            </mat-list>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #noReports>
+    <div class="empty-state">
+      <mat-icon>info</mat-icon>
+      <span>No site reports found for this work order.</span>
+    </div>
+  </ng-template>
+</div> 

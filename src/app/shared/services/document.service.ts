@@ -10,7 +10,7 @@ export interface UploadedDocument {
   fileSize: number;
   uploadedDate: Date;
   uploadedBy: string;
-  entityType: 'work-order' | 'material' | 'invoice' | 'photo';
+  entityType: 'work-order' | 'material' | 'invoice' | 'photo' | 'permit';
   entityId: string;
   metadata?: any;
 }
@@ -28,7 +28,7 @@ export class DocumentService {
    */
   uploadFile(
     file: File,
-    entityType: 'work-order' | 'material' | 'invoice' | 'photo',
+    entityType: 'work-order' | 'material' | 'invoice' | 'photo' | 'permit',
     entityId: string,
     metadata?: any
   ): Observable<UploadedDocument> {
@@ -73,7 +73,7 @@ export class DocumentService {
    */
   uploadMultipleFiles(
     files: File[],
-    entityType: 'work-order' | 'material' | 'invoice' | 'photo',
+    entityType: 'work-order' | 'material' | 'invoice' | 'photo' | 'permit',
     entityId: string,
     metadata?: any
   ): Observable<UploadedDocument[]> {
