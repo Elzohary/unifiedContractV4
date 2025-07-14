@@ -1,0 +1,51 @@
+<h2 mat-dialog-title>
+  <mat-icon>info</mat-icon>
+  Material Allocation Details
+</h2>
+<mat-dialog-content>
+  <div class="details-grid">
+    <div class="detail-row">
+      <span class="label">Material Code:</span>
+      <span class="value">{{data.materialCode}}</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">Description:</span>
+      <span class="value">{{data.materialDescription}}</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">Unit:</span>
+      <span class="value">{{data.unit}}</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">Total Allocated:</span>
+      <span class="value">{{data.totalAllocated}} {{data.unit}}</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">Total Used:</span>
+      <span class="value">{{data.totalUsed}} {{data.unit}}</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">Total Remaining:</span>
+      <span class="value">{{data.totalRemaining}} {{data.unit}}</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">Allocated to Work Orders:</span>
+      <span class="value">{{data.allocatedToWorkOrders}}</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">Pending Deliveries:</span>
+      <span class="value">{{data.pendingDeliveries}}</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">Estimated Value:</span>
+      <span class="value">{{data.estimatedValue | currency}}</span>
+    </div>
+    <div class="detail-row">
+      <span class="label">Actual Value:</span>
+      <span class="value">{{data.actualValue | currency}}</span>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Close</button>
+</mat-dialog-actions> 

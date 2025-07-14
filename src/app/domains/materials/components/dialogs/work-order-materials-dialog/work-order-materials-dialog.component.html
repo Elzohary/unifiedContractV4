@@ -1,0 +1,130 @@
+<div class="work-order-materials-dialog">
+  <h2 mat-dialog-title>
+    <mat-icon>inventory_2</mat-icon>
+    Materials Assigned to Work Order
+  </h2>
+  <mat-dialog-content>
+    <div class="work-order-info">
+      <h3>{{ data.workOrderNumber }} - {{ data.workOrderTitle }}</h3>
+      <p>Total Materials: {{ data.materials.length }}</p>
+    </div>
+    
+    <table mat-table [dataSource]="data.materials" class="materials-table">
+      <!-- Name -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Material Name</th>
+        <td mat-cell *matCellDef="let m">{{ m.purchasableMaterial?.name || m.receivableMaterial?.name }}</td>
+      </ng-container>
+      
+      <!-- Code -->
+      <ng-container matColumnDef="code">
+        <th mat-header-cell *matHeaderCellDef>Code</th>
+        <td mat-cell *matCellDef="let m">{{ m.purchasableMaterial?.code || m.receivableMaterial?.code }}</td>
+      </ng-container>
+      
+      <!-- Type -->
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef>Type</th>
+        <td mat-cell *matCellDef="let m">{{ m.purchasableMaterial ? 'Purchasable' : 'Receivable' }}</td>
+      </ng-container>
+      
+      <!-- Quantity -->
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef>Quantity</th>
+        <td mat-cell *matCellDef="let m">{{ m.purchasableMaterial?.quantity || m.receivableMaterial?.estimatedQuantity }}</td>
+      </ng-container>
+      
+      <!-- Unit -->
+      <ng-container matColumnDef="unit">
+        <th mat-header-cell *matHeaderCellDef>Unit</th>
+        <td mat-cell *matCellDef="let m">{{ m.purchasableMaterial?.unit || m.receivableMaterial?.unit }}</td>
+      </ng-container>
+      
+      <!-- Status -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let m">
+          <!-- Display current status -->
+          <div *ngIf="!isEditing(m)" class="status-display">
+            <mat-chip [color]="getStatusColor(getCurrentStatus(m))" selected>
+              {{ getCurrentStatus(m) | titlecase }}
+            </mat-chip>
+          </div>
+          
+          <!-- Status update form -->
+          <div *ngIf="isEditing(m)" class="status-edit-form" [formGroup]="statusUpdateForm">
+            <mat-form-field appearance="outline" class="status-select">
+              <mat-label>Status</mat-label>
+              <mat-select formControlName="status">
+                <mat-option *ngFor="let option of getStatusOptions(m)" [value]="option.value">
+                  {{ option.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            
+            <mat-form-field appearance="outline" class="notes-input">
+              <mat-label>Notes (Optional)</mat-label>
+              <textarea matInput formControlName="notes" rows="2" 
+                        placeholder="Add notes about the status change..."></textarea>
+            </mat-form-field>
+          </div>
+        </td>
+      </ng-container>
+      
+      <!-- Actions -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let m">
+          <!-- Edit button -->
+          <button *ngIf="!isEditing(m) && canUpdateStatus(m)" 
+                  mat-icon-button 
+                  color="primary"
+                  (click)="startEdit(m)"
+                  matTooltip="Update Status">
+            <mat-icon>edit</mat-icon>
+          </button>
+          
+          <!-- Save/Cancel buttons when editing -->
+          <div *ngIf="isEditing(m)" class="action-buttons">
+            <button mat-icon-button 
+                    color="primary"
+                    (click)="updateMaterialStatus(m)"
+                    [disabled]="statusUpdateForm.invalid || isLoading"
+                    matTooltip="Save Changes">
+              <mat-icon>{{ isLoading ? 'hourglass_empty' : 'save' }}</mat-icon>
+            </button>
+            
+            <button mat-icon-button 
+                    color="warn"
+                    (click)="cancelEdit()"
+                    [disabled]="isLoading"
+                    matTooltip="Cancel">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+          
+          <!-- Disabled state for used materials -->
+          <button *ngIf="!isEditing(m) && !canUpdateStatus(m)" 
+                  mat-icon-button 
+                  color="disabled"
+                  disabled
+                  matTooltip="Status cannot be updated">
+            <mat-icon>lock</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    
+    <div *ngIf="!data.materials.length" class="no-materials">
+      <mat-icon>info</mat-icon>
+      <span>No materials assigned to this work order.</span>
+    </div>
+  </mat-dialog-content>
+  
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Close</button>
+  </mat-dialog-actions>
+</div> 

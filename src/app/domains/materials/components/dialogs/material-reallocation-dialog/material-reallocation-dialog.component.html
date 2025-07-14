@@ -1,0 +1,261 @@
+<div class="material-reallocation-dialog">
+  <!-- Header -->
+  <div mat-dialog-title class="dialog-header">
+    <mat-icon>swap_horiz</mat-icon>
+    <span>Material Reallocation</span>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading work order allocations...</p>
+  </div>
+
+  <!-- Content -->
+  <mat-dialog-content *ngIf="!isLoading" class="dialog-content">
+    <!-- Development Warning -->
+    <mat-card class="development-warning-card">
+      <mat-card-content>
+        <div class="warning-content">
+          <mat-icon class="warning-icon">warning</mat-icon>
+          <div class="warning-text">
+            <h4>Development Notice</h4>
+            <p>This Material Reallocation service is currently under development. The results and calculations shown may not be 100% accurate. Please use this feature for testing purposes only.</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Material Summary Card -->
+    <mat-card class="material-summary-card">
+      <mat-card-header>
+        <mat-card-title>{{data.materialCode}} - {{data.materialDescription}}</mat-card-title>
+        <mat-card-subtitle>Material Reallocation Management</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="summary-stats">
+          <div class="stat-item">
+            <span class="stat-label">Total Allocated</span>
+            <span class="stat-value">{{totalAllocated}} {{data.unit}}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Total Used</span>
+            <span class="stat-value">{{totalUsed}} {{data.unit}}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Total Remaining</span>
+            <span class="stat-value">{{totalRemaining}} {{data.unit}}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Utilization Rate</span>
+            <span class="stat-value">{{utilizationRate | number:'1.1-1'}}%</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Filters -->
+    <mat-card class="filters-card">
+      <mat-card-content>
+        <form [formGroup]="reallocationForm" class="filters-form">
+          <div class="filter-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Search Work Orders</mat-label>
+              <input matInput 
+                     formControlName="searchTerm"
+                     (input)="onSearchChange()"
+                     placeholder="Search by work order number or title...">
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Status</mat-label>
+              <mat-select formControlName="filterStatus" (selectionChange)="onSearchChange()">
+                <mat-option value="">All Statuses</mat-option>
+                <mat-option value="active">Active</mat-option>
+                <mat-option value="pending">Pending</mat-option>
+                <mat-option value="completed">Completed</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Priority</mat-label>
+              <mat-select formControlName="filterPriority" (selectionChange)="onSearchChange()">
+                <mat-option value="">All Priorities</mat-option>
+                <mat-option value="critical">Critical</mat-option>
+                <mat-option value="high">High</mat-option>
+                <mat-option value="medium">Medium</mat-option>
+                <mat-option value="low">Low</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <button mat-stroked-button 
+                    type="button"
+                    (click)="clearFilters()"
+                    class="clear-filters-btn">
+              <mat-icon>clear</mat-icon>
+              Clear Filters
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Work Orders Table -->
+    <mat-card class="work-orders-card">
+      <mat-card-header>
+        <mat-card-title>Work Order Allocations</mat-card-title>
+        <mat-card-subtitle>Manage material distribution across work orders</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="table-container">
+          <table mat-table [dataSource]="(filteredWorkOrders$ | async) || []" class="work-orders-table">
+            <!-- Work Order Column -->
+            <ng-container matColumnDef="workOrder">
+              <th mat-header-cell *matHeaderCellDef>Work Order</th>
+              <td mat-cell *matCellDef="let wo">
+                <div class="work-order-cell">
+                  <span class="wo-number">{{wo.workOrderNumber}}</span>
+                  <span class="wo-title">{{wo.workOrderTitle}}</span>
+                  <div class="wo-meta">
+                    <mat-chip [class]="'status-' + wo.status" class="status-chip">
+                      {{wo.status | titlecase}}
+                    </mat-chip>
+                    <mat-chip [class]="'priority-' + wo.priority" class="priority-chip">
+                      {{wo.priority | titlecase}}
+                    </mat-chip>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Allocation Column -->
+            <ng-container matColumnDef="allocation">
+              <th mat-header-cell *matHeaderCellDef>Allocation</th>
+              <td mat-cell *matCellDef="let wo">
+                <div class="allocation-cell">
+                  <div class="allocation-text">
+                    <span class="allocated">{{wo.allocatedQuantity}} {{data.unit}}</span>
+                    <span class="used">({{wo.usedQuantity}} used)</span>
+                    <span class="remaining">({{wo.remainingQuantity}} remaining)</span>
+                  </div>
+                  <mat-progress-bar 
+                    mode="determinate" 
+                    [value]="getUtilizationPercentage(wo)"
+                    [color]="getUtilizationColor(wo)"
+                    class="utilization-bar">
+                  </mat-progress-bar>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Usage Column -->
+            <ng-container matColumnDef="usage">
+              <th mat-header-cell *matHeaderCellDef>Usage</th>
+              <td mat-cell *matCellDef="let wo">
+                <div class="usage-cell">
+                  <span class="usage-percentage">{{getUtilizationPercentage(wo) | number:'1.1-1'}}%</span>
+                  <span class="completion">Completion: {{wo.completionPercentage}}%</span>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let wo">
+                <div class="actions-cell">
+                  <button mat-icon-button 
+                          [disabled]="!wo.canReduce"
+                          (click)="reduceAllocation(wo)"
+                          matTooltip="Reduce allocation"
+                          class="action-btn reduce-btn">
+                    <mat-icon>remove_circle_outline</mat-icon>
+                  </button>
+                  
+                  <button mat-icon-button 
+                          [disabled]="!wo.canIncrease"
+                          (click)="increaseAllocation(wo)"
+                          matTooltip="Increase allocation"
+                          class="action-btn increase-btn">
+                    <mat-icon>add_circle_outline</mat-icon>
+                  </button>
+                  
+                  <button mat-icon-button 
+                          [disabled]="!wo.canReduce"
+                          (click)="transferAllocation(wo, wo)"
+                          matTooltip="Transfer to another work order"
+                          class="action-btn transfer-btn">
+                    <mat-icon>swap_horiz</mat-icon>
+                  </button>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <!-- Empty State Message -->
+            <tr *ngIf="((filteredWorkOrders$ | async)?.length ?? 0) === 0">
+              <td [attr.colspan]="displayedColumns.length" class="empty-state-cell">
+                <div class="empty-message">
+                  <mat-icon>info</mat-icon>
+                  No work orders currently have this material allocated.
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Reallocation Actions Summary -->
+    <mat-card *ngIf="reallocationActions.length > 0" class="actions-summary-card">
+      <mat-card-header>
+        <mat-card-title>Pending Reallocation Actions</mat-card-title>
+        <mat-card-subtitle>{{reallocationActions.length}} action(s) to apply</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="actions-list">
+          <div *ngFor="let action of reallocationActions; let i = index" class="action-item">
+            <div class="action-details">
+              <span class="action-type">
+                <mat-icon *ngIf="action.fromWorkOrderId && action.toWorkOrderId">swap_horiz</mat-icon>
+                <mat-icon *ngIf="action.fromWorkOrderId && !action.toWorkOrderId">remove_circle</mat-icon>
+                <mat-icon *ngIf="!action.fromWorkOrderId && action.toWorkOrderId">add_circle</mat-icon>
+                {{action.fromWorkOrderId && action.toWorkOrderId ? 'Transfer' : 
+                  action.fromWorkOrderId ? 'Reduce' : 'Increase'}}
+              </span>
+              <span class="action-quantity">{{action.quantity}} {{data.unit}}</span>
+              <mat-chip [class]="'priority-' + action.priority" class="priority-chip">
+                {{action.priority | titlecase}}
+              </mat-chip>
+            </div>
+            <button mat-icon-button 
+                    (click)="removeReallocationAction(action)"
+                    class="remove-action-btn">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-dialog-content>
+
+  <!-- Actions -->
+  <mat-dialog-actions align="end" class="dialog-actions">
+    <button mat-button 
+            (click)="onCancel()"
+            [disabled]="isSaving">
+      Cancel
+    </button>
+    <button mat-raised-button 
+            color="primary" 
+            (click)="onConfirm()"
+            [disabled]="isSaving || reallocationActions.length === 0">
+      <mat-icon *ngIf="isSaving">hourglass_empty</mat-icon>
+      <mat-icon *ngIf="!isSaving">save</mat-icon>
+      {{isSaving ? 'Applying...' : 'Apply Reallocations'}}
+    </button>
+  </mat-dialog-actions>
+</div> 

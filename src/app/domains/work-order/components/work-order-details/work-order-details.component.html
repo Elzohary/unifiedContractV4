@@ -1,0 +1,521 @@
+<div class="work-order-details-container">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="48"></mat-spinner>
+    <span>Loading work order details...</span>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-container">
+    <mat-icon color="warn">error_outline</mat-icon>
+    <h2>Work order not found</h2>
+    <p>{{ error }}</p>
+    <button mat-raised-button color="primary" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+      Back to Work Orders
+    </button>
+  </div>
+
+  <!-- Work Order Details -->
+  <div *ngIf="workOrder && !loading && !error" class="work-order-details-content">
+    <!-- Header Section -->
+    <div class="page-header">
+      <div class="header-left">
+        <button mat-icon-button (click)="goBack()" matTooltip="Back to Work Orders" class="back-button">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h1>Work Order #{{ workOrder.details.workOrderNumber }}</h1>
+      </div>
+
+      <div class="header-actions">
+        <button mat-stroked-button color="primary" class="action-button" matTooltip="Print this work order" (click)="printWorkOrder()">
+          <mat-icon>print</mat-icon>
+          <span>Print</span>
+        </button>
+        <button mat-stroked-button color="primary" class="action-button" (click)="exportToExcel()" matTooltip="Export to Excel">
+          <mat-icon>description</mat-icon>
+          <span>Export Excel</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-grid">
+      <!-- Status Card -->
+      <mat-card class="detail-card status-card" appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>Status Information</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="status-info-grid">
+            <div class="info-item">
+              <span class="info-label">WO Number</span>
+              <span class="info-value">{{ workOrder.details.workOrderNumber }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Status</span>
+              <span class="info-value">{{ workOrder.details.status }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Internal Order Number</span>
+              <span class="info-value">{{ workOrder.details.internalOrderNumber }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Location</span>
+              <span class="info-value">{{ workOrder.details.location }}</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Progress Card -->
+      <mat-card class="detail-card progress-card" appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>Progress</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <h3>Work Order Progress</h3>
+
+          <div class="completion-row">
+            <span>Completion</span>
+            <span class="completion-percentage">{{ workOrder.details.completionPercentage }}%</span>
+          </div>
+          <mat-progress-bar mode="determinate" 
+                           [value]="workOrder.details.completionPercentage"
+                           [color]="workOrder.details.completionPercentage < 50 ? 'warn' : 'primary'">
+          </mat-progress-bar>
+
+          <div class="progress-details">
+            <div class="progress-detail-item">
+              <span class="detail-label">Start Date</span>
+              <span class="detail-value">{{ formatDate(workOrder.details.startDate) }}</span>
+            </div>
+            <div class="progress-detail-item">
+              <span class="detail-label">Due Date</span>
+              <span class="detail-value">{{ formatDate(workOrder.details.dueDate) }}</span>
+            </div>
+            <div class="progress-detail-item">
+              <span class="detail-label">Created</span>
+              <span class="detail-value">{{ formatDate(workOrder.details.createdDate) }}</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Work Order Items List -->
+      <mat-card class="detail-card items-list-card" appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>Work Order Items</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <app-work-order-items-list
+            [workOrderId]="workOrder.details.workOrderNumber"
+            (itemsUpdated)="onItemsUpdated($event)">
+          </app-work-order-items-list>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Documentation Card -->
+      <mat-card class="detail-card documents-card" appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>description</mat-icon>
+            <span>Documentation</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-tab-group animationDuration="300ms" mat-stretch-tabs="false" mat-align-tabs="start">
+            <!-- Permits Tab -->
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <mat-icon class="tab-icon">gavel</mat-icon>
+                <span>Permits</span>
+              </ng-template>
+              <div class="tab-content permits-tab">
+                <div class="permits-list">
+                  <ng-container *ngIf="workOrder && workOrder.permits && workOrder.permits.length > 0; else noPermits">
+                    <div class="permit-item" *ngFor="let permit of workOrder.permits">
+                      <div class="permit-header">
+                        <div class="permit-type">
+                          <mat-icon>description</mat-icon>
+                          <span>{{ permit.type || 'N/A' }}</span>
+                        </div>
+                        <div class="permit-status" [ngClass]="'status-' + (permit.status || 'unknown')">
+                          {{ permit.status || 'Unknown' | titlecase }}
+                        </div>
+                      </div>
+                      <div class="permit-content">
+                        <h4 class="permit-title">{{ permit.title }}</h4>
+                        <p class="permit-description">{{ permit.description }}</p>
+                        <div class="permit-meta">
+                          <div class="permit-number">
+                            <span class="meta-label">Permit #:</span>
+                            <span class="meta-value">{{ permit.number }}</span>
+                          </div>
+                          <div class="permit-authority">
+                            <span class="meta-label">Issuing Authority:</span>
+                            <span class="meta-value">{{ permit.authority }}</span>
+                          </div>
+                          <div class="permit-dates">
+                            <div class="issue-date">
+                              <span class="meta-label">Issued:</span>
+                              <span class="meta-value">{{ formatDate(permit.issueDate) }}</span>
+                            </div>
+                            <div class="expiry-date">
+                              <span class="meta-label">Expires:</span>
+                              <span class="meta-value">{{ formatDate(permit.expiryDate) }}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="permit-actions">
+                        <button mat-stroked-button color="primary">
+                          <mat-icon>visibility</mat-icon>
+                          View Details
+                        </button>
+                        <button mat-stroked-button>
+                          <mat-icon>download</mat-icon>
+                          Download
+                        </button>
+                      </div>
+                    </div>
+                  </ng-container>
+                  <ng-template #noPermits>
+                    <div class="no-data-container">
+                      <mat-icon>gavel</mat-icon>
+                      <p>No permits have been added to this work order.</p>
+                      <button mat-stroked-button color="primary" (click)="addPermit()">
+                        Add Permit
+                      </button>
+                    </div>
+                  </ng-template>
+                </div>
+              </div>
+            </mat-tab>
+
+            <!-- Remarks Tab -->
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <mat-icon class="tab-icon">comment</mat-icon>
+                <span>Remarks</span>
+              </ng-template>
+              <div class="tab-content remarks-tab">
+                <div class="tab-header">
+                  <h3>Work Order Remarks</h3>
+                  <button mat-stroked-button color="primary" (click)="addRemark()">
+                    <mat-icon>add</mat-icon>
+                    <span>Add Remark</span>
+                  </button>
+                </div>
+                <div class="remarks-list">
+                  <ng-container *ngIf="workOrder && workOrder.remarks && workOrder.remarks.length > 0; else noRemarks">
+                    <div class="remark-item" *ngFor="let remark of workOrder.remarks">
+                      <div class="remark-header">
+                        <div class="remark-type" [ngClass]="getRemarkTypeClass(remark.type || '')">
+                          <mat-icon>{{ getRemarkIcon(remark.type || '') }}</mat-icon>
+                          <span>{{ remark.type || 'General' | titlecase }}</span>
+                        </div>
+                        <div class="remark-actions">
+                          <button mat-icon-button color="primary" matTooltip="Edit Remark" (click)="editRemark(remark)">
+                            <mat-icon>edit</mat-icon>
+                          </button>
+                          <button mat-icon-button color="warn" matTooltip="Delete" (click)="deleteRemark(remark)">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="remark-content">
+                        {{ remark.content }}
+                      </div>
+                      <div class="remark-footer">
+                        <div class="remark-meta">
+                          <span class="remark-author">By: {{ remark.createdBy || 'Unknown' }}</span>
+                          <span class="remark-date">{{ formatDate(remark.createdDate) }}</span>
+                        </div>
+                        <ng-container *ngIf="remark.peopleInvolved && remark.peopleInvolved.length > 0">
+                          <div class="remark-people">
+                            <span class="people-label">People involved:</span>
+                            <div class="people-chips">
+                              <div class="people-chip" *ngFor="let personId of remark.peopleInvolved">
+                                {{ personId }}
+                              </div>
+                            </div>
+                          </div>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </ng-container>
+                  <ng-template #noRemarks>
+                    <div class="no-data-container">
+                      <mat-icon>comment</mat-icon>
+                      <p>No remarks have been added to this work order yet.</p>
+                      <button mat-stroked-button color="primary" (click)="addRemark()">
+                        <mat-icon>add</mat-icon>
+                        <span>Add First Remark</span>
+                      </button>
+                    </div>
+                  </ng-template>
+                </div>
+              </div>
+            </mat-tab>
+
+            <!-- Issues Tab -->
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <mat-icon class="tab-icon">error_outline</mat-icon>
+                <span>Issues</span>
+              </ng-template>
+              <div class="tab-content issues-tab">
+                <div class="tab-header">
+                  <h3>Issues & Problems</h3>
+                  <button mat-stroked-button color="primary" (click)="reportIssue()">
+                    <mat-icon>add</mat-icon>
+                    <span>Report Issue</span>
+                  </button>
+                </div>
+                <div class="issues-list">
+                  <ng-container *ngIf="workOrder && workOrder.issues && workOrder.issues.length > 0; else noIssues">
+                    <div class="issue-item" *ngFor="let issue of workOrder.issues">
+                      <div class="issue-severity" [ngClass]="'severity-' + (issue.severity || 'low')">
+                        <mat-icon>{{ (issue.severity === 'high' ? 'error' : (issue.severity === 'medium' ? 'warning' : 'info')) }}</mat-icon>
+                      </div>
+                      <div class="issue-content">
+                        <h4 class="issue-title">{{ issue.title }}</h4>
+                        <p class="issue-description">{{ issue.description }}</p>
+                        <div class="issue-meta">
+                          <div class="reported-by">
+                            <span class="meta-label">Reported by:</span>
+                            <span class="meta-value">{{ issue.reportedBy }}</span>
+                          </div>
+                          <div class="reported-date">
+                            <span class="meta-label">Date:</span>
+                            <span class="meta-value">{{ formatDate(issue.reportedDate) }}</span>
+                          </div>
+                          <div class="issue-status" [ngClass]="'status-' + (issue.status || 'unknown')">
+                            {{ issue.status || 'Unknown' | titlecase }}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="issue-actions">
+                        <button mat-icon-button [matMenuTriggerFor]="issueMenu" aria-label="Issue actions">
+                          <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #issueMenu="matMenu">
+                          <button mat-menu-item (click)="editIssue(issue)">
+                            <mat-icon>edit</mat-icon>
+                            <span>Edit</span>
+                          </button>
+                          <button mat-menu-item *ngIf="issue.status !== 'resolved'" (click)="resolveIssue(issue.id)">
+                            <mat-icon>check_circle</mat-icon>
+                            <span>Mark as Resolved</span>
+                          </button>
+                          <button mat-menu-item (click)="deleteIssue(issue.id)">
+                            <mat-icon>delete</mat-icon>
+                            <span>Delete</span>
+                          </button>
+                        </mat-menu>
+                      </div>
+                    </div>
+                  </ng-container>
+                  <ng-template #noIssues>
+                    <div class="no-data-container">
+                      <mat-icon>check_circle</mat-icon>
+                      <p>No issues have been reported for this work order.</p>
+                      <button mat-stroked-button color="primary" (click)="reportIssue()">
+                        <mat-icon>add</mat-icon>
+                        <span>Report an Issue</span>
+                      </button>
+                    </div>
+                  </ng-template>
+                </div>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Right Column - Timeline & Activity -->
+      <div class="right-column">
+        <!-- Actions Needed Card -->
+        <mat-card class="detail-card actions-needed-card" appearance="outlined">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>assignment_late</mat-icon>
+              <span>Actions Needed</span>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="actions-needed-list">
+              <ng-container *ngIf="workOrder && workOrder.actionsNeeded && workOrder.actionsNeeded.length > 0; else noActions">
+                <div class="action-item" *ngFor="let action of workOrder.actionsNeeded">
+                  <div class="action-priority" [ngClass]="'priority-' + (action.priority || 'low')">
+                    <mat-icon>{{ action.priority === 'high' ? 'priority_high' : 'low_priority' }}</mat-icon>
+                  </div>
+                  <div class="action-content">
+                    <div class="action-title">{{ action.title }}</div>
+                    <div class="action-description">{{ action.description }}</div>
+                    <div class="action-meta">
+                      <span class="action-assignee">Assigned to: {{ action.assignedTo || 'Unassigned' }}</span>
+                      <span class="action-due-date">Due: {{ formatDate(action.dueDate) }}</span>
+                    </div>
+                  </div>
+                  <div class="action-status" [ngClass]="'status-' + (action.status || 'unknown')">
+                    {{ action.status || 'Unknown' | titlecase }}
+                  </div>
+                </div>
+              </ng-container>
+              <ng-template #noActions>
+                <div class="no-data-container">
+                  <mat-icon>check_circle</mat-icon>
+                  <p>No action items required at this time.</p>
+                  <button mat-stroked-button color="primary" (click)="createActionItem()">
+                    <mat-icon>add</mat-icon>
+                    <span>Create Action Item</span>
+                  </button>
+                </div>
+              </ng-template>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Expenses Summary Card -->
+        <mat-card class="detail-card expenses-card" appearance="outlined">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>pie_chart</mat-icon>
+              <span>Expenses Summary</span>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="expenses-summary">
+              <div class="expense-chart-container">
+                <div class="pie-chart-placeholder">
+                  <div class="pie-chart">
+                    <div class="slice slice-1"></div>
+                    <div class="slice slice-2"></div>
+                    <div class="slice slice-3"></div>
+                  </div>
+                </div>
+                <div class="expense-details">
+                  <div class="expense-detail-item">
+                    <div class="expense-color" style="background-color: var(--primary);"></div>
+                    <div class="expense-info">
+                      <span class="expense-category">Materials</span>
+                      <span class="expense-amount">$12,500</span>
+                    </div>
+                    <span class="expense-percentage">50%</span>
+                  </div>
+                  <div class="expense-detail-item">
+                    <div class="expense-color" style="background-color: var(--success);"></div>
+                    <div class="expense-info">
+                      <span class="expense-category">Labor</span>
+                      <span class="expense-amount">$8,750</span>
+                    </div>
+                    <span class="expense-percentage">35%</span>
+                  </div>
+                  <div class="expense-detail-item">
+                    <div class="expense-color" style="background-color: var(--warning);"></div>
+                    <div class="expense-info">
+                      <span class="expense-category">Other</span>
+                      <span class="expense-amount">$3,750</span>
+                    </div>
+                    <span class="expense-percentage">15%</span>
+                  </div>
+                </div>
+                <div class="expense-total">
+                  <span class="total-label">Total Expenses:</span>
+                  <span class="total-amount">${{ workOrder.expenseBreakdown?.toLocaleString() || '0' }}</span>
+                </div>
+              </div>
+              <button mat-stroked-button color="primary" class="view-all-expenses">
+                <mat-icon>visibility</mat-icon>
+                <span>View All Expenses</span>
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Quick Actions Card -->
+        <mat-card class="detail-card actions-card" appearance="outlined">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>build</mat-icon>
+              <span>Quick Actions</span>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="quick-actions-grid">
+              <button mat-stroked-button class="quick-action-button" 
+                      (click)="updateStatus(WorkOrderStatus.InProgress)" 
+                      [disabled]="workOrder.details?.status === WorkOrderStatus.InProgress">
+                <mat-icon>update</mat-icon>
+                <span>Update Status</span>
+              </button>
+              <button mat-stroked-button class="quick-action-button" 
+                      (click)="updateStatus(WorkOrderStatus.Completed)" 
+                      [disabled]="workOrder.details?.status === WorkOrderStatus.Completed">
+                <mat-icon>assignment_turned_in</mat-icon>
+                <span>Complete</span>
+              </button>
+              <button mat-stroked-button class="quick-action-button">
+                <mat-icon>person_add</mat-icon>
+                <span>Assign</span>
+              </button>
+              <button mat-stroked-button class="quick-action-button">
+                <mat-icon>chat</mat-icon>
+                <span>Add Comment</span>
+              </button>
+              <button mat-stroked-button class="quick-action-button">
+                <mat-icon>attach_file</mat-icon>
+                <span>Attachments</span>
+              </button>
+              <button mat-stroked-button class="quick-action-button">
+                <mat-icon>content_copy</mat-icon>
+                <span>Duplicate</span>
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Related Section Card -->
+        <mat-card class="detail-card related-card" appearance="outlined">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>link</mat-icon>
+              <span>Related Items</span>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-nav-list>
+              <a mat-list-item routerLink="/work-order-sections/forms">
+                <mat-icon matListItemIcon>description</mat-icon>
+                <span matListItemTitle>Forms & Documents</span>
+                <span matListItemLine class="item-count">3 items</span>
+              </a>
+              <a mat-list-item routerLink="/work-order-sections/photos">
+                <mat-icon matListItemIcon>photo_library</mat-icon>
+                <span matListItemTitle>Photos & Media</span>
+                <span matListItemLine class="item-count">2 items</span>
+              </a>
+              <a mat-list-item routerLink="/work-order-sections/expenses">
+                <mat-icon matListItemIcon>monetization_on</mat-icon>
+                <span matListItemTitle>Expenses</span>
+                <span matListItemLine class="item-count">4 items</span>
+              </a>
+              <a mat-list-item routerLink="/work-order-sections/invoices">
+                <mat-icon matListItemIcon>receipt</mat-icon>
+                <span matListItemTitle>Invoices</span>
+                <span matListItemLine class="item-count">1 item</span>
+              </a>
+            </mat-nav-list>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+

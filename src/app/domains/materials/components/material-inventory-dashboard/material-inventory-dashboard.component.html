@@ -1,0 +1,339 @@
+<div class="material-inventory-dashboard">
+  <!-- Breadcrumbs -->
+  <app-breadcrumb></app-breadcrumb>
+
+  <!-- Loading State -->
+  <div *ngIf="loading$ | async" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>Loading inventory data...</p>
+  </div>
+
+  <!-- Main Content -->
+  <div *ngIf="(loading$ | async) === false" class="dashboard-content">
+
+    <!-- Header -->
+    <div class="dashboard-header">
+      <h1>Material Inventory Dashboard</h1>
+      <div class="header-actions">
+        <button mat-button (click)="refreshDashboard()">
+          <mat-icon>refresh</mat-icon>
+          Refresh
+        </button>
+        <button mat-raised-button color="primary" [matMenuTriggerFor]="actionsMenu">
+          <mat-icon>add</mat-icon>
+          Quick Actions
+        </button>
+        <mat-menu #actionsMenu="matMenu">
+          <button mat-menu-item (click)="createStockAdjustment()">
+            <mat-icon>tune</mat-icon>
+            Stock Adjustment
+          </button>
+          <button mat-menu-item (click)="createMaterialRequisition()">
+            <mat-icon>assignment</mat-icon>
+            Material Requisition
+          </button>
+          <button mat-menu-item (click)="navigateToPurchaseOrders()">
+            <mat-icon>shopping_cart</mat-icon>
+            Create Purchase Order
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+
+    <!-- Key Metrics Cards -->
+    <div class="metrics-grid" *ngIf="dashboardData$ | async as dashboardData">
+      <!-- Total Materials -->
+      <mat-card class="metric-card" 
+                routerLink="/materials/catalog"
+                aria-label="Go to Material Catalog" 
+                matTooltip="Click to view all materials">
+        <mat-card-content>
+          <div class="metric-icon">
+            <mat-icon>inventory_2</mat-icon>
+          </div>
+          <div class="metric-details">
+            <h3>Total Materials</h3>
+            <p class="metric-value">{{ dashboardData.totalMaterials | number }}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Total Value -->
+      <mat-card class="metric-card">
+        <mat-card-content>
+          <div class="metric-icon currency">
+            <mat-icon>payments</mat-icon>
+          </div>
+          <div class="metric-details">
+            <h3>Total Inventory Value</h3>
+            <p class="metric-value">{{ formatCurrency(dashboardData.totalValue) }}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Low Stock Items -->
+      <mat-card class="metric-card warning" 
+                routerLink="/materials/catalog"
+                aria-label="Go to Material Catalog" 
+                matTooltip="Click to view low stock items">
+        <mat-card-content>
+          <div class="metric-icon">
+            <mat-icon>warning</mat-icon>
+          </div>
+          <div class="metric-details">
+            <h3>Low Stock Items</h3>
+            <p class="metric-value">{{ dashboardData.lowStockItems }}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Pending Orders -->
+      <mat-card class="metric-card" 
+                routerLink="/materials/purchase-orders"
+                aria-label="Go to Purchase Orders" 
+                matTooltip="Click to view pending purchase orders">
+        <mat-card-content>
+          <div class="metric-icon primary">
+            <mat-icon>pending_actions</mat-icon>
+          </div>
+          <div class="metric-details">
+            <h3>Pending Orders</h3>
+            <p class="metric-value">{{ dashboardData.pendingOrders }}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Alerts Section -->
+    <!-- Removed Active Alerts section as requested -->
+
+    <!-- Main Content Area with Tabs -->
+    <mat-card class="main-content-card">
+      <mat-tab-group [(selectedIndex)]="selectedTab">
+        <!-- All Materials in Work Orders Tab -->
+        <mat-tab label="All Materials in Work Orders">
+          <ng-template matTabLabel>
+            <mat-icon class="tab-icon">list_alt</mat-icon>
+            All Materials in Work Orders
+          </ng-template>
+
+          <!-- Filter Controls -->
+          <div class="materials-table-filters-row filters-with-margin">
+            <mat-form-field appearance="outline">
+              <mat-label>Work Order</mat-label>
+              <mat-select [value]="selectedWorkOrder" (selectionChange)="onWorkOrderFilterChange($event.value)">
+                <mat-option [value]="null">All Work Orders</mat-option>
+                <mat-option *ngFor="let wo of workOrders" [value]="wo.id">{{ wo.details?.workOrderNumber || wo.id }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Material</mat-label>
+              <mat-select [value]="selectedMaterial" (selectionChange)="onMaterialFilterChange($event.value)">
+                <mat-option [value]="null">All Materials</mat-option>
+                <mat-option *ngFor="let mat of materials" [value]="mat.id">{{ mat.description }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Type</mat-label>
+              <mat-select [value]="selectedType" (selectionChange)="selectedType = $event.value; computeMaterialsInWorkOrders()">
+                <mat-option [value]="null">All Types</mat-option>
+                <mat-option value="purchasable">Purchasable</mat-option>
+                <mat-option value="receivable">Receivable</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Status</mat-label>
+              <mat-select [value]="selectedStatus" (selectionChange)="selectedStatus = $event.value; computeMaterialsInWorkOrders()">
+                <mat-option [value]="null">All Statuses</mat-option>
+                <mat-option *ngFor="let status of materialStatuses" [value]="status">{{ status }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button mat-stroked-button color="primary" class="reset-filters-btn" (click)="resetMaterialsTableFilters()">
+              <mat-icon>refresh</mat-icon>
+              Reset Filters
+            </button>
+          </div>
+
+          <!-- Table -->
+          <div class="materials-table-container">
+            <table mat-table [dataSource]="filteredMaterialsInWorkOrders" class="materials-table">
+              <!-- Group by Work Order Header (if grouping enabled) -->
+              <ng-container *ngIf="groupByWorkOrder">
+                <ng-container *ngFor="let group of groupedMaterialsInWorkOrders">
+                  <tr>
+                    <td colspan="6" class="work-order-group-header">
+                      <mat-icon>assignment</mat-icon>
+                      Work Order: {{ group.workOrderNumber }}
+                    </td>
+                  </tr>
+                  <ng-container *ngFor="let row of group.materials">
+                    <tr mat-row [ngClass]="{'partial-usage': row.isPartial}">
+                      <td>{{ row.materialName }}</td>
+                      <td>{{ row.workOrderNumber }}</td>
+                      <td>{{ row.type | titlecase }}</td>
+                      <td>{{ row.status }}</td>
+                      <td>{{ row.usage }}</td>
+                    </tr>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+              <!-- Flat Table (if not grouping) -->
+              <ng-container *ngIf="!groupByWorkOrder">
+                <tr mat-header-row *matHeaderRowDef="materialsTableColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: materialsTableColumns;" [ngClass]="{'partial-usage': row.isPartial}"></tr>
+              </ng-container>
+              <!-- Table Columns -->
+              <ng-container matColumnDef="materialName">
+                <th mat-header-cell *matHeaderCellDef>Material Name</th>
+                <td mat-cell *matCellDef="let row">{{ row.materialName }}</td>
+              </ng-container>
+              <ng-container matColumnDef="workOrderNumber">
+                <th mat-header-cell *matHeaderCellDef>Work Order</th>
+                <td mat-cell *matCellDef="let row">{{ row.workOrderNumber }}</td>
+              </ng-container>
+              <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef>Type</th>
+                <td mat-cell *matCellDef="let row">{{ row.type | titlecase }}</td>
+              </ng-container>
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>Status</th>
+                <td mat-cell *matCellDef="let row">{{ row.status }}</td>
+              </ng-container>
+              <ng-container matColumnDef="usage">
+                <th mat-header-cell *matHeaderCellDef>Usage</th>
+                <td mat-cell *matCellDef="let row">{{ row.usage }}</td>
+              </ng-container>
+            </table>
+            <div *ngIf="filteredMaterialsInWorkOrders.length === 0" class="no-data">
+              <mat-icon>info</mat-icon>
+              <p>No materials found for the selected filters.</p>
+            </div>
+          </div>
+        </mat-tab>
+        <!-- Material History Timeline Tab -->
+        <mat-tab label="Material History Timeline">
+          <ng-template matTabLabel>
+            <mat-icon class="tab-icon">timeline</mat-icon>
+            Material History Timeline
+          </ng-template>
+
+          <!-- Filter Controls -->
+          <div class="timeline-filters-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Work Order</mat-label>
+              <mat-select [value]="selectedWorkOrder" (selectionChange)="onTimelineWorkOrderFilterChange($event.value)">
+                <mat-option [value]="null">All Work Orders</mat-option>
+                <mat-option *ngFor="let wo of workOrders" [value]="wo.id">{{ wo.details?.workOrderNumber || wo.id }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Material</mat-label>
+              <mat-select [value]="selectedMaterial" (selectionChange)="onTimelineMaterialFilterChange($event.value)">
+                <mat-option [value]="null">All Materials</mat-option>
+                <mat-option *ngFor="let mat of materials" [value]="mat.id">{{ mat.description }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button mat-stroked-button color="primary" class="reset-filters-btn" (click)="onTimelineWorkOrderFilterChange(null); onTimelineMaterialFilterChange(null)">
+              <mat-icon>refresh</mat-icon>
+              Reset Filters
+            </button>
+          </div>
+
+          <div class="timeline-container" *ngIf="groupedTimeline$ | async as groupedTimeline">
+            <div class="timeline-header">
+              <h3>Material History Grouped by Work Order</h3>
+              <p>Showing all material events from assignment to completion</p>
+            </div>
+
+            <div class="timeline-content">
+              <div *ngFor="let group of groupedTimeline">
+                <div class="work-order-header">
+                  <mat-icon>assignment</mat-icon>
+                  <span>Work Order: {{ group.workOrderNumber }}</span>
+                </div>
+                <div class="timeline-line"></div>
+                <div *ngFor="let event of group.events; let i = index" class="timeline-event" [class.first-event]="i === 0">
+                  <!-- Event Marker -->
+                  <div class="event-marker" [style.background-color]="getEventColor(event.color)">
+                    <mat-icon>{{ getEventIcon(event.icon) }}</mat-icon>
+                  </div>
+                  <!-- Event Card -->
+                  <mat-card class="event-card">
+                    <mat-card-header>
+                      <mat-card-title>{{ event.title }}</mat-card-title>
+                      <mat-card-subtitle>
+                        {{ formatDate(event.date) }} • {{ event.materialName }}
+                        <span *ngIf="event.workOrderNumber" class="work-order-ref">
+                          • WO: {{ event.workOrderNumber }}
+                        </span>
+                      </mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                      <p class="event-description">{{ event.description }}</p>
+                      <div class="event-details" *ngIf="event.details">
+                        <div class="detail-item" *ngFor="let detail of getEventDetails(event.details)">
+                          <strong>{{ detail.key }}:</strong> {{ detail.value }}
+                        </div>
+                      </div>
+                      <div class="event-meta">
+                        <span *ngIf="event.user" class="user-info">
+                          <mat-icon>person</mat-icon>
+                          {{ event.user }}
+                        </span>
+                        <span *ngIf="event.quantity" class="quantity-info">
+                          <mat-icon>straighten</mat-icon>
+                          {{ event.quantity }} {{ event.unit }}
+                        </span>
+                        <span *ngIf="event.cost" class="cost-info">
+                          <mat-icon>payments</mat-icon>
+                          {{ formatCurrency(event.cost) }}
+                        </span>
+                      </div>
+                      <div class="attachments" *ngIf="(event.documents && event.documents.length > 0) || (event.photos && event.photos.length > 0)">
+                        <mat-divider class="attachments-divider"></mat-divider>
+                        <div class="attachment-section" *ngIf="event.documents && event.documents.length > 0">
+                          <h4>
+                            <mat-icon>description</mat-icon>
+                            Documents
+                          </h4>
+                          <div class="attachment-list">
+                            <mat-chip *ngFor="let doc of event.documents" color="primary">
+                              <mat-icon>insert_drive_file</mat-icon>
+                              {{ doc }}
+                            </mat-chip>
+                          </div>
+                        </div>
+                        <div class="attachment-section" *ngIf="event.photos && event.photos.length > 0">
+                          <h4>
+                            <mat-icon>photo_library</mat-icon>
+                            Photos ({{ event.photos.length }})
+                          </h4>
+                          <div class="photo-grid">
+                            <div *ngFor="let photo of event.photos | slice:0:4" class="photo-thumbnail">
+                              <mat-icon>image</mat-icon>
+                            </div>
+                            <div *ngIf="event.photos.length > 4" class="photo-more">
+                              +{{ event.photos.length - 4 }} more
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+              </div>
+              <!-- Empty State -->
+              <div *ngIf="groupedTimeline.length === 0" class="empty-timeline">
+                <mat-icon>history</mat-icon>
+                <p>No material history events found</p>
+                <small>Material events will appear here as work orders are processed</small>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+
+      </mat-tab-group>
+    </mat-card>
+
+  </div>
+</div>

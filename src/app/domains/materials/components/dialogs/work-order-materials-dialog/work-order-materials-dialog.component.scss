@@ -1,0 +1,131 @@
+.work-order-materials-dialog {
+  max-width: 800px;
+}
+
+.work-order-info {
+  margin-bottom: 16px;
+  padding: 12px;
+  background: #f5f5f5;
+  border-radius: 4px;
+}
+
+.materials-table {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.no-materials {
+  text-align: center;
+  color: #888;
+  margin: 32px 0;
+}
+
+.no-materials mat-icon {
+  font-size: 36px;
+  margin-bottom: 8px;
+  color: #bdbdbd;
+}
+
+// Status update form styles
+.status-display {
+  display: flex;
+  align-items: center;
+}
+
+.status-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 200px;
+  
+  .status-select {
+    width: 100%;
+    min-width: 150px;
+  }
+  
+  .notes-input {
+    width: 100%;
+    
+    textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+  }
+}
+
+// Action buttons styling
+.action-buttons {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  
+  button {
+    min-width: 40px;
+    height: 40px;
+  }
+}
+
+// Table cell adjustments for better layout
+.mat-mdc-cell {
+  vertical-align: top;
+  padding: 8px;
+  
+  &.mat-column-status {
+    min-width: 200px;
+  }
+  
+  &.mat-column-actions {
+    min-width: 80px;
+    text-align: center;
+  }
+}
+
+// Responsive design for smaller screens
+@media (max-width: 768px) {
+  .status-edit-form {
+    min-width: 150px;
+    
+    .status-select,
+    .notes-input {
+      min-width: 120px;
+    }
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    gap: 2px;
+    
+    button {
+      min-width: 36px;
+      height: 36px;
+    }
+  }
+}
+
+// Loading state styling
+.mat-mdc-button[disabled] {
+  opacity: 0.6;
+}
+
+// Status chip improvements
+.mat-mdc-chip {
+  font-size: 12px;
+  font-weight: 500;
+  
+  &.mat-mdc-chip-selected {
+    &.mat-primary {
+      background-color: #1976d2;
+      color: white;
+    }
+    
+    &.mat-accent {
+      background-color: #ff9800;
+      color: white;
+    }
+    
+    &.mat-warn {
+      background-color: #f44336;
+      color: white;
+    }
+  }
+} 

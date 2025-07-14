@@ -1,0 +1,253 @@
+<div class="material-usage-dialog">
+  <h2 mat-dialog-title>
+    <mat-icon>build</mat-icon>
+    Material Usage Tracking
+  </h2>
+
+  <mat-dialog-content>
+    <!-- Material Information Header -->
+    <mat-card class="material-info-card">
+      <mat-card-content>
+        <div class="material-header">
+          <div class="material-details">
+            <h3>{{ materialName }}</h3>
+            <p class="material-type">{{ materialType }} Material</p>
+            <p class="material-status">Current Status: <mat-chip [color]="currentStatus === 'used' ? 'primary' : 'accent'">{{ currentStatus | titlecase }}</mat-chip></p>
+          </div>
+          <div class="material-quantities">
+            <div class="quantity-item">
+              <span class="label">Total Quantity:</span>
+              <span class="value">{{ totalQuantity }} {{ unit }}</span>
+            </div>
+            <div class="quantity-item">
+              <span class="label">Used:</span>
+              <span class="value">{{ quantityUsed }} {{ unit }}</span>
+            </div>
+            <div class="quantity-item">
+              <span class="label">Remaining:</span>
+              <span class="value">{{ quantityRemaining }} {{ unit }}</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Usage Progress -->
+        <div class="usage-progress">
+          <mat-progress-bar 
+            mode="determinate" 
+            [value]="usagePercentage"
+            [color]="usagePercentage >= 100 ? 'primary' : 'accent'">
+          </mat-progress-bar>
+          <span class="progress-text">{{ usagePercentage | number:'1.0-1' }}% Used</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Usage Form -->
+    <form [formGroup]="usageForm" class="usage-form">
+      <mat-tab-group [(selectedIndex)]="selectedTab" class="usage-tabs">
+        
+        <!-- Usage Tracking Tab -->
+        <mat-tab label="Usage Details">
+          <div class="tab-content">
+            <div class="form-section">
+              <h4>Quantity Tracking</h4>
+              
+              <div class="quantity-inputs">
+                <mat-form-field appearance="outline">
+                  <mat-label>Quantity Used</mat-label>
+                  <input matInput 
+                         type="number" 
+                         formControlName="quantityUsed"
+                         [min]="0"
+                         [max]="totalQuantity"
+                         [step]="0.01">
+                  <mat-hint>{{ unit }}</mat-hint>
+                  <mat-error *ngIf="usageForm.get('quantityUsed')?.hasError('required')">
+                    Quantity used is required
+                  </mat-error>
+                  <mat-error *ngIf="usageForm.get('quantityUsed')?.hasError('min')">
+                    Quantity cannot be negative
+                  </mat-error>
+                </mat-form-field>
+
+                <div class="waste-section" *ngIf="usageForm.get('hasWaste')?.value">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Quantity Wasted</mat-label>
+                    <input matInput 
+                           type="number" 
+                           formControlName="quantityWasted"
+                           [min]="0"
+                           [max]="totalQuantity - quantityUsed"
+                           [step]="0.01">
+                    <mat-hint>{{ unit }}</mat-hint>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Waste Reason</mat-label>
+                    <mat-select formControlName="wasteReason">
+                      <mat-option *ngFor="let reason of getWasteReasons()" [value]="reason">
+                        {{ reason }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="usageForm.get('wasteReason')?.hasError('required')">
+                      Waste reason is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="return-section" *ngIf="usageForm.get('hasReturns')?.value">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Quantity Returned</mat-label>
+                    <input matInput 
+                           type="number" 
+                           formControlName="quantityReturned"
+                           [min]="0"
+                           [max]="totalQuantity - quantityUsed - quantityWasted"
+                           [step]="0.01">
+                    <mat-hint>{{ unit }}</mat-hint>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Return Reason</mat-label>
+                    <mat-select formControlName="returnReason">
+                      <mat-option *ngFor="let reason of getReturnReasons()" [value]="reason">
+                        {{ reason }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="usageForm.get('returnReason')?.hasError('required')">
+                      Return reason is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!-- Waste and Return Options -->
+              <div class="options-section">
+                <mat-checkbox formControlName="hasWaste" color="warn">
+                  <mat-icon>delete</mat-icon>
+                  Report Waste
+                </mat-checkbox>
+                
+                <mat-checkbox formControlName="hasReturns" color="primary">
+                  <mat-icon>undo</mat-icon>
+                  Report Returns
+                </mat-checkbox>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+
+        <!-- Disposition Tab -->
+        <mat-tab label="Disposition">
+          <div class="tab-content">
+            <div class="form-section">
+              <h4>Material Disposition</h4>
+              <p class="section-description">
+                Choose what to do with any remaining materials after usage.
+              </p>
+
+              <div class="disposition-options">
+                <mat-radio-group formControlName="disposition" class="disposition-radio-group">
+                  <mat-radio-button 
+                    *ngFor="let option of getDispositionOptions()" 
+                    [value]="option.value"
+                    class="disposition-option">
+                    <div class="option-content">
+                      <mat-icon [class]="'option-icon ' + option.value">{{ option.icon }}</mat-icon>
+                      <div class="option-details">
+                        <span class="option-label">{{ option.label }}</span>
+                        <span class="option-description" *ngIf="option.value === 'waste'">
+                          Dispose of remaining materials as waste
+                        </span>
+                        <span class="option-description" *ngIf="option.value === 'warehouse'">
+                          Return remaining materials to warehouse inventory
+                        </span>
+                        <span class="option-description" *ngIf="option.value === 'reserve-for-workorder'">
+                          Reserve remaining materials for this work order
+                        </span>
+                      </div>
+                    </div>
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+
+        <!-- Notes & Photos Tab -->
+        <mat-tab label="Notes & Photos">
+          <div class="tab-content">
+            <div class="form-section">
+              <h4>Additional Information</h4>
+              
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Usage Notes</mat-label>
+                <textarea matInput 
+                          formControlName="usageNotes"
+                          rows="4"
+                          placeholder="Add any additional notes about the material usage..."></textarea>
+              </mat-form-field>
+
+              <div class="photos-section">
+                <h5>Usage Photos</h5>
+                <p class="section-description">
+                  Upload photos documenting the material usage, waste, or returns.
+                </p>
+
+                <div class="photo-upload">
+                  <input type="file" 
+                         #fileInput 
+                         multiple 
+                         accept="image/*"
+                         (change)="onFileSelected($event)"
+                         style="display: none;">
+                  
+                  <button mat-stroked-button 
+                          type="button"
+                          (click)="fileInput.click()"
+                          class="upload-button">
+                    <mat-icon>add_photo_alternate</mat-icon>
+                    Add Photos
+                  </button>
+                </div>
+
+                <div class="uploaded-photos" *ngIf="uploadedPhotos.length > 0">
+                  <div class="photo-item" *ngFor="let photo of uploadedPhotos; let i = index">
+                    <div class="photo-preview">
+                      <img [src]="URL.createObjectURL(photo)" alt="Usage photo">
+                    </div>
+                    <div class="photo-actions">
+                      <span class="photo-name">{{ photo.name }}</span>
+                      <button mat-icon-button 
+                              color="warn"
+                              (click)="removePhoto(i)"
+                              matTooltip="Remove photo">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button 
+            (click)="cancel()"
+            [disabled]="isLoading">
+      Cancel
+    </button>
+    <button mat-raised-button 
+            color="primary"
+            (click)="saveUsage()"
+            [disabled]="usageForm.invalid || isLoading">
+      <mat-icon *ngIf="isLoading">hourglass_empty</mat-icon>
+      <mat-icon *ngIf="!isLoading">save</mat-icon>
+      {{ isLoading ? 'Saving...' : 'Save Usage' }}
+    </button>
+  </mat-dialog-actions>
+</div> 

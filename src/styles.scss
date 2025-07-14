@@ -1,0 +1,133 @@
+/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@import '../_component-styles.scss';
+
+
+/* CSS Variables for Border Radius */
+:root {
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-xl: 16px;
+  --border-radius-pill: 9999px;
+}
+
+/* Global theme variables */
+body {
+  /* Base colors shared by both themes */
+  --card-shadow: rgba(0, 0, 0, 0.2);
+}
+
+/* Base styles for light and dark themes */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+body {
+  transition: background-color 0.3s ease;
+}
+
+
+/* Border Radius Utility Classes */
+.rounded-none { border-radius: 0; }
+.rounded-sm { border-radius: var(--border-radius-sm); }
+.rounded-md { border-radius: var(--border-radius-md); }
+.rounded-lg { border-radius: var(--border-radius-lg); }
+.rounded-xl { border-radius: var(--border-radius-xl); }
+.rounded-pill { border-radius: var(--border-radius-pill); }
+
+/* Common utility classes */
+.full-width { width: 100%; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-left { text-align: left; }
+
+/* Margins */
+.mt-1 { margin-top: 8px; }
+.mt-2 { margin-top: 16px; }
+.mt-3 { margin-top: 24px; }
+.mt-4 { margin-top: 32px; }
+
+.mb-1 { margin-bottom: 8px; }
+.mb-2 { margin-bottom: 16px; }
+.mb-3 { margin-bottom: 24px; }
+.mb-4 { margin-bottom: 32px; }
+
+.ml-1 { margin-left: 8px; }
+.ml-2 { margin-left: 16px; }
+.ml-3 { margin-left: 24px; }
+
+.mr-1 { margin-right: 8px; }
+.mr-2 { margin-right: 16px; }
+.mr-3 { margin-right: 24px; }
+
+/* Padding */
+.p-1 { padding: 8px; }
+.p-2 { padding: 16px; }
+.p-3 { padding: 24px; }
+.p-4 { padding: 32px; }
+
+/* Display */
+.d-flex { display: flex; }
+.flex-column { flex-direction: column; }
+.justify-content-between { justify-content: space-between; }
+.justify-content-center { justify-content: center; }
+.justify-content-end { justify-content: flex-end; }
+.align-items-center { align-items: center; }
+.align-items-start { align-items: flex-start; }
+.align-items-end { align-items: flex-end; }
+
+/* Global Material overrides */
+
+/* Dialog Layout Fixes */
+.mat-mdc-dialog-container {
+  .mdc-dialog__surface {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .mat-mdc-dialog-content {
+    max-height: none !important;
+    padding: 0 !important;
+  }
+}
+
+/* Material Form Field Prefix/Suffix Padding Only */
+.mat-mdc-form-field {
+  // Only style prefix/suffix for better alignment
+  .mat-mdc-form-field-prefix,
+  .mat-mdc-form-field-suffix {
+    padding: 0 8px;
+  }
+}
+
+/* Custom scrollbar styles for dialogs */
+.custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f5f5f5;
+    border-radius: 5px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #d0d0d0;
+    border-radius: 5px;
+    
+    &:hover {
+      background: #b0b0b0;
+    }
+  }
+  
+  &::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+}
+
+// Include density styles (optional, default is 0)
+@include mat.core-density(-1); // Example: Make components slightly smaller

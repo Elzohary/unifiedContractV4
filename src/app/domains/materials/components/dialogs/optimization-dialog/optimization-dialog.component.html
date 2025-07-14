@@ -1,0 +1,98 @@
+<div class="optimization-dialog">
+  <h2 mat-dialog-title>
+    <mat-icon>optimize</mat-icon>
+    Material Optimization Suggestions
+  </h2>
+  
+  <mat-dialog-content>
+    <div class="work-order-info">
+      <h3>{{ data.workOrder.workOrderNumber }} - {{ data.workOrder.workOrderTitle }}</h3>
+      <p>Found {{ data.suggestions.length }} optimization opportunities</p>
+    </div>
+
+    <div class="suggestions-container" *ngIf="data.suggestions.length > 0; else noSuggestions">
+      <mat-card *ngFor="let suggestion of data.suggestions; let i = index" class="suggestion-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar [class]="getSuggestionIconClass(suggestion.type)">
+            {{ getSuggestionIcon(suggestion.type) }}
+          </mat-icon>
+          <mat-card-title>{{ suggestion.material }}</mat-card-title>
+          <mat-card-subtitle>
+            <mat-chip [color]="getPriorityColor(suggestion.priority)" selected>
+              {{ suggestion.type | titlecase }}
+            </mat-chip>
+          </mat-card-subtitle>
+        </mat-card-header>
+        
+        <mat-card-content>
+          <p class="suggestion-reason">{{ suggestion.reason }}</p>
+          
+          <div class="suggestion-details" *ngIf="suggestion.type === 'over-ordering'">
+            <div class="detail-row">
+              <span class="label">Current Quantity:</span>
+              <span class="value">{{ suggestion.currentQuantity }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Suggested Quantity:</span>
+              <span class="value highlight">{{ suggestion.suggestedQuantity }}</span>
+            </div>
+            <div class="detail-row" *ngIf="suggestion.potentialSavings">
+              <span class="label">Potential Savings:</span>
+              <span class="value savings">${{ suggestion.potentialSavings | number:'1.0-0' }}</span>
+            </div>
+          </div>
+
+          <div class="suggestion-details" *ngIf="suggestion.type === 'delivery-timing'">
+            <div class="detail-row">
+              <span class="label">Delivery Date:</span>
+              <span class="value">{{ suggestion.deliveryDate | date }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Work Order Start:</span>
+              <span class="value">{{ suggestion.workOrderStart | date }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Days Difference:</span>
+              <span class="value warning">{{ suggestion.daysDifference }} days</span>
+            </div>
+          </div>
+
+          <div class="suggestion-details" *ngIf="suggestion.type === 'missing-critical'">
+            <div class="detail-row">
+              <span class="label">Priority:</span>
+              <span class="value" [class]="'priority-' + suggestion.priority">{{ suggestion.priority | titlecase }}</span>
+            </div>
+          </div>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <mat-checkbox 
+            [(ngModel)]="selectedOptimizations[i]"
+            [disabled]="suggestion.type === 'missing-critical'">
+            Apply this optimization
+          </mat-checkbox>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <ng-template #noSuggestions>
+      <div class="no-suggestions">
+        <mat-icon>check_circle</mat-icon>
+        <h3>No Optimization Needed</h3>
+        <p>All materials are optimally allocated for this work order.</p>
+      </div>
+    </ng-template>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button 
+      mat-raised-button 
+      color="primary" 
+      [disabled]="!hasSelectedOptimizations()"
+      (click)="applyOptimizations()">
+      <mat-icon>check</mat-icon>
+      Apply Selected ({{ getSelectedCount() }})
+    </button>
+  </mat-dialog-actions>
+</div> 
