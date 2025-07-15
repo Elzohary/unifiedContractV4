@@ -60,7 +60,14 @@ export class SiteReportFormComponent {
       this.workOrder = data.workOrder;
     }
     this.foremanName = this.userService.getCurrentUserName();
-    this.materialOptions = (this.workOrder?.materials || []).map((m: materialAssignment) => {
+    this.materialOptions = (this.workOrder?.materials || []).filter((m: materialAssignment) => {
+      if (m.materialType === 'purchasable' && m.purchasableMaterial) {
+        return m.purchasableMaterial.status === 'in-use';
+      } else if (m.materialType === 'receivable' && m.receivableMaterial) {
+        return m.receivableMaterial.status === 'received';
+      }
+      return false;
+    }).map((m: materialAssignment) => {
       if (m.materialType === 'purchasable' && m.purchasableMaterial) {
         return { id: m.id, name: m.purchasableMaterial.name };
       } else if (m.materialType === 'receivable' && m.receivableMaterial) {
