@@ -35,7 +35,7 @@ import { MatButtonModule } from '@angular/material/button';
         <div class="summary-row work-done-row">
           <mat-icon class="icon">engineering</mat-icon>
           <span class="label">Work Done:</span>
-          <span class="value work-done-value">{{ data.report.workDone }}</span>
+          <span class="value work-done-value">{{ getWorkDoneName(data.report.workDone) }}</span>
         </div>
         <div class="summary-row" *ngIf="data.report.notes">
           <mat-icon class="icon">notes</mat-icon>
@@ -49,7 +49,7 @@ import { MatButtonModule } from '@angular/material/button';
         <table mat-table [dataSource]="[data.report]" class="mat-elevation-z1 work-done-table">
           <ng-container matColumnDef="workDone">
             <th mat-header-cell *matHeaderCellDef>Work Description</th>
-            <td mat-cell *matCellDef="let report">{{ report.workDone }}</td>
+            <td mat-cell *matCellDef="let report">{{ getWorkDoneName(report.workDone) }}</td>
           </ng-container>
           <ng-container matColumnDef="quantity">
             <th mat-header-cell *matHeaderCellDef>Quantity</th>
@@ -225,7 +225,14 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class SiteReportViewDialogComponent {
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { report: SiteReport },
+    @Inject(MAT_DIALOG_DATA) public data: { report: SiteReport, items?: any[] },
     public dialogRef: MatDialogRef<SiteReportViewDialogComponent>
   ) {}
+
+  getWorkDoneName(workDoneId: string): string {
+    if (!workDoneId) return '';
+    const items = this.data.items || [];
+    const item = items.find(i => i.id === workDoneId);
+    return item?.itemDetail?.shortDescription || item?.description || workDoneId;
+  }
 } 

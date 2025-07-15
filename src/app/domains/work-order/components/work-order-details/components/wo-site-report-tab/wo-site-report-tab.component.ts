@@ -64,7 +64,7 @@ export class WoSiteReportTabComponent implements OnInit, OnChanges {
   openReport(report: SiteReport) {
     this.dialog.open(SiteReportViewDialogComponent, {
       width: '500px',
-      data: { report }
+      data: { report, items: this.workOrder?.items || [] }
     });
   }
 
@@ -109,5 +109,14 @@ export class WoSiteReportTabComponent implements OnInit, OnChanges {
 
   getForemen(date: string): string[] {
     return Object.keys(this.groupedReports[date]);
+  }
+
+  // Add summary method for displaying a brief summary of the report
+  getReportSummary(report: SiteReport): string {
+    if (!this.workOrder?.items?.length) return '';
+    const item = this.workOrder.items.find(i => i.id === report.workDone);
+    const desc = item?.itemDetail?.shortDescription || report.workDone;
+    const qty = report.actualQuantity !== undefined ? `Qty: ${report.actualQuantity}` : '';
+    return `${desc}${qty ? ' | ' + qty : ''}`;
   }
 } 

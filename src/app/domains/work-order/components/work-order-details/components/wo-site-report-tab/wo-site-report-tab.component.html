@@ -26,6 +26,10 @@
                     <span class="foreman-name">{{ foremanGroup.foreman }}</span>
                     <span class="report-time">{{ report.createdAt ? (report.createdAt | date:'shortTime') : '' }}</span>
                   </div>
+                  <div class="report-summary" *ngIf="getReportSummary(report)">
+                    <span class="summary-label">Summary:</span>
+                    <span class="summary-value">{{ getReportSummary(report) }}</span>
+                  </div>
                   <div *ngIf="report.notes" class="report-notes">{{ report.notes }}</div>
                   <div *ngIf="report.materialsUsed?.length" class="report-materials">
                     <span>Materials:</span>
