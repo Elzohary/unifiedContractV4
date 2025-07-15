@@ -36,7 +36,9 @@
       <!-- Overview Tab -->
       <mat-tab label="Overview">
         <ng-template matTabContent>
-          <app-wo-overview-tab [workOrder]="workOrder" (permitsChanged)="onPermitsChanged($event)" (itemsChanged)="reloadWorkOrder(workOrder.id)"></app-wo-overview-tab>
+          <ng-container *ngIf="workOrder$ | async as workOrder">
+            <app-wo-overview-tab [workOrder]="workOrder" (permitsChanged)="onPermitsChanged($event)" (itemsChanged)="reloadWorkOrder(workOrder.id)"></app-wo-overview-tab>
+          </ng-container>
         </ng-template>
       </mat-tab>
 

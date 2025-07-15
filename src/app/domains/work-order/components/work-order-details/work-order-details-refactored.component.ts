@@ -324,6 +324,7 @@ export class WorkOrderDetailsRefactoredComponent implements OnInit, OnDestroy {
   }
 
   onSiteReportAdded(formValue: any) {
+    console.log('[DEBUG] onSiteReportAdded called with formValue:', formValue);
     if (this.currentWorkOrder && typeof this.currentWorkOrder === 'object') {
       // Construct a valid SiteReport object
       const newReport: SiteReport = {
@@ -331,7 +332,7 @@ export class WorkOrderDetailsRefactoredComponent implements OnInit, OnDestroy {
         workOrderId: this.currentWorkOrder.id,
         foremanId: 'currentUserId', // TODO: Replace with actual user ID from auth
         foremanName: formValue.foremanName,
-        workDone: formValue.workDone === 'other' ? formValue.workDoneOther : (this.currentWorkOrder.items.find((item: any) => item.id === formValue.workDone)?.itemDetail.shortDescription || ''),
+        workDone: formValue.workDone === 'other' ? formValue.workDoneOther : formValue.workDone, // Always use item id
         actualQuantity: typeof formValue.actualQuantity === 'number' ? formValue.actualQuantity : undefined,
         date: formValue.date,
         materialsUsed: (formValue.materialsUsed || []).map((m: any) => {
@@ -356,15 +357,88 @@ export class WorkOrderDetailsRefactoredComponent implements OnInit, OnDestroy {
         createdAt: new Date()
       };
 
-      // Update actualQuantity if workDone is a valid item
-      let updatedItems = Array.isArray(this.currentWorkOrder.items) ? [...this.currentWorkOrder.items] : [];
-      if (formValue.workDone && formValue.workDone !== 'other' && typeof formValue.actualQuantity === 'number') {
-        const itemIndex = updatedItems.findIndex(item => item.id === formValue.workDone);
-        if (itemIndex !== -1) {
-          updatedItems[itemIndex] = {
-            ...updatedItems[itemIndex],
-            actualQuantity: formValue.actualQuantity
-          };
+      // Update actualQuantity for the relevant item (add to existing value)
+      if (this.currentWorkOrder.items && formValue.workDone && formValue.actualQuantity != null && formValue.workDone !== 'other') {
+        const items = this.currentWorkOrder.items.map(item => {
+          if (item.id === formValue.workDone) {
+            const newActualQty = (item.actualQuantity || 0) + formValue.actualQuantity;
+            return { ...item, actualQuantity: newActualQty };
+          }
+          return { ...item };
+        });
+        this.currentWorkOrder.items = items;
+      }
+
+      // Update materials used quantities and status
+      let updatedMaterials = Array.isArray(this.currentWorkOrder.materials) ? [...this.currentWorkOrder.materials] : [];
+      for (const used of newReport.materialsUsed) {
+        const matIndex = updatedMaterials.findIndex(mat => mat.id === used.materialId);
+        if (matIndex !== -1) {
+          const mat = updatedMaterials[matIndex];
+          if (mat.materialType === 'receivable' && mat.receivableMaterial) {
+            // Increment actualQuantity and update status if needed
+            const prevQty = mat.receivableMaterial.actualQuantity || 0;
+            const newQty = prevQty + used.quantity;
+            const estimatedQty = mat.receivableMaterial.estimatedQuantity || 1;
+            updatedMaterials[matIndex] = {
+              ...mat,
+              receivableMaterial: {
+                ...mat.receivableMaterial,
+                actualQuantity: newQty,
+                status: newQty >= estimatedQty ? 'used' : 'received',
+                usageRecords: [
+                  ...(mat.receivableMaterial.usageRecords || []),
+                  {
+                    id: `usage_${Date.now()}`,
+                    recordType: 'usage-update',
+                    recordDate: new Date(),
+                    recordedBy: 'Current User',
+                    recordedByName: formValue.foremanName,
+                    quantityUsed: used.quantity,
+                    cumulativeQuantityUsed: newQty,
+                    usagePercentage: Math.round((newQty / estimatedQty) * 100),
+                    remainingQuantity: Math.max(0, estimatedQty - newQty),
+                    usageNotes: formValue.notes || ''
+                  }
+                ]
+              }
+            };
+          } else if (mat.materialType === 'purchasable' && mat.purchasableMaterial) {
+            // Add a siteUsageRecord and update legacy field
+            const prevQty = mat.purchasableMaterial.siteUsage?.actualQuantityUsed || 0;
+            const estimatedQty = mat.purchasableMaterial.quantity || 1;
+            const newQty = prevQty + used.quantity;
+            updatedMaterials[matIndex] = {
+              ...mat,
+              purchasableMaterial: {
+                ...mat.purchasableMaterial,
+                siteUsageRecords: [
+                  ...(mat.purchasableMaterial.siteUsageRecords || []),
+                  {
+                    id: `usage_${Date.now()}`,
+                    recordType: 'usage-update',
+                    recordDate: new Date(),
+                    recordedBy: 'Current User',
+                    recordedByName: formValue.foremanName,
+                    quantityUsed: used.quantity,
+                    cumulativeQuantityUsed: newQty,
+                    usagePercentage: Math.round((newQty / estimatedQty) * 100),
+                    remainingQuantity: Math.max(0, estimatedQty - newQty),
+                    usageNotes: formValue.notes || ''
+                  }
+                ],
+                siteUsage: {
+                  issuedToSite: mat.purchasableMaterial.siteUsage?.issuedToSite ?? false,
+                  ...(mat.purchasableMaterial.siteUsage || {}),
+                  actualQuantityUsed: newQty,
+                  usagePercentage: Math.round((newQty / estimatedQty) * 100),
+                  usageCompletedDate: new Date(),
+                  usageNotes: formValue.notes || ''
+                },
+                status: newQty >= estimatedQty ? 'used' : 'in-use'
+              }
+            };
+          }
         }
       }
 
@@ -375,38 +449,58 @@ export class WorkOrderDetailsRefactoredComponent implements OnInit, OnDestroy {
       const updatedWorkOrder = {
         ...this.currentWorkOrder,
         siteReports,
-        items: updatedItems
+        items: this.currentWorkOrder.items, // Keep the new items array
+        materials: updatedMaterials
       };
       console.log('[DEBUG] Submitting updatedWorkOrder with siteReports:', updatedWorkOrder.siteReports);
-      this.workOrderDetailsViewModel.updateWorkOrder(updatedWorkOrder);
+      this.workOrderDetailsViewModel.updateWorkOrder(updatedWorkOrder).subscribe({
+        next: (wo) => {
+          if (wo && wo.id) {
+            this.workOrderDetailsViewModel.loadWorkOrderDetails(wo.id);
+          }
+        },
+        error: () => {
+          this.handleError('Failed to update work order after adding site report.');
+        }
+      });
     }
   }
 
   onSiteReportDeleted(deletedReport: SiteReport) {
-    if (this.currentWorkOrder && typeof this.currentWorkOrder === 'object') {
-      const siteReports: SiteReport[] = Array.isArray(this.currentWorkOrder.siteReports)
-        ? (this.currentWorkOrder.siteReports as SiteReport[]).filter((r: SiteReport) => r.id !== deletedReport.id)
-        : [];
-      const updatedItems = Array.isArray(this.currentWorkOrder.items) ? [...this.currentWorkOrder.items] : [];
-      // If the deleted report is linked to a work order item, reset its actualQuantity
-      if ((deletedReport as unknown as { workDone?: string }).workDone && (deletedReport as unknown as { workDone?: string }).workDone !== 'other') {
-        const workDoneId = (deletedReport as unknown as { workDone?: string }).workDone;
-        const itemIndex = updatedItems.findIndex((item: { id: string }) => item.id === workDoneId);
-        if (itemIndex !== -1) {
-          updatedItems[itemIndex] = {
-            ...updatedItems[itemIndex],
-            actualQuantity: 0
-          };
+    if (!this.currentWorkOrder) return;
+    // Remove the report from siteReports
+    const siteReports = Array.isArray(this.currentWorkOrder.siteReports)
+      ? this.currentWorkOrder.siteReports.filter(r => r.id !== deletedReport.id)
+      : [];
+    this.currentWorkOrder.siteReports = siteReports;
+    // Recalculate actualQuantity for all items based on all siteReports
+    if (Array.isArray(this.currentWorkOrder.items)) {
+      const itemActualQtyMap: { [itemId: string]: number } = {};
+      siteReports.forEach(report => {
+        if (report.workDone && typeof report.actualQuantity === 'number' && report.workDone !== 'other') {
+          itemActualQtyMap[report.workDone] = (itemActualQtyMap[report.workDone] || 0) + report.actualQuantity;
         }
-      }
-      const updatedWorkOrder = {
-        ...this.currentWorkOrder,
-        siteReports,
-        items: updatedItems
-      };
-      console.log('[DEBUG] Deleting report, submitting updatedWorkOrder with siteReports:', updatedWorkOrder.siteReports);
-      this.workOrderDetailsViewModel.updateWorkOrder(updatedWorkOrder);
+      });
+      const items = this.currentWorkOrder.items.map(item => {
+        return { ...item, actualQuantity: itemActualQtyMap[item.id] || 0 };
+      });
+      this.currentWorkOrder.items = items;
     }
+    const updatedWorkOrder = {
+      ...this.currentWorkOrder,
+      siteReports,
+      items: this.currentWorkOrder.items
+    };
+    this.workOrderDetailsViewModel.updateWorkOrder(updatedWorkOrder).subscribe({
+      next: (wo) => {
+        if (wo && wo.id) {
+          this.workOrderDetailsViewModel.loadWorkOrderDetails(wo.id);
+        }
+      },
+      error: () => {
+        this.handleError('Failed to update work order after deleting site report.');
+      }
+    });
   }
 
   /**

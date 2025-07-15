@@ -84,6 +84,27 @@ export class SiteReportFormComponent {
       materialsUsed: this.fb.array([]),
       photos: this.fb.array([])
     });
+
+    // Add conditional validator for actualQuantity
+    this.form.get('workDone')?.valueChanges.subscribe((val) => {
+      const actualQuantityControl = this.form.get('actualQuantity');
+      if (val && val !== 'other') {
+        actualQuantityControl?.setValidators([Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]+)?$')]);
+      } else {
+        actualQuantityControl?.clearValidators();
+      }
+      actualQuantityControl?.updateValueAndValidity();
+    });
+
+    // Ensure actualQuantity is always a number
+    this.form.get('actualQuantity')?.valueChanges.subscribe((val) => {
+      if (val && typeof val === 'string') {
+        const numVal = Number(val);
+        if (!isNaN(numVal)) {
+          this.form.patchValue({ actualQuantity: numVal }, { emitEvent: false });
+        }
+      }
+    });
   }
 
   get materialsUsed(): FormArray {
@@ -118,7 +139,17 @@ export class SiteReportFormComponent {
 
   onSubmit() {
     if (this.form.valid) {
-      const value = this.form.getRawValue();
+      const rawValue = this.form.getRawValue();
+      console.log('[DEBUG] Form raw value:', rawValue);
+      
+      // Convert actualQuantity to number if it exists
+      const value = {
+        ...rawValue,
+        actualQuantity: rawValue.actualQuantity ? Number(rawValue.actualQuantity) : null
+      };
+      
+      console.log('[DEBUG] Processed value:', value);
+      
       setTimeout(() => {
         // Prepare updated items if needed
         let updatedItems = [...this.workOrder.items];

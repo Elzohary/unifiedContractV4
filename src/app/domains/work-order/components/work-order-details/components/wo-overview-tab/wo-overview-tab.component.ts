@@ -62,6 +62,7 @@ export class WoOverviewTabComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['workOrder']) {
+      console.log('[DEBUG] WoOverviewTabComponent received new workOrder:', changes['workOrder'].currentValue);
       this.cdr.markForCheck();
     }
   }
