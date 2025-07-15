@@ -177,7 +177,17 @@ export class MockDatabaseService {
   // Deep merge utility for objects and arrays
   private deepMerge(target: any, source: any): any {
     if (Array.isArray(target) && Array.isArray(source)) {
-      return [...target, ...source.filter((s: any) => !target.some((t: any) => t.id === s.id))];
+      // Replace objects with the same id, otherwise append
+      const merged = [...target];
+      source.forEach((s: any) => {
+        const idx = merged.findIndex((t: any) => t.id === s.id);
+        if (idx !== -1) {
+          merged[idx] = this.deepMerge(merged[idx], s);
+        } else {
+          merged.push(s);
+        }
+      });
+      return merged;
     } else if (typeof target === 'object' && typeof source === 'object') {
       const merged: any = { ...target };
       for (const key of Object.keys(source)) {
