@@ -42,14 +42,18 @@ export class WoSiteReportTabComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {}
 
   openSampleFormDialog() {
-    this.dialog.open(SiteReportFormComponent, {
-      width: '600px',
-      data: { workOrder: this.workOrder }
-    }).afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Sample form submitted', result);
-        this.updated.emit(result); // FIX: Emit event so parent can update SSOT
-      }
+    if (!this.workOrder?.id) return;
+    this.workOrderService.getWorkOrderById(this.workOrder.id).subscribe((latestWorkOrder) => {
+      if (!latestWorkOrder) return;
+      this.dialog.open(SiteReportFormComponent, {
+        width: '600px',
+        data: { workOrder: latestWorkOrder }
+      }).afterClosed().subscribe(result => {
+        if (result) {
+          console.log('Sample form submitted', result);
+          this.updated.emit(result);
+        }
+      });
     });
   }
 
