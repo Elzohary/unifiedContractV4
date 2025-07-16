@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, Input, Output, Optional } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, Output, Optional, AfterViewInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormArray } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -19,6 +19,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UserService } from '../../../../../../shared/services/user.service';
 import { WorkOrderService } from '../../../../services/work-order.service';
 import { Pipe, PipeTransform } from '@angular/core';
+import { MatStepper } from '@angular/material/stepper';
 
 @Pipe({ name: 'workDoneLabel', standalone: true })
 export class WorkDoneLabelPipe implements PipeTransform {
@@ -63,10 +64,10 @@ class HousekeepingPhotosArray extends Array<any> {
     MaterialNamePipe
   ]
 })
-export class SiteReportFormComponent {
+export class SiteReportFormComponent implements AfterViewInit {
   @Input() workOrder!: WorkOrder;
   @Output() submitted = new EventEmitter<any>();
-  @Output() updated = new EventEmitter<void>();
+  @Output() updated = new EventEmitter<any>();
   @Output() reportDeleted = new EventEmitter<{ workDoneId: string }>();
 
   form: FormGroup;
@@ -82,15 +83,21 @@ export class SiteReportFormComponent {
   safetyPhotos: any[] = [];
   housekeepingPhotos = new HousekeepingPhotosArray();
   progressPhotosList: File[] = [];
+  @ViewChild('stepper') stepper!: MatStepper;
+  startStep: number = 0;
   constructor(
     private fb: FormBuilder,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
     @Optional() private dialogRef: MatDialogRef<SiteReportFormComponent>,
     private userService: UserService,
-    private workOrderService: WorkOrderService
+    private workOrderService: WorkOrderService,
+    private cdr: ChangeDetectorRef
   ) {
     if (data && data.workOrder) {
       this.workOrder = data.workOrder;
+    }
+    if (data && typeof data.startStep === 'number') {
+      this.startStep = data.startStep;
     }
     this.foremanName = this.userService.getCurrentUserName();
     // Debug: Log all materials and filtered options
@@ -161,31 +168,93 @@ export class SiteReportFormComponent {
       }
     });
     this.housekeepingPhotos = new HousekeepingPhotosArray();
+
+    // If editing an existing report, pre-fill all form groups
+    if (data && data.report) {
+      const report = data.report;
+      // Step 1: Safety Photos
+      this.safetyPhotos = (report.photos || []).filter((p: any) => p.category === 'safety').map((p: any) => ({ ...p, preview: p.url }));
+      this.step1FormGroup.get('safetyPhotos')?.setValue(this.safetyPhotos);
+      // Step 2: Work Done, Materials, Progress Photos
+      this.step2FormGroup.patchValue({
+        workDone: report.workDone,
+        workDoneOther: report.workDoneOther || '',
+        actualQuantity: report.actualQuantity,
+        notes: report.notes || '',
+        progressPhotos: (report.photos || []).filter((p: any) => p.category === 'progress').map((p: any) => ({ ...p, preview: p.url }))
+      });
+      this.progressPhotosList = (report.photos || []).filter((p: any) => p.category === 'progress').map((p: any) => ({ ...p, preview: p.url }));
+      // Materials Used
+      const materialsArray = this.step2FormGroup.get('materialsUsed') as FormArray;
+      materialsArray.clear();
+      (report.materialsUsed || []).forEach((m: any) => {
+        materialsArray.push(this.fb.group({
+          materialId: m.materialId,
+          quantity: m.quantity
+        }));
+      });
+      // Step 3: Housekeeping Photos
+      this.housekeepingPhotos = new HousekeepingPhotosArray(...((report.photos || []).filter((p: any) => p.category === 'housekeeping').map((p: any) => ({ ...p, preview: p.url }))));
+      this.step3FormGroup.get('housekeepingPhotos')?.setValue(this.housekeepingPhotos);
+      // Main form
+      this.form.patchValue({
+        date: report.date ? new Date(report.date) : new Date(),
+        foremanName: report.foremanName || this.foremanName
+      });
+    }
+  }
+
+  ngAfterViewInit() {
+    if (this.stepper && typeof this.startStep === 'number') {
+      setTimeout(() => {
+        this.stepper.selectedIndex = this.startStep;
+        this.cdr.detectChanges();
+      });
+    }
+    // Debug logs for dropdowns
+    console.log('[DEBUG] workDoneOptions:', this.workDoneOptions);
+    console.log('[DEBUG] materialOptions:', this.materialOptions);
   }
 
   onSafetyPhotosChange(event: File[]) {
-    this.safetyPhotos = event;
-    this.step1FormGroup.get('safetyPhotos')?.setValue(event);
+    // Always update both the local array and the form control
+    this.safetyPhotos = Array.isArray(event) ? [...event] : [];
+    this.step1FormGroup.get('safetyPhotos')?.setValue(this.safetyPhotos);
     this.step1FormGroup.get('safetyPhotos')?.markAsTouched();
     this.step1FormGroup.get('safetyPhotos')?.updateValueAndValidity();
     console.log('[DEBUG] onSafetyPhotosChange event:', event);
+    console.log('[DEBUG] safetyPhotos local:', this.safetyPhotos);
     console.log('[DEBUG] safetyPhotos form value:', this.step1FormGroup.get('safetyPhotos')?.value);
     console.log('[DEBUG] safetyPhotos form valid:', this.step1FormGroup.get('safetyPhotos')?.valid);
   }
+
   onHousekeepingPhotosChange(event: File[]) {
-    this.housekeepingPhotos = new HousekeepingPhotosArray(...event);
-    this.step3FormGroup.get('housekeepingPhotos')?.setValue(this.housekeepingPhotos);
+    this.housekeepingPhotos = Array.isArray(event) ? new HousekeepingPhotosArray(...event) : new HousekeepingPhotosArray();
+    this.step3FormGroup.get('housekeepingPhotos')?.setValue([...event]);
     this.step3FormGroup.get('housekeepingPhotos')?.markAsTouched();
     this.step3FormGroup.get('housekeepingPhotos')?.updateValueAndValidity();
+    console.log('[DEBUG] onHousekeepingPhotosChange event:', event);
+    console.log('[DEBUG] housekeepingPhotos local:', this.housekeepingPhotos);
+    console.log('[DEBUG] housekeepingPhotos form value:', this.step3FormGroup.get('housekeepingPhotos')?.value);
+    console.log('[DEBUG] housekeepingPhotos form valid:', this.step3FormGroup.get('housekeepingPhotos')?.valid);
   }
+
   onProgressPhotosChange(event: File[]) {
-    this.progressPhotosList = event;
-    this.step2FormGroup.get('progressPhotos')?.setValue(event);
+    this.progressPhotosList = Array.isArray(event) ? [...event] : [];
+    this.step2FormGroup.get('progressPhotos')?.setValue(this.progressPhotosList);
     this.step2FormGroup.get('progressPhotos')?.markAsTouched();
     this.step2FormGroup.get('progressPhotos')?.updateValueAndValidity();
+    console.log('[DEBUG] onProgressPhotosChange event:', event);
+    console.log('[DEBUG] progressPhotosList local:', this.progressPhotosList);
+    console.log('[DEBUG] progressPhotos form value:', this.step2FormGroup.get('progressPhotos')?.value);
+    console.log('[DEBUG] progressPhotos form valid:', this.step2FormGroup.get('progressPhotos')?.valid);
   }
-  saveReport(status: any) {
-    this.onSubmit();
+  saveReport(status: 'Open' | 'Closed', shouldCloseDialog: boolean = true) {
+    let currentStep = 0;
+    if (this.stepper) {
+      currentStep = this.stepper.selectedIndex;
+    }
+    this.onSubmit(status, currentStep, shouldCloseDialog);
   }
   SiteReportStatus = { Open: 'Open', Closed: 'Closed' };
 
@@ -224,22 +293,52 @@ export class SiteReportFormComponent {
     this.photos.removeAt(i);
   }
 
-  onSubmit() {
-    if (this.step2FormGroup.valid) { // Validate the step2 form
+  onSubmit(statusOverride?: 'Open' | 'Closed', currentStep?: number, shouldCloseDialog: boolean = true) {
+    // Determine which form group to validate
+    let valid = false;
+    if (typeof currentStep === 'number') {
+      if (currentStep === 0) valid = this.step1FormGroup.valid;
+      else if (currentStep === 1) valid = this.step2FormGroup.valid;
+      else if (currentStep === 2) valid = this.step3FormGroup.valid;
+      else valid = this.step2FormGroup.valid;
+    } else {
+      valid = this.step2FormGroup.valid;
+    }
+    if (valid) {
+      // Use the same logic as before, but only require the current step to be valid
       const rawValue = this.step2FormGroup.getRawValue();
-      console.log('[DEBUG] Step 2 Form raw value:', rawValue);
+      // Merge all photo types into a single array with category
+      const safetyPhotos = (this.step1FormGroup.get('safetyPhotos')?.value || []).map((file: any) => ({
+        url: file.url || file,
+        caption: file.caption || '',
+        category: 'safety'
+      }));
+      const progressPhotos = (this.step2FormGroup.get('progressPhotos')?.value || []).map((file: any) => ({
+        url: file.url || file,
+        caption: file.caption || '',
+        category: 'progress'
+      }));
+      const housekeepingPhotos = (this.step3FormGroup.get('housekeepingPhotos')?.value || []).map((file: any) => ({
+        url: file.url || file,
+        caption: file.caption || '',
+        category: 'housekeeping'
+      }));
+      const allPhotos = [...safetyPhotos, ...progressPhotos, ...housekeepingPhotos];
       // Convert actualQuantity to number if it exists
-      const value = {
+      const value: any = {
         ...rawValue,
         actualQuantity: rawValue.actualQuantity ? Number(rawValue.actualQuantity) : null,
         date: new Date().toISOString(),
-        foremanName: this.foremanName || 'Foreman'
+        foremanName: this.foremanName || 'Foreman',
+        photos: allPhotos,
+        status: statusOverride === 'Open' ? this.SiteReportStatus.Open : this.SiteReportStatus.Closed
       };
-      
-      console.log('[DEBUG] Processed value:', value);
-      
+      // If editing, include the report id
+      if (this.data && this.data.report && this.data.report.id) {
+        value.id = this.data.report.id;
+      }
+      console.log('[DEBUG] Emitting updated report value:', value);
       setTimeout(() => {
-        // Prepare updated items if needed
         let updatedItems = [...this.workOrder.items];
         if (value.workDone && value.workDone !== 'other') {
           const itemIndex = updatedItems.findIndex((item: any) => item.id === value.workDone);
@@ -250,16 +349,37 @@ export class SiteReportFormComponent {
             };
           }
         }
-        this.updated.emit(value); // Pass the new report to the parent
-        if (this.dialogRef) {
+        this.updated.emit(value); // Always emit the report object for update
+        if (shouldCloseDialog && this.dialogRef) {
           this.dialogRef.close(value);
+        } else if (!shouldCloseDialog) {
+          // Do not close dialog, just emit update
         } else {
           this.submitted.emit(value);
         }
-        this.step2FormGroup.reset({ date: new Date(), foremanName: this.foremanName });
-        this.materialsUsed.clear();
-        this.photos.clear();
+        // Properly reset all photo arrays and FormArrays only if closing dialog
+        if (shouldCloseDialog) {
+          this.step1FormGroup.get('safetyPhotos')?.setValue([]);
+          this.safetyPhotos = [];
+          this.step2FormGroup.get('progressPhotos')?.setValue([]);
+          this.progressPhotosList = [];
+          this.step3FormGroup.get('housekeepingPhotos')?.setValue([]);
+          this.housekeepingPhotos = new HousekeepingPhotosArray();
+          const materialsArray = this.step2FormGroup.get('materialsUsed') as FormArray;
+          materialsArray?.clear();
+        }
+        // Remove invalid this.photos.clear();
       });
+    }
+  }
+
+  // Auto-save draft and move to next step for progress photos step
+  autoSaveAndNext() {
+    if (this.step2FormGroup.valid) {
+      this.saveReport('Open', false); // Do not close dialog
+      if (this.stepper) {
+        setTimeout(() => this.stepper.next(), 0);
+      }
     }
   }
 

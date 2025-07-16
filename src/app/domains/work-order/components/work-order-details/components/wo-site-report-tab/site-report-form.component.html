@@ -1,60 +1,58 @@
 <mat-card class="site-report-form-card">
-  <form [formGroup]="form">
-    <mat-horizontal-stepper linear #stepper>
+  <mat-horizontal-stepper linear #stepper>
       <!-- Step 1: Safety Photos -->
       <mat-step [stepControl]="step1FormGroup">
-        <form [formGroup]="step1FormGroup">
-          <ng-template matStepLabel>Site Safety Photos</ng-template>
-          <div class="step1-content">
-            <div class="step-header">Upload Site Safety Photos</div>
-            <div class="upload-card">
-              <app-photo-upload
-                [existingFiles]="safetyPhotos"
-                (filesChange)="onSafetyPhotosChange($event)"
-                [multiple]="true"
-                [required]="true">
-              </app-photo-upload>
-            </div>
-            <div class="step1-actions">
-              <button mat-flat-button color="accent" (click)="stepper.next()" [disabled]="!step1FormGroup.valid">Next</button>
-            </div>
+        <ng-template matStepLabel>Site Safety Photos</ng-template>
+        <div class="step1-content" [formGroup]="step1FormGroup">
+          <div class="step-header">Upload Site Safety Photos</div>
+          <div class="upload-card">
+            <app-photo-upload
+              [existingFiles]="safetyPhotos"
+              (filesChange)="onSafetyPhotosChange($event)"
+              [multiple]="true"
+              [required]="true">
+            </app-photo-upload>
           </div>
+          <div class="step1-actions" style="width: 100%; display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; max-width: 420px;">
+            <button mat-flat-button color="primary" (click)="saveReport('Open')" [disabled]="!step1FormGroup.valid">Save (Keep Open)</button>
+            <button mat-flat-button color="accent" (click)="stepper.next()" [disabled]="!step1FormGroup.valid">Next</button>
+          </div>
+        </div>
 
-          <style>
-            .step1-content {
-              padding-top: 24px;
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              gap: 24px;
-            }
-            .step-header {
-              font-size: 1.1rem;
-              font-weight: 500;
-              margin-bottom: 16px;
-              align-self: flex-start;
-            }
-            .upload-card {
-              width: 100%;
-              max-width: 420px;
-              margin: 0 auto;
-            }
-            .step1-actions {
-              width: 100%;
-              display: flex;
-              justify-content: flex-end;
-              margin-top: 8px;
-              max-width: 420px;
-            }
-          </style>
-        </form>
+        <style>
+          .step1-content {
+            padding-top: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+          }
+          .step-header {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 16px;
+            align-self: flex-start;
+          }
+          .upload-card {
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
+          }
+          .step1-actions {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 8px;
+            max-width: 420px;
+          }
+        </style>
       </mat-step>
 
       <!-- Step 2: Work Done, Materials, Progress Photos -->
       <mat-step [stepControl]="step2FormGroup">
         <ng-template matStepLabel>Work Done & Materials</ng-template>
         <div class="step2-scroll">
-          <form [formGroup]="step2FormGroup" class="step2-form">
+          <div class="step2-form" [formGroup]="step2FormGroup">
             <div class="step-section">
               <mat-form-field appearance="fill" class="full-width">
                 <mat-label>Work Done *</mat-label>
@@ -113,10 +111,10 @@
             <!-- Action Buttons -->
             <div class="action-row">
               <button mat-stroked-button color="primary" (click)="stepper.previous()">Back</button>
-              <button mat-flat-button color="primary" (click)="saveReport('open')" [disabled]="!step2FormGroup.valid">Save (Keep Open)</button>
-              <button mat-flat-button color="accent" (click)="stepper.next()" [disabled]="!step2FormGroup.valid">Next</button>
+              <button mat-flat-button color="primary" (click)="saveReport('Open')" [disabled]="!step2FormGroup.valid">Save (Keep Open)</button>
+              <button mat-flat-button color="accent" (click)="autoSaveAndNext()" [disabled]="!step2FormGroup.valid">Next</button>
             </div>
-          </form>
+          </div>
         </div>
         <style>
           .step2-scroll {
@@ -165,58 +163,56 @@
 
       <!-- Step 3: Housekeeping Photos -->
       <mat-step [stepControl]="step3FormGroup">
-        <form [formGroup]="step3FormGroup">
-          <ng-template matStepLabel>Site Housekeeping</ng-template>
-          <div class="step3-content">
-            <div class="step-header">Upload Housekeeping Photos <span class="required">*</span></div>
-            <div class="upload-card">
-              <app-photo-upload
-                [required]="true"
-                [multiple]="true"
-                (filesChange)="onHousekeepingPhotosChange($event)"
-                [existingFiles]="housekeepingPhotos"
-                [disabled]="step3FormGroup.disabled"
-                [ngClass]="{'mat-form-field-invalid': step3FormGroup.get('housekeepingPhotos')?.invalid && (step3FormGroup.get('housekeepingPhotos')?.touched || step3FormGroup.get('housekeepingPhotos')?.dirty)}"
-              ></app-photo-upload>
-              <mat-error *ngIf="step3FormGroup.get('housekeepingPhotos')?.invalid && (step3FormGroup.get('housekeepingPhotos')?.touched || step3FormGroup.get('housekeepingPhotos')?.dirty)">
-                Housekeeping photos are required.
-              </mat-error>
-            </div>
-            <div class="step3-actions">
-              <button mat-stroked-button color="primary" (click)="stepper.previous()">Back</button>
-              <button mat-flat-button color="primary" (click)="saveReport(SiteReportStatus.Closed)" [disabled]="housekeepingPhotos.length === 0 || housekeepingPhotos.invalid">Save & Close Report</button>
-              <button mat-flat-button color="accent" (click)="stepper.next()" [disabled]="housekeepingPhotos.length === 0 || housekeepingPhotos.invalid">Next</button>
-            </div>
+        <ng-template matStepLabel>Site Housekeeping</ng-template>
+        <div class="step3-content" [formGroup]="step3FormGroup">
+          <div class="step-header">Upload Housekeeping Photos <span class="required">*</span></div>
+          <div class="upload-card">
+            <app-photo-upload
+              [required]="true"
+              [multiple]="true"
+              (filesChange)="onHousekeepingPhotosChange($event)"
+              [existingFiles]="housekeepingPhotos"
+              [disabled]="step3FormGroup.disabled"
+              [ngClass]="{'mat-form-field-invalid': step3FormGroup.get('housekeepingPhotos')?.invalid && (step3FormGroup.get('housekeepingPhotos')?.touched || step3FormGroup.get('housekeepingPhotos')?.dirty)}"
+            ></app-photo-upload>
+            <mat-error *ngIf="step3FormGroup.get('housekeepingPhotos')?.invalid && (step3FormGroup.get('housekeepingPhotos')?.touched || step3FormGroup.get('housekeepingPhotos')?.dirty)">
+              Housekeeping photos are required.
+            </mat-error>
           </div>
-          <style>
-            .step3-content {
-              padding-top: 24px;
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              gap: 24px;
-            }
-            .step-header {
-              font-size: 1.1rem;
-              font-weight: 500;
-              margin-bottom: 16px;
-              align-self: flex-start;
-            }
-            .upload-card {
-              width: 100%;
-              max-width: 420px;
-              margin: 0 auto;
-            }
-            .step3-actions {
-              width: 100%;
-              display: flex;
-              justify-content: flex-end;
-              margin-top: 8px;
-              max-width: 420px;
-              gap: 8px;
-            }
-          </style>
-        </form>
+          <div class="step3-actions">
+            <button mat-stroked-button color="primary" (click)="stepper.previous()">Back</button>
+            <button mat-flat-button color="primary" (click)="saveReport('Closed')" [disabled]="housekeepingPhotos.length === 0 || housekeepingPhotos.invalid">Save & Close Report</button>
+            <button mat-flat-button color="accent" (click)="stepper.next()" [disabled]="housekeepingPhotos.length === 0 || housekeepingPhotos.invalid">Next</button>
+          </div>
+        </div>
+        <style>
+          .step3-content {
+            padding-top: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+          }
+          .step-header {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 16px;
+            align-self: flex-start;
+          }
+          .upload-card {
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
+          }
+          .step3-actions {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 8px;
+            max-width: 420px;
+            gap: 8px;
+          }
+        </style>
       </mat-step>
 
       <!-- Step 4: Review & Submit -->
@@ -243,7 +239,7 @@
           </div>
           <div class="step4-actions">
             <button mat-stroked-button color="primary" (click)="stepper.previous()">Back</button>
-            <button mat-flat-button color="primary" (click)="saveReport(SiteReportStatus.Closed)">Submit Report</button>
+            <button mat-flat-button color="primary" (click)="saveReport('Closed')">Submit Report</button>
           </div>
         </div>
         <style>
@@ -286,5 +282,4 @@
         </style>
       </mat-step>
     </mat-horizontal-stepper>
-  </form>
-</mat-card> 
+  </mat-card> 

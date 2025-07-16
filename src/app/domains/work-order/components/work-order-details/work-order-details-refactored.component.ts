@@ -332,12 +332,11 @@ export class WorkOrderDetailsRefactoredComponent implements OnInit, OnDestroy {
         workOrderId: this.currentWorkOrder.id,
         foremanId: 'currentUserId', // TODO: Replace with actual user ID from auth
         foremanName: formValue.foremanName,
-        status: SiteReportStatus.Open, // <-- Added required status property
+        status: formValue.status || SiteReportStatus.Open, // Use status from formValue
         workDone: formValue.workDone === 'other' ? formValue.workDoneOther : formValue.workDone, // Always use item id
         actualQuantity: typeof formValue.actualQuantity === 'number' ? formValue.actualQuantity : undefined,
         date: formValue.date,
         materialsUsed: (formValue.materialsUsed || []).map((m: any) => {
-          // Lookup material name from workOrder.materials
           let materialName = 'Unknown';
           const mat = (this.currentWorkOrder!.materials || []).find((mat: any) => mat.id === m.materialId);
           if (mat) {
@@ -352,7 +351,8 @@ export class WorkOrderDetailsRefactoredComponent implements OnInit, OnDestroy {
         photos: (formValue.photos || []).map((p: any) => ({
           id: typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(),
           url: p.url,
-          caption: p.caption
+          caption: p.caption || '',
+          category: p.category || 'progress'
         })),
         notes: formValue.notes,
         createdAt: new Date()
@@ -368,6 +368,13 @@ export class WorkOrderDetailsRefactoredComponent implements OnInit, OnDestroy {
           return { ...item };
         });
         this.currentWorkOrder.items = items;
+        // Ensure the overview tab gets the updated workOrder (wait for backend)
+        this.workOrderDetailsViewModel.updateWorkOrder(this.currentWorkOrder).subscribe(() => {
+          // Reload from backend to ensure UI is up to date
+          if (this.currentWorkOrder && this.currentWorkOrder.id) {
+            this.workOrderDetailsViewModel.loadWorkOrderDetails(this.currentWorkOrder.id);
+          }
+        });
       }
 
       // Update materials used quantities and status
@@ -443,10 +450,17 @@ export class WorkOrderDetailsRefactoredComponent implements OnInit, OnDestroy {
         }
       }
 
-      const siteReports: SiteReport[] = Array.isArray(this.currentWorkOrder.siteReports)
-        ? [...this.currentWorkOrder.siteReports, newReport]
-        : [newReport];
-
+      // Update or add the report
+      let siteReports: SiteReport[] = Array.isArray(this.currentWorkOrder.siteReports)
+        ? [...this.currentWorkOrder.siteReports]
+        : [];
+      const existingIndex = siteReports.findIndex(r => r.id === formValue.id);
+      if (formValue.id && existingIndex !== -1) {
+        // Update existing report in-place
+        siteReports[existingIndex] = { ...newReport, id: formValue.id };
+      } else {
+        siteReports = [...siteReports, newReport];
+      }
       const updatedWorkOrder = {
         ...this.currentWorkOrder,
         siteReports,

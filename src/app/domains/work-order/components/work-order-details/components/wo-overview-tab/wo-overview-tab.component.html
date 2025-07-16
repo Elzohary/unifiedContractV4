@@ -83,12 +83,12 @@
       <mat-card-content>
         <div class="completion-row">
           <span>Completion</span>
-          <span class="completion-percentage">{{ workOrder.details.completionPercentage }}%</span>
+          <span class="completion-percentage">{{ completionPercentage }}%</span>
         </div>
         <mat-progress-bar 
           mode="determinate" 
-          [value]="workOrder.details.completionPercentage"
-          [color]="workOrder.details.completionPercentage < 50 ? 'warn' : 'primary'">
+          [value]="completionPercentage"
+          [color]="completionPercentage < 50 ? 'warn' : 'primary'">
         </mat-progress-bar>
       </mat-card-content>
     </mat-card>

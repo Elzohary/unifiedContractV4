@@ -281,23 +281,20 @@ export class WoOverviewTabComponent implements OnChanges {
       if (item.itemDetail && typeof item.itemDetail.unitPrice === 'number') {
         item.actualPrice = item.actualQuantity * item.itemDetail.unitPrice;
       }
-      // Update work order completion percentage
-      if (this.workOrder && this.workOrder.items && this.workOrder.items.length > 0) {
-        const totalActual = this.workOrder.items.reduce((sum, it) => sum + (it.actualQuantity || 0), 0);
-        const totalEstimated = this.workOrder.items.reduce((sum, it) => sum + (it.estimatedQuantity || 0), 0);
-        if (totalActual === 0) {
-          this.workOrder.details.completionPercentage = 0;
-        } else if (totalEstimated > 0) {
-          this.workOrder.details.completionPercentage = Math.round((totalActual / totalEstimated) * 100);
-        } else {
-          this.workOrder.details.completionPercentage = 0;
-        }
-      }
       // TODO: Implement backend update logic here
-      console.log('Save actual quantity for item', item.id, '->', item.actualQuantity, 'Actual Price:', item.actualPrice, 'Completion:', this.workOrder.details.completionPercentage);
+      console.log('Save actual quantity for item', item.id, '->', item.actualQuantity, 'Actual Price:', item.actualPrice, 'Completion:', this.completionPercentage);
     }
     this.editActualQtyIndex = null;
     this.tempActualQty = null;
+  }
+
+  // Always calculate completion percentage from items
+  get completionPercentage(): number {
+    if (!this.workOrder || !this.workOrder.items || this.workOrder.items.length === 0) return 0;
+    const totalActual = this.workOrder.items.reduce((sum, it) => sum + (it.actualQuantity || 0), 0);
+    const totalEstimated = this.workOrder.items.reduce((sum, it) => sum + (it.estimatedQuantity || 0), 0);
+    if (totalEstimated === 0) return 0;
+    return Math.round((totalActual / totalEstimated) * 100);
   }
 
   partialPaymentAmount: number = 0;

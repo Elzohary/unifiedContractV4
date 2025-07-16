@@ -16,83 +16,93 @@ import { MatButtonModule } from '@angular/material/button';
           <mat-icon>close</mat-icon>
         </button>
       </div>
-      <div class="section summary-section">
-        <div class="summary-row">
-          <mat-icon class="icon">person</mat-icon>
-          <span class="label">Added by:</span>
-          <span class="value">{{ data.report.foremanName }}</span>
+      <div class="dialog-content-scrollable">
+        <div class="section summary-section">
+          <div class="summary-row">
+            <mat-icon class="icon">person</mat-icon>
+            <span class="label">Added by:</span>
+            <span class="value">{{ data.report.foremanName }}</span>
+          </div>
+          <div class="summary-row">
+            <mat-icon class="icon">event</mat-icon>
+            <span class="label">Date:</span>
+            <span class="value">{{ data.report.date | date:'mediumDate' }}</span>
+          </div>
+          <div class="summary-row">
+            <mat-icon class="icon">schedule</mat-icon>
+            <span class="label">Time:</span>
+            <span class="value">{{ data.report.createdAt | date:'shortTime' }}</span>
+          </div>
+          <div class="summary-row work-done-row">
+            <mat-icon class="icon">engineering</mat-icon>
+            <span class="label">Work Done:</span>
+            <span class="value work-done-value">{{ getWorkDoneName(data.report.workDone) }}</span>
+          </div>
+          <div class="summary-row" *ngIf="data.report.notes">
+            <mat-icon class="icon">notes</mat-icon>
+            <span class="label">Notes:</span>
+            <span class="value">{{ data.report.notes }}</span>
+          </div>
         </div>
-        <div class="summary-row">
-          <mat-icon class="icon">event</mat-icon>
-          <span class="label">Date:</span>
-          <span class="value">{{ data.report.date | date:'mediumDate' }}</span>
-        </div>
-        <div class="summary-row">
-          <mat-icon class="icon">schedule</mat-icon>
-          <span class="label">Time:</span>
-          <span class="value">{{ data.report.createdAt | date:'shortTime' }}</span>
-        </div>
-        <div class="summary-row work-done-row">
-          <mat-icon class="icon">engineering</mat-icon>
-          <span class="label">Work Done:</span>
-          <span class="value work-done-value">{{ getWorkDoneName(data.report.workDone) }}</span>
-        </div>
-        <div class="summary-row" *ngIf="data.report.notes">
-          <mat-icon class="icon">notes</mat-icon>
-          <span class="label">Notes:</span>
-          <span class="value">{{ data.report.notes }}</span>
-        </div>
-      </div>
 
-      <div class="section">
-        <div class="section-title">Work Done</div>
-        <table mat-table [dataSource]="[data.report]" class="mat-elevation-z1 work-done-table">
-          <ng-container matColumnDef="workDone">
-            <th mat-header-cell *matHeaderCellDef>Work Description</th>
-            <td mat-cell *matCellDef="let report">{{ getWorkDoneName(report.workDone) }}</td>
-          </ng-container>
-          <ng-container matColumnDef="quantity">
-            <th mat-header-cell *matHeaderCellDef>Quantity</th>
-            <td mat-cell *matCellDef="let report">{{ report.actualQuantity !== undefined ? report.actualQuantity : '-' }}</td>
-          </ng-container>
-          <tr mat-header-row *matHeaderRowDef="['workDone', 'quantity']"></tr>
-          <tr mat-row *matRowDef="let row; columns: ['workDone', 'quantity'];"></tr>
-        </table>
-      </div>
+        <div class="section">
+          <div class="section-title">Work Done</div>
+          <table mat-table [dataSource]="[data.report]" class="mat-elevation-z1 work-done-table">
+            <ng-container matColumnDef="workDone">
+              <th mat-header-cell *matHeaderCellDef>Work Description</th>
+              <td mat-cell *matCellDef="let report">{{ getWorkDoneName(report.workDone) }}</td>
+            </ng-container>
+            <ng-container matColumnDef="quantity">
+              <th mat-header-cell *matHeaderCellDef>Quantity</th>
+              <td mat-cell *matCellDef="let report">{{ report.actualQuantity !== undefined ? report.actualQuantity : '-' }}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="['workDone', 'quantity']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['workDone', 'quantity'];"></tr>
+          </table>
+        </div>
 
-      <div class="section" *ngIf="data.report.materialsUsed?.length">
-        <div class="section-title">Materials Used</div>
-        <table mat-table [dataSource]="data.report.materialsUsed" class="mat-elevation-z1 materials-table">
-          <ng-container matColumnDef="materialName">
-            <th mat-header-cell *matHeaderCellDef>Material Name</th>
-            <td mat-cell *matCellDef="let m">{{ m.materialName }}</td>
-          </ng-container>
-          <ng-container matColumnDef="quantity">
-            <th mat-header-cell *matHeaderCellDef>Quantity</th>
-            <td mat-cell *matCellDef="let m">{{ m.quantity }}</td>
-          </ng-container>
-          <ng-container matColumnDef="unit">
-            <th mat-header-cell *matHeaderCellDef>Unit</th>
-            <td mat-cell *matCellDef="let m">{{ m.unit || '-' }}</td>
-          </ng-container>
-          <tr mat-header-row *matHeaderRowDef="['materialName', 'quantity', 'unit']"></tr>
-          <tr mat-row *matRowDef="let row; columns: ['materialName', 'quantity', 'unit'];"></tr>
-        </table>
-      </div>
+        <div class="section" *ngIf="data.report.materialsUsed?.length">
+          <div class="section-title">Materials Used</div>
+          <table mat-table [dataSource]="data.report.materialsUsed" class="mat-elevation-z1 materials-table">
+            <ng-container matColumnDef="materialName">
+              <th mat-header-cell *matHeaderCellDef>Material Name</th>
+              <td mat-cell *matCellDef="let m">{{ m.materialName }}</td>
+            </ng-container>
+            <ng-container matColumnDef="quantity">
+              <th mat-header-cell *matHeaderCellDef>Quantity</th>
+              <td mat-cell *matCellDef="let m">{{ m.quantity }}</td>
+            </ng-container>
+            <ng-container matColumnDef="unit">
+              <th mat-header-cell *matHeaderCellDef>Unit</th>
+              <td mat-cell *matCellDef="let m">{{ m.unit || '-' }}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="['materialName', 'quantity', 'unit']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['materialName', 'quantity', 'unit'];"></tr>
+          </table>
+        </div>
 
-      <div class="section" *ngIf="data.report.photos?.length">
-        <div class="section-title">Photos</div>
-        <div class="photo-grid">
-          <a *ngFor="let photo of data.report.photos" [href]="photo.url" target="_blank" class="photo-link">
-            <img [src]="photo.url" [alt]="photo.caption || 'Site Photo'" class="photo-thumb" />
-          </a>
+        <!-- Modern Photo Gallery by Category -->
+        <div class="section">
+          <div class="section-title">Photos</div>
+          <ng-container *ngFor="let category of photoCategories">
+            <div class="photo-category-header">
+              <mat-icon class="photo-category-icon">{{ getCategoryIcon(category) }}</mat-icon>
+              <span class="photo-category-title">{{ getCategoryLabel(category) }}</span>
+            </div>
+            <div *ngIf="getPhotosByCategory(category).length; else noPhotos">
+              <div class="photo-grid">
+                <a *ngFor="let photo of getPhotosByCategory(category)" [href]="photo.url" target="_blank" class="photo-link">
+                  <img [src]="photo.url" [alt]="photo.caption || getCategoryLabel(category) + ' Photo'" class="photo-thumb" />
+                  <div class="photo-caption" *ngIf="photo.caption">{{ photo.caption }}</div>
+                </a>
+              </div>
+            </div>
+            <ng-template #noPhotos>
+              <div class="photo-placeholder">No {{ getCategoryLabel(category) | lowercase }} photos attached</div>
+            </ng-template>
+          </ng-container>
         </div>
       </div>
-      <div class="section" *ngIf="!data.report.photos?.length">
-        <div class="section-title">Photos</div>
-        <div class="photo-placeholder">No photos attached</div>
-      </div>
-
       <div class="dialog-actions">
         <button mat-button mat-dialog-close>Close</button>
       </div>
@@ -106,6 +116,10 @@ import { MatButtonModule } from '@angular/material/button';
       background: #fff;
       border-radius: 10px;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 90vh;
+      max-height: 90vh;
     }
     .dialog-header {
       display: flex;
@@ -113,12 +127,21 @@ import { MatButtonModule } from '@angular/material/button';
       justify-content: space-between;
       padding: 18px 24px 8px 24px;
       border-bottom: 1px solid #e0e0e0;
+      flex-shrink: 0;
+      background: #fff;
+      z-index: 2;
     }
     .dialog-header h2 {
       margin: 0;
       font-size: 1.35em;
       font-weight: 700;
       color: #222;
+    }
+    .dialog-content-scrollable {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      padding-bottom: 8px;
+      background: #fff;
     }
     .section {
       padding: 18px 24px 0 24px;
@@ -217,18 +240,101 @@ import { MatButtonModule } from '@angular/material/button';
       padding: 18px 24px 18px 24px;
       border-top: 1px solid #e0e0e0;
       background: #fafbfc;
-      margin-top: 18px;
+      margin-top: 0;
+      flex-shrink: 0;
+      z-index: 2;
+    }
+    .photo-category-header {
+      display: flex;
+      align-items: center;
+      margin-top: 12px;
+      margin-bottom: 4px;
+    }
+    .photo-category-icon {
+      color: #1976d2;
+      margin-right: 6px;
+    }
+    .photo-category-title {
+      font-weight: 600;
+      color: #1976d2;
+      font-size: 1.04em;
+    }
+    .photo-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 2px;
+      margin-bottom: 10px;
+    }
+    .photo-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-radius: 8px;
+      border: 1.5px solid #e0e0e0;
+      overflow: hidden;
+      transition: box-shadow 0.2s, border-color 0.2s;
+      background: #fafafa;
+      width: 110px;
+      padding: 6px 0 4px 0;
+    }
+    .photo-link:hover {
+      border-color: #1976d2;
+      box-shadow: 0 2px 8px rgba(25, 118, 210, 0.12);
+    }
+    .photo-thumb {
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
+      display: block;
+      background: #fafafa;
+      border-radius: 4px;
+    }
+    .photo-caption {
+      font-size: 0.92em;
+      color: #444;
+      margin-top: 3px;
+      text-align: center;
+      max-width: 100px;
+      word-break: break-word;
+    }
+    .photo-placeholder {
+      color: #bbb;
+      font-style: italic;
+      font-size: 0.98em;
+      padding: 8px 0 0 0;
     }
   `],
   standalone: true,
-  imports: [CommonModule, MatDialogModule, MatTableModule, MatIconModule, MatButtonModule   ]
+  imports: [CommonModule, MatDialogModule, MatTableModule, MatIconModule, MatButtonModule]
 })
 export class SiteReportViewDialogComponent {
+  photoCategories: string[] = ['safety', 'progress', 'housekeeping'];
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { report: SiteReport, items?: any[] },
     public dialogRef: MatDialogRef<SiteReportViewDialogComponent>
   ) {}
 
+  getPhotosByCategory(category: string) {
+    return (this.data.report.photos || []).filter(p => p.category === category);
+  }
+  getCategoryLabel(category: string) {
+    switch (category) {
+      case 'safety': return 'Safety';
+      case 'progress': return 'Progress';
+      case 'housekeeping': return 'Housekeeping';
+      default: return category.charAt(0).toUpperCase() + category.slice(1);
+    }
+  }
+  getCategoryIcon(category: string) {
+    switch (category) {
+      case 'safety': return 'health_and_safety';
+      case 'progress': return 'photo_camera';
+      case 'housekeeping': return 'cleaning_services';
+      default: return 'photo';
+    }
+  }
   getWorkDoneName(workDoneId: string): string {
     if (!workDoneId) return '';
     const items = this.data.items || [];

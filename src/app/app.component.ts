@@ -39,7 +39,7 @@ import { WORK_ORDER_PROVIDERS } from './domains/work-order/work-order.providers'
                      class="app-sidenav">
           <div class="sidenav-header">
             <div class="logo-container">
-              <img src="../assets/Logo2.png" alt="Logo" class="logo-img" />
+              <img src="../assets/Primavera - SUC.png" alt="Logo" class="logo-img" />
               <h2 class="app-title">WO Manager</h2>
             </div>
           </div>

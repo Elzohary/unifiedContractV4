@@ -8,16 +8,21 @@ export const projectMenuItems = [
                 link: '/dashboard/overview',
                 icon: 'home'
             },
-            {
+            /* {
                 label: 'Analytics',
                 link: '/dashboard/analytics',
                 icon: 'analytics'
-            },
+            }, */
             {
                 label: 'Projects',
                 link: '/dashboard/projects',
                 icon: 'work'
-            }
+            },
+            {
+                label: 'Expenses',
+                link: '/work-order-sections/expenses',
+                icon: 'attach_money'
+            },
         ]
     },
     {
@@ -44,26 +49,22 @@ export const projectMenuItems = [
                 link: '/work-order-sections/actions',
                 icon: 'assignment'
             },
-            {
+            /* {
                 label: 'Photos',
                 link: '/work-order-sections/photos',
                 icon: 'photo_library'
-            },
+            }, */
             {
-                label: 'Forms',
+                label: 'Documnets',
                 link: '/work-order-sections/forms',
                 icon: 'description'
             },
-            {
-                label: 'Expenses',
-                link: '/work-order-sections/expenses',
-                icon: 'attach_money'
-            },
-            {
+            
+            /* {
                 label: 'Invoices',
                 link: '/work-order-sections/invoices',
                 icon: 'receipt'
-            },
+            }, */
             {
                 label: 'Items',
                 link: '/work-order-sections/items-list',
@@ -121,11 +122,11 @@ export const projectMenuItems = [
                 link: '/hr/warnings',
                 icon: 'warning'
             },
-            {
+            /* {
                 label: 'Announcements',
                 link: '/hr/announcements',
                 icon: 'announcement'
-            }
+            } */
         ]
     },
     {

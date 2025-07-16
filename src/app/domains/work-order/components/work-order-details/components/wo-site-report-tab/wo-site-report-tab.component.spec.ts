@@ -25,7 +25,18 @@ class MatDialogMock {
 }
 
 // Mock WorkOrderService
-class WorkOrderServiceMock {}
+class WorkOrderServiceMock {
+  getWorkOrderById(id: string) {
+    return of({
+      id,
+      items: [
+        { id: 'item1', itemDetail: { shortDescription: 'Work Item 1' }, actualQuantity: 0 }
+      ],
+      materials: [],
+      siteReports: []
+    });
+  }
+}
 
 describe('WoSiteReportTabComponent', () => {
   let component: WoSiteReportTabComponent;

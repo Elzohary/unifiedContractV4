@@ -72,6 +72,30 @@ export class WoSiteReportTabComponent implements OnInit, OnChanges {
     });
   }
 
+  continueReport(report: SiteReport) {
+    // Determine the first incomplete step
+    let stepIndex = 0;
+    const hasSafety = report.photos?.some(p => p.category === 'safety');
+    const hasProgress = report.photos?.some(p => p.category === 'progress');
+    const hasHousekeeping = report.photos?.some(p => p.category === 'housekeeping');
+    if (!hasSafety) stepIndex = 0;
+    else if (!hasProgress) stepIndex = 1;
+    else if (!hasHousekeeping) stepIndex = 2;
+    else stepIndex = 3; // All steps filled, go to review
+    this.dialog.open(SiteReportFormComponent, {
+      width: '600px',
+      data: {
+        workOrder: this.workOrder,
+        report,
+        startStep: stepIndex
+      }
+    }).afterClosed().subscribe(result => {
+      if (result) {
+        this.updated.emit(result);
+      }
+    });
+  }
+
   get groupedReports() {
     const siteReports = (this.workOrder && this.workOrder.siteReports) ? this.workOrder.siteReports : [];
     const groups: { [date: string]: { [foreman: string]: SiteReport[] } } = {};
@@ -81,6 +105,12 @@ export class WoSiteReportTabComponent implements OnInit, OnChanges {
       if (!groups[date][report.foremanName]) groups[date][report.foremanName] = [];
       groups[date][report.foremanName].push(report);
     }
+    // Sort each group by newest first (descending by date/time)
+    Object.values(groups).forEach(foremen => {
+      Object.values(foremen).forEach(reportsArr => {
+        reportsArr.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      });
+    });
     return groups;
   }
 
@@ -93,6 +123,12 @@ export class WoSiteReportTabComponent implements OnInit, OnChanges {
       if (!groups[date][report.foremanName]) groups[date][report.foremanName] = [];
       groups[date][report.foremanName].push(report);
     }
+    // Sort each group by newest first (descending by date/time)
+    Object.values(groups).forEach(foremen => {
+      Object.values(foremen).forEach(reportsArr => {
+        reportsArr.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      });
+    });
     // Flatten to array for template
     return Object.entries(groups).map(([date, foremen]) => ({
       date,
