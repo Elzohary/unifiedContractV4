@@ -70,9 +70,9 @@ describe('EquipmentDashboardComponent', () => {
         MatIconModule,
         MatProgressSpinnerModule,
         MatTableModule,
-        MatChipsModule
+        MatChipsModule,
+        EquipmentDashboardComponent
       ],
-      declarations: [EquipmentDashboardComponent],
       providers: [
         EquipmentService,
         StateService,

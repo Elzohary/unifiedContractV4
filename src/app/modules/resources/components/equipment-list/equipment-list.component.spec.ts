@@ -45,9 +45,9 @@ describe('EquipmentListComponent', () => {
         MatButtonModule,
         MatIconModule,
         MatProgressSpinnerModule,
-        RouterModule.forRoot([])
+        RouterModule.forRoot([]),
+        EquipmentListComponent
       ],
-      declarations: [EquipmentListComponent],
       providers: [EquipmentService, StateService]
     }).compileComponents();
 

@@ -7,6 +7,7 @@ export interface BaseMaterial {
   unit: string;
   materialType: MaterialType;
   clientType: ClientType;
+  status?: string; // Added for mock/test filtering (e.g., 'in-use', 'received')
   // Dynamic attributes for client-specific properties
   attributes?: Record<string, any>;
 

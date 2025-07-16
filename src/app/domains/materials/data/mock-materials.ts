@@ -40,76 +40,83 @@ export const mockSecMaterials: SecMaterial[] = [
   }
 ];
 
-// Purchasable materials mock data
+// Add more purchasable materials
 export const mockPurchasableMaterials: BaseMaterial[] = [
   {
-    id: '4',
-    code: 'ASP-001',
-    description: 'Asphalt Mix Type A',
-    unit: 'TON',
-    materialType: MaterialType.PURCHASABLE,
-    clientType: ClientType.OTHER
-  },
-  {
-    id: '5',
-    code: 'CON-001',
-    description: 'Concrete Mix 40MPa',
-    unit: 'M3',
-    materialType: MaterialType.PURCHASABLE,
-    clientType: ClientType.OTHER
-  },
-  {
-    id: '6',
-    code: 'BAS-001',
-    description: 'Base Course Aggregate',
-    unit: 'M3',
-    materialType: MaterialType.PURCHASABLE,
-    clientType: ClientType.OTHER
-  },
-  {
-    id: '7',
-    code: 'STL-001',
-    description: 'Steel Reinforcement Bar 12mm',
-    unit: 'TON',
-    materialType: MaterialType.PURCHASABLE,
-    clientType: ClientType.OTHER
-  },
-  {
-    id: '8',
-    code: 'PNT-001',
-    description: 'Road Marking Paint - White',
-    unit: 'LTR',
-    materialType: MaterialType.PURCHASABLE,
-    clientType: ClientType.OTHER
-  },
-  {
-    id: '9',
-    code: 'PIP-001',
-    description: 'PVC Pipe 100mm',
-    unit: 'M',
-    materialType: MaterialType.PURCHASABLE,
-    clientType: ClientType.OTHER
-  },
-  {
-    id: '10',
-    code: 'BRK-001',
-    description: 'Concrete Blocks 20cm',
-    unit: 'PCS',
-    materialType: MaterialType.PURCHASABLE,
-    clientType: ClientType.OTHER
-  },
-  {
-    id: '11',
-    code: 'CEM-001',
-    description: 'Portland Cement Type I',
+    id: 'p1',
+    code: 'PUR-001',
+    description: 'Cement',
     unit: 'BAG',
     materialType: MaterialType.PURCHASABLE,
-    clientType: ClientType.OTHER
+    clientType: ClientType.OTHER,
+    status: 'in-use',
+    totalStock: 100,
+    availableStock: 80
+  },
+  {
+    id: 'p2',
+    code: 'PUR-002',
+    description: 'Steel Bars',
+    unit: 'TON',
+    materialType: MaterialType.PURCHASABLE,
+    clientType: ClientType.OTHER,
+    status: 'ordered',
+    totalStock: 50,
+    availableStock: 30
+  },
+  {
+    id: 'p3',
+    code: 'PUR-003',
+    description: 'Ready Mix Concrete',
+    unit: 'M3',
+    materialType: MaterialType.PURCHASABLE,
+    clientType: ClientType.OTHER,
+    status: 'in-use',
+    totalStock: 200,
+    availableStock: 150
+  }
+];
+
+// Add more receivable materials
+export const mockReceivableMaterials: BaseMaterial[] = [
+  {
+    id: 'r1',
+    code: 'REC-001',
+    description: 'Electrical Meter Type A',
+    unit: 'PCS',
+    materialType: MaterialType.RECEIVABLE,
+    clientType: ClientType.SEC,
+    status: 'received',
+    totalStock: 60,
+    availableStock: 55
+  },
+  {
+    id: 'r2',
+    code: 'REC-002',
+    description: 'Cable 16mm',
+    unit: 'M',
+    materialType: MaterialType.RECEIVABLE,
+    clientType: ClientType.SEC,
+    status: 'pending',
+    totalStock: 100,
+    availableStock: 90
+  },
+  {
+    id: 'r3',
+    code: 'REC-003',
+    description: 'Junction Box Type B',
+    unit: 'PCS',
+    materialType: MaterialType.RECEIVABLE,
+    clientType: ClientType.SEC,
+    status: 'received',
+    totalStock: 40,
+    availableStock: 35
   }
 ];
 
 // Combined mock data
 export const mockMaterials: BaseMaterial[] = [
   ...mockSecMaterials,
-  ...mockPurchasableMaterials
+  ...mockPurchasableMaterials,
+  ...mockReceivableMaterials
 ];

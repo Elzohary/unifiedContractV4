@@ -70,9 +70,9 @@ describe('EquipmentMaintenanceComponent', () => {
         MatDatepickerModule,
         MatNativeDateModule,
         MatProgressSpinnerModule,
-        MatTableModule
+        MatTableModule,
+        EquipmentMaintenanceComponent
       ],
-      declarations: [EquipmentMaintenanceComponent],
       providers: [
         EquipmentService,
         StateService,

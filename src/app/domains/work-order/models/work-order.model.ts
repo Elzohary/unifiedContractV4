@@ -477,6 +477,7 @@ export interface SiteReport {
   workOrderId: string;
   foremanId: string;
   foremanName: string;
+  status: SiteReportStatus;
   workDone: string; // Description of work performed
   actualQuantity?: number; // Quantity of work done (optional)
   date: string | Date;
@@ -485,11 +486,19 @@ export interface SiteReport {
     materialName: string;
     quantity: number;
   }>;
-  photos: Array<{
-    id: string;
-    url: string;
-    caption?: string;
-  }>;
+  photos: SiteReportPhoto[];
   notes?: string;
   createdAt: string | Date;
+}
+
+export interface SiteReportPhoto {
+  id: string;
+  url:string;
+  caption?: string;
+  category: 'safety' | 'progress' | 'housekeeping';
+}
+
+export enum SiteReportStatus {
+  Open = 'Open',
+  Closed = 'Closed'
 }

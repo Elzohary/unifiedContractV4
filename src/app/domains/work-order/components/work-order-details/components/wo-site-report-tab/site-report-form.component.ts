@@ -12,10 +12,31 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
+import { MatStepperModule } from '@angular/material/stepper';
+import { PhotoUploadComponent } from '../../../../../../shared/components/photo-upload/photo-upload.component';
 import { WorkOrder, workOrderItem, materialAssignment } from '../../../../models/work-order.model';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UserService } from '../../../../../../shared/services/user.service';
 import { WorkOrderService } from '../../../../services/work-order.service';
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({ name: 'workDoneLabel', standalone: true })
+export class WorkDoneLabelPipe implements PipeTransform {
+  transform(id: string, options: { id: string, label: string }[]): string {
+    return options.find(opt => opt.id === id)?.label || id;
+  }
+}
+
+@Pipe({ name: 'materialName', standalone: true })
+export class MaterialNamePipe implements PipeTransform {
+  transform(id: string, options: { id: string, name: string }[]): string {
+    return options.find(opt => opt.id === id)?.name || id;
+  }
+}
+
+class HousekeepingPhotosArray extends Array<any> {
+  invalid = false;
+}
 
 @Component({
   selector: 'app-site-report-form',
@@ -35,7 +56,11 @@ import { WorkOrderService } from '../../../../services/work-order.service';
     MatChipsModule,
     MatDividerModule,
     MatSelectModule,
-    MatOptionModule
+    MatOptionModule,
+    MatStepperModule,
+    PhotoUploadComponent,
+    WorkDoneLabelPipe,
+    MaterialNamePipe
   ]
 })
 export class SiteReportFormComponent {
@@ -49,6 +74,14 @@ export class SiteReportFormComponent {
   materialOptions: { id: string, name: string }[] = [];
   workDoneOptions: { id: string, label: string }[] = [];
 
+  // --- Add missing form groups and properties for template compatibility ---
+  step1FormGroup: FormGroup;
+  step2FormGroup: FormGroup;
+  step3FormGroup: FormGroup;
+  progressPhotos = { controls: [] };
+  safetyPhotos: any[] = [];
+  housekeepingPhotos = new HousekeepingPhotosArray();
+  progressPhotosList: File[] = [];
   constructor(
     private fb: FormBuilder,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
@@ -60,6 +93,9 @@ export class SiteReportFormComponent {
       this.workOrder = data.workOrder;
     }
     this.foremanName = this.userService.getCurrentUserName();
+    // Debug: Log all materials and filtered options
+    console.log('[DEBUG] workOrder.materials:', this.workOrder?.materials);
+    // Filter and map as before
     this.materialOptions = (this.workOrder?.materials || []).filter((m: materialAssignment) => {
       if (m.materialType === 'purchasable' && m.purchasableMaterial) {
         return m.purchasableMaterial.status === 'in-use';
@@ -75,26 +111,38 @@ export class SiteReportFormComponent {
       }
       return { id: m.id, name: 'Unknown Material' };
     });
+    console.log('[DEBUG] Filtered materialOptions:', this.materialOptions);
     this.workDoneOptions = (this.workOrder?.items || []).map((item: workOrderItem) => ({
       id: item.id,
       label: item.itemDetail.shortDescription
     }));
     this.workDoneOptions.push({ id: 'other', label: 'Other (specify)' });
 
-    this.form = this.fb.group({
-      date: [new Date(), Validators.required],
-      foremanName: [{ value: this.foremanName, disabled: true }, Validators.required],
+    // Dedicated FormGroups for each step
+    this.step1FormGroup = this.fb.group({
+      safetyPhotos: [[], Validators.required]
+    });
+    this.step2FormGroup = this.fb.group({
       workDone: ['', Validators.required],
       workDoneOther: [''],
       actualQuantity: [null],
       notes: [''],
       materialsUsed: this.fb.array([]),
-      photos: this.fb.array([])
+      progressPhotos: [[], Validators.required]
+    });
+    this.step3FormGroup = this.fb.group({
+      housekeepingPhotos: [[], Validators.required]
+    });
+
+    // Remove safetyPhotos and housekeepingPhotos from main form
+    this.form = this.fb.group({
+      date: [new Date(), Validators.required],
+      foremanName: [{ value: this.foremanName, disabled: true }, Validators.required]
     });
 
     // Add conditional validator for actualQuantity
-    this.form.get('workDone')?.valueChanges.subscribe((val) => {
-      const actualQuantityControl = this.form.get('actualQuantity');
+    this.step2FormGroup.get('workDone')?.valueChanges.subscribe((val) => {
+      const actualQuantityControl = this.step2FormGroup.get('actualQuantity');
       if (val && val !== 'other') {
         actualQuantityControl?.setValidators([Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]+)?$')]);
       } else {
@@ -104,18 +152,50 @@ export class SiteReportFormComponent {
     });
 
     // Ensure actualQuantity is always a number
-    this.form.get('actualQuantity')?.valueChanges.subscribe((val) => {
+    this.step2FormGroup.get('actualQuantity')?.valueChanges.subscribe((val) => {
       if (val && typeof val === 'string') {
         const numVal = Number(val);
         if (!isNaN(numVal)) {
-          this.form.patchValue({ actualQuantity: numVal }, { emitEvent: false });
+          this.step2FormGroup.patchValue({ actualQuantity: numVal }, { emitEvent: false });
         }
       }
     });
+    this.housekeepingPhotos = new HousekeepingPhotosArray();
   }
 
+  onSafetyPhotosChange(event: File[]) {
+    this.safetyPhotos = event;
+    this.step1FormGroup.get('safetyPhotos')?.setValue(event);
+    this.step1FormGroup.get('safetyPhotos')?.markAsTouched();
+    this.step1FormGroup.get('safetyPhotos')?.updateValueAndValidity();
+    console.log('[DEBUG] onSafetyPhotosChange event:', event);
+    console.log('[DEBUG] safetyPhotos form value:', this.step1FormGroup.get('safetyPhotos')?.value);
+    console.log('[DEBUG] safetyPhotos form valid:', this.step1FormGroup.get('safetyPhotos')?.valid);
+  }
+  onHousekeepingPhotosChange(event: File[]) {
+    this.housekeepingPhotos = new HousekeepingPhotosArray(...event);
+    this.step3FormGroup.get('housekeepingPhotos')?.setValue(this.housekeepingPhotos);
+    this.step3FormGroup.get('housekeepingPhotos')?.markAsTouched();
+    this.step3FormGroup.get('housekeepingPhotos')?.updateValueAndValidity();
+  }
+  onProgressPhotosChange(event: File[]) {
+    this.progressPhotosList = event;
+    this.step2FormGroup.get('progressPhotos')?.setValue(event);
+    this.step2FormGroup.get('progressPhotos')?.markAsTouched();
+    this.step2FormGroup.get('progressPhotos')?.updateValueAndValidity();
+  }
+  saveReport(status: any) {
+    this.onSubmit();
+  }
+  SiteReportStatus = { Open: 'Open', Closed: 'Closed' };
+
   get materialsUsed(): FormArray {
-    return this.form.get('materialsUsed') as FormArray;
+    return this.step2FormGroup.get('materialsUsed') as FormArray;
+  }
+
+  get materialsUsedArray() {
+    const control = this.step2FormGroup.get('materialsUsed');
+    return control && (control as any).controls ? (control as any).controls : [];
   }
 
   addMaterial() {
@@ -130,29 +210,30 @@ export class SiteReportFormComponent {
   }
 
   get photos(): FormArray {
-    return this.form.get('photos') as FormArray;
+    return this.step2FormGroup.get('progressPhotos') as FormArray;
   }
 
-  addPhoto() {
+  addPhoto(type?: string) {
     this.photos.push(this.fb.group({
       url: ['', Validators.required],
       caption: ['']
     }));
   }
 
-  removePhoto(index: number) {
-    this.photos.removeAt(index);
+  removePhoto(type: string, i: number) {
+    this.photos.removeAt(i);
   }
 
   onSubmit() {
-    if (this.form.valid) {
-      const rawValue = this.form.getRawValue();
-      console.log('[DEBUG] Form raw value:', rawValue);
-      
+    if (this.step2FormGroup.valid) { // Validate the step2 form
+      const rawValue = this.step2FormGroup.getRawValue();
+      console.log('[DEBUG] Step 2 Form raw value:', rawValue);
       // Convert actualQuantity to number if it exists
       const value = {
         ...rawValue,
-        actualQuantity: rawValue.actualQuantity ? Number(rawValue.actualQuantity) : null
+        actualQuantity: rawValue.actualQuantity ? Number(rawValue.actualQuantity) : null,
+        date: new Date().toISOString(),
+        foremanName: this.foremanName || 'Foreman'
       };
       
       console.log('[DEBUG] Processed value:', value);
@@ -175,7 +256,7 @@ export class SiteReportFormComponent {
         } else {
           this.submitted.emit(value);
         }
-        this.form.reset({ date: new Date(), foremanName: this.foremanName });
+        this.step2FormGroup.reset({ date: new Date(), foremanName: this.foremanName });
         this.materialsUsed.clear();
         this.photos.clear();
       });
@@ -193,3 +274,4 @@ export class SiteReportFormComponent {
     });
   }
 } 
+

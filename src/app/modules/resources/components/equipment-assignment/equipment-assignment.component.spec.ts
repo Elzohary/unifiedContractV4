@@ -57,9 +57,9 @@ describe('EquipmentAssignmentComponent', () => {
         MatSelectModule,
         MatDatepickerModule,
         MatNativeDateModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        EquipmentAssignmentComponent
       ],
-      declarations: [EquipmentAssignmentComponent],
       providers: [
         EquipmentService,
         StateService,

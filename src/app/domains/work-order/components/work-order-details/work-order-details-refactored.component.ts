@@ -19,7 +19,7 @@ import { WorkOrderRemarksViewModel } from '../../viewModels/work-order-remarks.v
 import { WorkOrderMaterialsViewModel } from '../../viewModels/work-order-materials.viewmodel';
 
 // Models
-import { WorkOrder, WorkOrderStatus, Task, Permit, SiteReport } from '../../models/work-order.model';
+import { WorkOrder, WorkOrderStatus, Task, Permit, SiteReport, SiteReportStatus } from '../../models/work-order.model';
 import { ActivityLog } from '../../../../shared/services/activity-log.service';
 
 // Sub-components
@@ -332,6 +332,7 @@ export class WorkOrderDetailsRefactoredComponent implements OnInit, OnDestroy {
         workOrderId: this.currentWorkOrder.id,
         foremanId: 'currentUserId', // TODO: Replace with actual user ID from auth
         foremanName: formValue.foremanName,
+        status: SiteReportStatus.Open, // <-- Added required status property
         workDone: formValue.workDone === 'other' ? formValue.workDoneOther : formValue.workDone, // Always use item id
         actualQuantity: typeof formValue.actualQuantity === 'number' ? formValue.actualQuantity : undefined,
         date: formValue.date,
