@@ -319,7 +319,12 @@ export class WorkOrderDetailsRefactoredComponent implements OnInit, OnDestroy {
         }
       });
       const updatedWorkOrder = { ...workOrder, permits: updatedPermits };
-      this.workOrderDetailsViewModel.updateWorkOrder(updatedWorkOrder);
+      this.workOrderDetailsViewModel.updateWorkOrder(updatedWorkOrder).subscribe(() => {
+        // Reload from backend to ensure UI is up to date
+        if (updatedWorkOrder && updatedWorkOrder.id) {
+          this.workOrderDetailsViewModel.loadWorkOrderDetails(updatedWorkOrder.id);
+        }
+      });
     }
   }
 
