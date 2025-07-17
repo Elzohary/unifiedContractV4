@@ -22,9 +22,11 @@
         <h3 class="stat-title">Total Employees</h3>
       </div>
       <p class="stat-value">{{totalEmployees}}</p>
-      <div class="stat-trend positive">
-        <mat-icon>trending_up</mat-icon>
-        <span>+12% from last month</span>
+      <div class="stat-trend" [ngClass]="{'positive': totalEmployeesTrend > 0, 'negative': totalEmployeesTrend < 0}">
+        <mat-icon *ngIf="totalEmployeesTrend > 0">trending_up</mat-icon>
+        <mat-icon *ngIf="totalEmployeesTrend < 0">trending_down</mat-icon>
+        <span *ngIf="totalEmployeesTrend !== 0">{{ totalEmployeesTrend > 0 ? '+' : ''}}{{totalEmployeesTrend}}% {{trendLabel}}</span>
+        <span *ngIf="totalEmployeesTrend === 0">No change</span>
       </div>
     </div>
 
@@ -36,9 +38,11 @@
         <h3 class="stat-title">Pending Requests</h3>
       </div>
       <p class="stat-value">{{pendingRequests}}</p>
-      <div class="stat-trend negative">
-        <mat-icon>trending_down</mat-icon>
-        <span>-5% from last week</span>
+      <div class="stat-trend" [ngClass]="{'positive': pendingRequestsTrend > 0, 'negative': pendingRequestsTrend < 0}">
+        <mat-icon *ngIf="pendingRequestsTrend > 0">trending_up</mat-icon>
+        <mat-icon *ngIf="pendingRequestsTrend < 0">trending_down</mat-icon>
+        <span *ngIf="pendingRequestsTrend !== 0">{{ pendingRequestsTrend > 0 ? '+' : ''}}{{pendingRequestsTrend}}% {{trendLabel}}</span>
+        <span *ngIf="pendingRequestsTrend === 0">No change</span>
       </div>
     </div>
 
@@ -50,9 +54,11 @@
         <h3 class="stat-title">Absent Today</h3>
       </div>
       <p class="stat-value">{{absentToday}}</p>
-      <div class="stat-trend positive">
-        <mat-icon>trending_up</mat-icon>
-        <span>+2% from yesterday</span>
+      <div class="stat-trend" [ngClass]="{'positive': absentTodayTrend > 0, 'negative': absentTodayTrend < 0}">
+        <mat-icon *ngIf="absentTodayTrend > 0">trending_up</mat-icon>
+        <mat-icon *ngIf="absentTodayTrend < 0">trending_down</mat-icon>
+        <span *ngIf="absentTodayTrend !== 0">{{ absentTodayTrend > 0 ? '+' : ''}}{{absentTodayTrend}}% {{trendLabel}}</span>
+        <span *ngIf="absentTodayTrend === 0">No change</span>
       </div>
     </div>
 
@@ -64,9 +70,11 @@
         <h3 class="stat-title">Active Warnings</h3>
       </div>
       <p class="stat-value">{{activeWarnings}}</p>
-      <div class="stat-trend negative">
-        <mat-icon>trending_down</mat-icon>
-        <span>-8% from last month</span>
+      <div class="stat-trend" [ngClass]="{'positive': activeWarningsTrend > 0, 'negative': activeWarningsTrend < 0}">
+        <mat-icon *ngIf="activeWarningsTrend > 0">trending_up</mat-icon>
+        <mat-icon *ngIf="activeWarningsTrend < 0">trending_down</mat-icon>
+        <span *ngIf="activeWarningsTrend !== 0">{{ activeWarningsTrend > 0 ? '+' : ''}}{{activeWarningsTrend}}% {{trendLabel}}</span>
+        <span *ngIf="activeWarningsTrend === 0">No change</span>
       </div>
     </div>
   </div>

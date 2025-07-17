@@ -8,6 +8,7 @@ import { EmployeeDetailComponent } from './employee/employee-detail/employee-det
 import { EmployeeFormComponent } from './employee/employee-form/employee-form.component';
 import { AttendanceManagementComponent } from './attendance/attendance-management/attendance-management.component';
 import { EmployeeRequestsComponent } from './requests/employee-requests/employee-requests.component';
+import { HrRoleGuard } from './guards/hr-role.guard';
 
 const routes: Routes = [
   {
@@ -17,59 +18,72 @@ const routes: Routes = [
   },
   {
     path: 'dashboard',
-    component: HrDashboardComponent
+    component: HrDashboardComponent,
+    canActivate: [HrRoleGuard]
   },
   {
     path: 'employees',
-    component: EmployeeListComponent
+    component: EmployeeListComponent,
+    canActivate: [HrRoleGuard]
   },
   {
     path: 'employees/new',
-    component: EmployeeFormComponent
+    component: EmployeeFormComponent,
+    canActivate: [HrRoleGuard]
   },
   {
     path: 'employees/:id',
-    component: EmployeeDetailComponent
+    component: EmployeeDetailComponent,
+    canActivate: [HrRoleGuard]
   },
   {
     path: 'employees/:id/edit',
-    component: EmployeeFormComponent
+    component: EmployeeFormComponent,
+    canActivate: [HrRoleGuard]
   },
   {
     path: 'employees/:id/requests',
-    component: EmployeeRequestsComponent
+    component: EmployeeRequestsComponent,
+    canActivate: [HrRoleGuard]
   },
   {
     path: 'employees/:id/attendance',
-    component: AttendanceManagementComponent
+    component: AttendanceManagementComponent,
+    canActivate: [HrRoleGuard]
   },
   {
     path: 'employees/:id/warnings',
     component: HrDashboardComponent,
-    data: { tempRoute: true, message: 'Employee Warnings Management - Coming Soon' }
+    data: { tempRoute: true, message: 'Employee Warnings Management - Coming Soon' },
+    canActivate: [HrRoleGuard]
   },
   {
     path: 'requests',
-    component: EmployeeRequestsComponent
+    component: EmployeeRequestsComponent,
+    canActivate: [HrRoleGuard]
   },
   {
     path: 'attendance',
-    component: AttendanceManagementComponent
+    component: AttendanceManagementComponent,
+    canActivate: [HrRoleGuard]
   },
   {
     path: 'warnings',
     component: HrDashboardComponent,
-    data: { tempRoute: true, message: 'Employee Warnings Management - Coming Soon' }
+    data: { tempRoute: true, message: 'Employee Warnings Management - Coming Soon' },
+    canActivate: [HrRoleGuard]
   },
   {
     path: 'announcements',
     component: HrDashboardComponent,
-    data: { tempRoute: true, message: 'HR Announcements - Coming Soon' }
+    data: { tempRoute: true, message: 'HR Announcements - Coming Soon' },
+    canActivate: [HrRoleGuard]
   },
   {
     path: 'reports',
     component: HrDashboardComponent,
-    data: { tempRoute: true, message: 'HR Reports - Coming Soon' }
+    data: { tempRoute: true, message: 'HR Reports - Coming Soon' },
+    canActivate: [HrRoleGuard]
   }
 ];
 

@@ -230,7 +230,7 @@ export const routes: Routes = [
   // HR routes - keep lazy loading
   {
     path: 'hr',
-    loadChildren: () => import('./features/hr/hr.module')
+    loadChildren: () => import('./domains/hr/hr.module')
       .then(m => m.HrModule)
   },
 

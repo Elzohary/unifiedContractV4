@@ -33,11 +33,24 @@ export class EmployeeService {
   // Mock user IDs for testing
   private mockEmployees: Employee[] = this.generateMockEmployees();
 
+  // Add localStorage key
+  private ATTENDANCE_STORAGE_KEY = 'attendance_records';
+
   constructor() {
-    // Initialize with mock data
+    // Initialize with mock data or localStorage
     this.employeesSubject.next(this.mockEmployees);
     this.requestsSubject.next(this.generateMockRequests());
-    this.attendanceSubject.next(this.generateMockAttendance());
+    const storedAttendance = localStorage.getItem(this.ATTENDANCE_STORAGE_KEY);
+    if (storedAttendance) {
+      try {
+        const parsed = JSON.parse(storedAttendance);
+        this.attendanceSubject.next(parsed);
+      } catch {
+        this.attendanceSubject.next(this.generateMockAttendance());
+      }
+    } else {
+      this.attendanceSubject.next(this.generateMockAttendance());
+    }
     this.warningsSubject.next(this.generateMockWarnings());
     this.sickLeavesSubject.next(this.generateMockSickLeaves());
     this.changesSubject.next(this.generateMockChanges());
@@ -224,7 +237,17 @@ export class EmployeeService {
     const currentRecords = this.attendanceSubject.value;
     const updatedRecords = [...currentRecords, record];
     this.attendanceSubject.next(updatedRecords);
+    this.persistAttendance();
     return of(record);
+  }
+
+  setAttendanceRecords(records: AttendanceRecord[]): void {
+    this.attendanceSubject.next(records);
+    this.persistAttendance();
+  }
+
+  getAttendanceSubjectValue(): AttendanceRecord[] {
+    return this.attendanceSubject.value;
   }
 
   // Warning operations
@@ -827,20 +850,25 @@ export class EmployeeService {
     ];
   }
 
+  // Utility to compare only the date part (Y-M-D)
+  private isSameOrInRange(recordDate: Date, start: Date, end: Date): boolean {
+    const d = new Date(recordDate.getFullYear(), recordDate.getMonth(), recordDate.getDate());
+    const s = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+    const e = new Date(end.getFullYear(), end.getMonth(), end.getDate());
+    return d >= s && d <= e;
+  }
+
   getEmployeeAttendance(employeeId: string, startDate?: string, endDate?: string): Observable<AttendanceRecord[]> {
     return this.getAttendanceByEmployee(employeeId).pipe(
       map(records => {
         if (!startDate || !endDate) {
           return records;
         }
-        
         const start = new Date(startDate);
         const end = new Date(endDate);
-        
-        return records.filter(record => {
-          const recordDate = new Date(record.date);
-          return recordDate >= start && recordDate <= end;
-        });
+        const filtered = records.filter(record => this.isSameOrInRange(new Date(record.date), start, end));
+        console.log('[Service] Filtered employee attendance:', filtered);
+        return filtered;
       })
     );
   }
@@ -851,14 +879,11 @@ export class EmployeeService {
         if (!startDate || !endDate) {
           return records;
         }
-        
         const start = new Date(startDate);
         const end = new Date(endDate);
-        
-        return records.filter(record => {
-          const recordDate = new Date(record.date);
-          return recordDate >= start && recordDate <= end;
-        });
+        const filtered = records.filter(record => this.isSameOrInRange(new Date(record.date), start, end));
+        console.log('[Service] Filtered all attendance:', filtered);
+        return filtered;
       })
     );
   }
@@ -922,16 +947,13 @@ export class EmployeeService {
   }
 
   addEmployeeAttendance(employeeId: string, record: AttendanceRecord): Observable<AttendanceRecord> {
-    // Generate a unique ID for the new attendance record
     record.id = Math.random().toString(36).substring(2, 15);
-    
-    // Get the current attendance records
     return this.getAttendance().pipe(
       first(),
       map(records => {
-        // Add the new record
         const updatedRecords = [...records, record];
         this.attendanceSubject.next(updatedRecords);
+        this.persistAttendance();
         return record;
       })
     );
@@ -941,16 +963,14 @@ export class EmployeeService {
     return this.getAttendance().pipe(
       first(),
       map(records => {
-        // Find and update the record
         const index = records.findIndex(r => r.id === record.id);
         if (index === -1) {
           throw new Error(`Attendance record with ID ${record.id} not found`);
         }
-        
         const updatedRecords = [...records];
         updatedRecords[index] = record;
         this.attendanceSubject.next(updatedRecords);
-        
+        this.persistAttendance();
         return record;
       })
     );
@@ -960,18 +980,23 @@ export class EmployeeService {
     return this.getAttendance().pipe(
       first(),
       map(records => {
-        // Find and remove the record
         const index = records.findIndex(r => r.id === recordId);
         if (index === -1) {
           throw new Error(`Attendance record with ID ${recordId} not found`);
         }
-        
         const updatedRecords = [...records];
         updatedRecords.splice(index, 1);
         this.attendanceSubject.next(updatedRecords);
-        
+        this.persistAttendance();
         return true;
       })
     );
+  }
+
+  // Utility to persist attendance to localStorage
+  private persistAttendance() {
+    try {
+      localStorage.setItem(this.ATTENDANCE_STORAGE_KEY, JSON.stringify(this.attendanceSubject.value));
+    } catch {}
   }
 } 

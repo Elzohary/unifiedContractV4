@@ -22,7 +22,6 @@ import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { Employee, EmployeeRequest } from '../../../../core/models/employee.model';
 import { DataRepositoryService } from '../../../../core/services/data-repository.service';
-import { EmployeeService } from '../../../../core/services/employee.service';
 import { finalize, first, catchError, of, forkJoin, map } from 'rxjs';
 
 @Component({
@@ -102,7 +101,6 @@ export class EmployeeRequestsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private dataRepository: DataRepositoryService,
-    private employeeService: EmployeeService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog
   ) { }
@@ -161,7 +159,7 @@ export class EmployeeRequestsComponent implements OnInit {
           this.requestForm.get('employeeId')?.disable();
           
           // Load this employee's requests
-          this.loadEmployeeRequests(employee.id);
+          this.loadRequests(employee.id);
         } else {
           this.router.navigate(['/hr/requests']);
         }
@@ -190,29 +188,10 @@ export class EmployeeRequestsComponent implements OnInit {
       });
   }
   
-  loadEmployeeRequests(employeeId: string): void {
-    this.isLoading = true;
-    
-    this.employeeService.getEmployeeRequests(employeeId)
-      .pipe(
-        first(),
-        catchError(err => {
-          this.hasError = true;
-          this.errorMessage = `Failed to load requests: ${err.message || 'Unknown error'}`;
-          return of([]);
-        }),
-        finalize(() => {
-          this.isLoading = false;
-        })
-      )
-      .subscribe(requests => {
-        this.employeeRequests = requests;
-        
-        // Sort by date (newest first)
-        this.employeeRequests.sort((a, b) => {
-          return new Date(b.requestDate).getTime() - new Date(a.requestDate).getTime();
-        });
-      });
+  loadRequests(employeeId: string): void {
+    this.dataRepository.getRequestsByEmployee(employeeId).subscribe(requests => {
+      this.employeeRequests = requests;
+    });
   }
   
   loadAllRequests(): void {
@@ -221,7 +200,7 @@ export class EmployeeRequestsComponent implements OnInit {
     
     // Get requests for all employees
     const requests = this.employees.map(employee => 
-      this.employeeService.getEmployeeRequests(employee.id)
+      this.dataRepository.getRequestsByEmployee(employee.id)
         .pipe(
           catchError(err => {
             console.error(`Error loading requests for employee ${employee.id}:`, err);
@@ -306,7 +285,7 @@ export class EmployeeRequestsComponent implements OnInit {
       responseNotes: ''
     };
     
-    this.employeeService.addEmployeeRequest(employee.id, requestObj)
+    this.dataRepository.addEmployeeRequest(employee.id, requestObj)
       .pipe(
         first(),
         catchError(err => {
@@ -326,7 +305,7 @@ export class EmployeeRequestsComponent implements OnInit {
           
           // Reload requests
           if (this.singleEmployeeMode && this.currentEmployee) {
-            this.loadEmployeeRequests(this.currentEmployee.id);
+            this.loadRequests(this.currentEmployee.id);
           } else {
             this.loadAllRequests();
           }
@@ -354,7 +333,7 @@ export class EmployeeRequestsComponent implements OnInit {
       responseNotes: `Request ${status} by admin`
     };
     
-    this.employeeService.updateEmployeeRequest(request.employee.id, updatedRequest)
+    this.dataRepository.updateEmployeeRequest(request.employee.id, updatedRequest)
       .pipe(
         first(),
         catchError(err => {
@@ -371,7 +350,7 @@ export class EmployeeRequestsComponent implements OnInit {
           
           // Reload requests
           if (this.singleEmployeeMode && this.currentEmployee) {
-            this.loadEmployeeRequests(this.currentEmployee.id);
+            this.loadRequests(this.currentEmployee.id);
           } else {
             this.loadAllRequests();
           }
@@ -383,7 +362,7 @@ export class EmployeeRequestsComponent implements OnInit {
     if (confirm(`Are you sure you want to delete this ${request.type} request from ${request.employee.name}?`)) {
       this.isLoading = true;
       
-      this.employeeService.deleteEmployeeRequest(request.employee.id, request.id)
+      this.dataRepository.deleteEmployeeRequest(request.employee.id, request.id)
         .pipe(
           first(),
           catchError(err => {
@@ -399,7 +378,7 @@ export class EmployeeRequestsComponent implements OnInit {
             this.snackBar.open('Request deleted successfully', 'Close', { duration: 3000 });
             
             if (this.singleEmployeeMode && this.currentEmployee) {
-              this.loadEmployeeRequests(this.currentEmployee.id);
+              this.loadRequests(this.currentEmployee.id);
             } else {
               this.loadAllRequests();
             }
@@ -410,7 +389,7 @@ export class EmployeeRequestsComponent implements OnInit {
   
   applyFilters(): void {
     if (this.singleEmployeeMode && this.currentEmployee) {
-      this.loadEmployeeRequests(this.currentEmployee.id);
+      this.loadRequests(this.currentEmployee.id);
     } else {
       this.loadAllRequests();
     }
@@ -442,7 +421,7 @@ export class EmployeeRequestsComponent implements OnInit {
     this.typeFilter = 'all';
     
     if (this.singleEmployeeMode && this.currentEmployee) {
-      this.loadEmployeeRequests(this.currentEmployee.id);
+      this.loadRequests(this.currentEmployee.id);
     } else {
       this.loadAllRequests();
     }

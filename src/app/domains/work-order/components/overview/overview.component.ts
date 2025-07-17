@@ -9,6 +9,8 @@ import { StatsCardComponent } from '../../../../shared/components/stats-card/sta
 import { UnderConstructionComponent } from '../../../../shared/components/under-construction/under-construction.component';
 import { WorkOrderService } from '../../services/work-order.service';
 import { ActivityLogService, ActivityLog } from '../../../../shared/services/activity-log.service';
+import { WorkOrderDashboardViewModel, WorkOrderDashboardStats } from '../../viewModels/work-order-dashboard.viewmodel';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-overview',
@@ -27,78 +29,19 @@ import { ActivityLogService, ActivityLog } from '../../../../shared/services/act
   styleUrl: './overview.component.scss'
 })
 export class OverviewComponent implements OnInit {
-  // Stats data
-  statsCards = [
-    {
-      title: 'Total Work Orders',
-      value: 125,
-      icon: 'description',
-      cardColor: 'primary' as const,
-      trend: 12,
-      trendLabel: 'since last month'
-    },
-    {
-      title: 'Active Work Orders',
-      value: 89,
-      icon: 'fact_check',
-      cardColor: 'success' as const,
-      trend: 8,
-      trendLabel: 'since last month'
-    },
-    {
-      title: 'Pending Work Orders',
-      value: 15,
-      icon: 'schedule',
-      cardColor: 'warning' as const,
-      trend: -5,
-      trendLabel: 'since last month'
-    },
-    {
-      title: 'Overdue',
-      value: 3,
-      icon: 'warning',
-      cardColor: 'error' as const,
-      trend: -2,
-      trendLabel: 'since last month'
-    }
-  ];
-
-  // Recent activities data
-  recentActivities: ActivityLog[] = [];
+  stats$: Observable<WorkOrderDashboardStats>;
+  recentActivities$: Observable<ActivityLog[]>;
 
   constructor(
-    private workOrderService: WorkOrderService,
+    private dashboardVM: WorkOrderDashboardViewModel,
     private activityLogService: ActivityLogService
-  ) {}
-
-  ngOnInit(): void {
-    this.loadRecentActivities();
+  ) {
+    this.stats$ = this.dashboardVM.stats$;
+    this.recentActivities$ = this.activityLogService.getAllActivityLogs();
   }
 
-  loadRecentActivities(): void {
-    // Filter activity logs from the last 12 hours
-    const twelveHoursAgo = new Date();
-    twelveHoursAgo.setHours(twelveHoursAgo.getHours() - 12);
+  ngOnInit(): void {}
 
-    this.activityLogService.getAllActivityLogs().subscribe(
-      (logs) => {
-        // Filter logs that occurred in the last 12 hours
-        this.recentActivities = logs
-          .filter(log => new Date(log.timestamp) >= twelveHoursAgo)
-          .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
-          .slice(0, 6); // Limit to the 6 most recent activities
-      },
-      (error) => {
-        console.error('Error loading recent activities:', error);
-        // Fallback to empty array if there's an error
-        this.recentActivities = [];
-      }
-    );
-  }
-
-  /**
-   * Get the appropriate icon for an activity based on its action
-   */
   getActivityIcon(action: string): string {
     switch (action) {
       case 'create':
@@ -116,9 +59,6 @@ export class OverviewComponent implements OnInit {
     }
   }
 
-  /**
-   * Get the appropriate color class for an activity based on its action
-   */
   getIconColorClass(action: string): string {
     switch (action) {
       case 'create':
@@ -134,5 +74,12 @@ export class OverviewComponent implements OnInit {
       default:
         return 'icon-default';
     }
+  }
+
+  // Add this method to filter recent activities (last 12 hours)
+  isRecentActivity(activity: ActivityLog): boolean {
+    const twelveHoursAgo = new Date();
+    twelveHoursAgo.setHours(twelveHoursAgo.getHours() - 12);
+    return new Date(activity.timestamp) >= twelveHoursAgo;
   }
 }

@@ -107,21 +107,21 @@ export const projectMenuItems = [
                 link: '/hr/employees',
                 icon: 'badge'
             },
-            {
+            /* {
                 label: 'Requests',
                 link: '/hr/requests',
                 icon: 'assignment'
-            },
+            }, */
             {
                 label: 'Attendance',
                 link: '/hr/attendance',
                 icon: 'access_time'
             },
-            {
+            /* {
                 label: 'Warnings',
                 link: '/hr/warnings',
                 icon: 'warning'
-            },
+            }, */
             /* {
                 label: 'Announcements',
                 link: '/hr/announcements',
@@ -129,27 +129,7 @@ export const projectMenuItems = [
             } */
         ]
     },
-    {
-        label: 'Reports',
-        icon: 'assessment',
-        subItems: [
-            {
-                label: 'Monthly Reports',
-                link: '/reports/monthly',
-                icon: 'calendar_today'
-            },
-            {
-                label: 'Performance Reports',
-                link: '/reports/performance',
-                icon: 'trending_up'
-            },
-            {
-                label: 'Custom Reports',
-                link: '/reports/custom',
-                icon: 'tune'
-            }
-        ]
-    },
+    
     {
         label: 'Administration',
         icon: 'admin_panel_settings',
@@ -167,3 +147,25 @@ export const projectMenuItems = [
         ]
     }
 ];
+
+/* {
+    label: 'Reports',
+    icon: 'assessment',
+    subItems: [
+        {
+            label: 'Monthly Reports',
+            link: '/reports/monthly',
+            icon: 'calendar_today'
+        },
+        {
+            label: 'Performance Reports',
+            link: '/reports/performance',
+            icon: 'trending_up'
+        },
+        {
+            label: 'Custom Reports',
+            link: '/reports/custom',
+            icon: 'tune'
+        }
+    ]
+}, */

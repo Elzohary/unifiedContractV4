@@ -13,8 +13,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Employee } from '../../../shared/models/employee.model';
-import { EmployeeService } from '../../../shared/services/employee.service';
+import { Employee } from '../../../core/models/employee.model';
+import { DataRepositoryService } from '../../../core/services/data-repository.service';
 
 @Component({
   selector: 'app-employee-list',
@@ -53,7 +53,7 @@ export class EmployeeListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
-    private employeeService: EmployeeService,
+    private dataRepository: DataRepositoryService,
     private router: Router
   ) {}
 
@@ -67,13 +67,13 @@ export class EmployeeListComponent implements OnInit, AfterViewInit {
 
   loadEmployees(): void {
     this.isLoading = true;
-    this.employeeService.getEmployees().subscribe({
-      next: (employees) => {
+    this.dataRepository.getEmployees().subscribe({
+      next: (employees: Employee[]) => {
         this.employees = employees;
         this.filteredEmployees = employees;
         this.isLoading = false;
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Error loading employees', error);
         this.isLoading = false;
       }
@@ -138,14 +138,9 @@ export class EmployeeListComponent implements OnInit, AfterViewInit {
 
   deleteEmployee(id: string): void {
     if (confirm('Are you sure you want to delete this employee?')) {
-      this.employeeService.deleteEmployee(id).subscribe({
-        next: () => {
-          this.loadEmployees();
-        },
-        error: (error) => {
-          console.error('Error deleting employee', error);
-        }
-      });
+      this.dataRepository.invalidateCache('employee', id);
+      this.dataRepository.invalidateCache('employees');
+      this.loadEmployees();
     }
   }
 

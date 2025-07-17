@@ -12,8 +12,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableModule } from '@angular/material/table';
-import { Employee, AttendanceRecord, Certificate, EmployeeRequest, Warning } from '../../../shared/models/employee.model';
-import { EmployeeService } from '../../../shared/services/employee.service';
+import { Employee, AttendanceRecord, Certificate, EmployeeRequest, Warning } from '../../../core/models/employee.model';
+import { DataRepositoryService } from '../../../core/services/data-repository.service';
 
 @Component({
   selector: 'app-employee-detail',
@@ -57,7 +57,7 @@ export class EmployeeDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private employeeService: EmployeeService
+    private dataRepository: DataRepositoryService
   ) {}
 
   ngOnInit(): void {
@@ -73,35 +73,20 @@ export class EmployeeDetailComponent implements OnInit {
 
   loadEmployeeData(employeeId: string): void {
     this.isLoading = true;
-    this.employeeService.getEmployeeById(employeeId).subscribe({
-      next: (employee) => {
-        if (employee) {
-          this.employee = employee;
-          
-          // Load attendance data
-          this.employeeService.getAttendanceByEmployee(employeeId).subscribe(records => {
-            this.recentAttendance = records.slice(0, 5); // Show only 5 most recent
-          });
-          
-          // Load certificate data
-          this.certificates = employee.certificates || [];
-          
-          // Load requests
-          this.employeeService.getRequestsByEmployee(employeeId).subscribe(requests => {
-            this.requests = requests;
-          });
-          
-          // Load warnings
-          this.employeeService.getWarningsByEmployee(employeeId).subscribe(warnings => {
-            this.warnings = warnings;
-          });
-          
-          this.isLoading = false;
+    this.dataRepository.getEmployeeWithRelatedData(employeeId).subscribe({
+      next: (data: { employee: Employee | undefined, attendance: AttendanceRecord[], requests: EmployeeRequest[], warnings: Warning[] }) => {
+        if (data.employee) {
+          this.employee = data.employee;
+          this.recentAttendance = data.attendance.slice(0, 5);
+          this.certificates = data.employee.certificates || [];
+          this.requests = data.requests || [];
+          this.warnings = data.warnings || [];
         } else {
           this.router.navigate(['/hr/employees']);
         }
+        this.isLoading = false;
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Error loading employee', error);
         this.isLoading = false;
         this.router.navigate(['/hr/employees']);

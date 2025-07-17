@@ -21,7 +21,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { Employee, Certificate, WorkExperience, Identification, EmployeeUser } from '../../../../core/models/employee.model';
 import { DataRepositoryService } from '../../../../core/services/data-repository.service';
-import { EmployeeService } from '../../../../core/services/employee.service';
 import { finalize, first, catchError, of } from 'rxjs';
 
 @Component({
@@ -87,7 +86,6 @@ export class EmployeeFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dataRepository: DataRepositoryService,
-    private employeeService: EmployeeService,
     private route: ActivatedRoute,
     private router: Router,
     private snackBar: MatSnackBar
@@ -327,36 +325,7 @@ export class EmployeeFormComponent implements OnInit {
     const employeeData = this.prepareEmployeeData(formValues);
     
     // Call the appropriate service method based on mode
-    const operation = this.isEditMode
-      ? this.employeeService.updateEmployee(employeeData)
-      : this.employeeService.addEmployee(employeeData);
-    
-    operation.pipe(
-      first(),
-      catchError(err => {
-        this.snackBar.open(`Error: ${err.message || 'Unknown error'}`, 'Close', { duration: 5000 });
-        return of(null);
-      }),
-      finalize(() => {
-        this.isLoading = false;
-      })
-    ).subscribe(result => {
-      if (result) {
-        // Success
-        const message = this.isEditMode
-          ? 'Employee updated successfully'
-          : 'Employee added successfully';
-        
-        this.snackBar.open(message, 'Close', { duration: 3000 });
-        
-        // Navigate back to the appropriate page
-        if (this.isEditMode) {
-          this.router.navigate(['/hr/employees', result.id]);
-        } else {
-          this.router.navigate(['/hr/employees']);
-        }
-      }
-    });
+    this.saveEmployee(employeeData);
   }
   
   prepareEmployeeData(formValues: any): Employee {
@@ -450,6 +419,51 @@ export class EmployeeFormComponent implements OnInit {
       this.router.navigate(['/hr/employees', this.employeeId]);
     } else {
       this.router.navigate(['/hr/employees']);
+    }
+  }
+
+  saveEmployee(employeeData: Employee): void {
+    // Use repository for add/update
+    if (this.isEditMode) {
+      this.dataRepository.updateEmployee(employeeData).pipe(
+        first(),
+        catchError(err => {
+          this.snackBar.open(`Error: ${err.message || 'Unknown error'}`, 'Close', { duration: 5000 });
+          return of(null);
+        }),
+        finalize(() => {
+          this.isLoading = false;
+        })
+      ).subscribe(result => {
+        if (result) {
+          // Success
+          const message = 'Employee updated successfully';
+          this.snackBar.open(message, 'Close', { duration: 3000 });
+          
+          // Navigate back to the appropriate page
+          this.router.navigate(['/hr/employees', result.id]);
+        }
+      });
+    } else {
+      this.dataRepository.addEmployee(employeeData).pipe(
+        first(),
+        catchError(err => {
+          this.snackBar.open(`Error: ${err.message || 'Unknown error'}`, 'Close', { duration: 5000 });
+          return of(null);
+        }),
+        finalize(() => {
+          this.isLoading = false;
+        })
+      ).subscribe(result => {
+        if (result) {
+          // Success
+          const message = 'Employee added successfully';
+          this.snackBar.open(message, 'Close', { duration: 3000 });
+          
+          // Navigate back to the appropriate page
+          this.router.navigate(['/hr/employees', result.id]);
+        }
+      });
     }
   }
 } 

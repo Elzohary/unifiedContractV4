@@ -22,8 +22,47 @@ import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { Employee, AttendanceRecord } from '../../../../core/models/employee.model';
 import { DataRepositoryService } from '../../../../core/services/data-repository.service';
-import { EmployeeService } from '../../../../core/services/employee.service';
-import { finalize, first, catchError, of } from 'rxjs';
+import { finalize, first, catchError, of, map } from 'rxjs';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
+
+// Helper to parse Excel date string or number to Date object
+function parseExcelDate(val: any): Date | null {
+  if (val instanceof Date) return val;
+  if (typeof val === 'number') {
+    // Excel serial date (days since 1899-12-31)
+    return new Date(Math.round((val - 25569) * 86400 * 1000));
+  }
+  if (typeof val === 'string') {
+    // Try to parse as yy-MM-dd or yyyy-MM-dd
+    const parts = val.split('-');
+    if (parts.length === 3) {
+      let year = parseInt(parts[0], 10);
+      if (year < 100) year += 2000;
+      const month = parseInt(parts[1], 10) - 1;
+      const day = parseInt(parts[2], 10);
+      return new Date(year, month, day);
+    }
+    // Fallback
+    const d = new Date(val);
+    return isNaN(d.getTime()) ? null : d;
+  }
+  return null;
+}
+// Helper to parse Excel time (number or string) to 'HH:mm'
+function parseExcelTime(val: any): string {
+  if (typeof val === 'number') {
+    // Excel time as fraction of day
+    const totalMinutes = Math.round(val * 24 * 60);
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+  }
+  if (typeof val === 'string' && /^\d{1,2}:\d{2}$/.test(val.trim())) {
+    return val.trim();
+  }
+  return '';
+}
 
 @Component({
   selector: 'app-attendance-management',
@@ -111,7 +150,6 @@ export class AttendanceManagementComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private dataRepository: DataRepositoryService,
-    private employeeService: EmployeeService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog
   ) { }
@@ -260,16 +298,27 @@ export class AttendanceManagementComponent implements OnInit {
     this.loadAttendanceForDateRange();
   }
   
+  // Utility to compare only the date part (Y-M-D)
+  private isSameOrInRange(recordDate: Date, start: Date, end: Date): boolean {
+    const d = new Date(recordDate.getFullYear(), recordDate.getMonth(), recordDate.getDate());
+    const s = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+    const e = new Date(end.getFullYear(), end.getMonth(), end.getDate());
+    return d >= s && d <= e;
+  }
+
   loadAttendanceForDateRange(): void {
     this.isLoading = true;
     this.hasError = false;
-    
+
     const startDateStr = this.formatDateForApi(this.startDate);
     const endDateStr = this.formatDateForApi(this.endDate);
-    
+
+    // Debug log: date range
+    console.log('[Attendance] Loading records for range:', startDateStr, 'to', endDateStr);
+
     if (this.singleEmployeeMode && this.currentEmployee) {
       // Load attendance for a single employee
-      this.employeeService.getEmployeeAttendance(this.currentEmployee.id, startDateStr, endDateStr)
+      this.dataRepository.getAttendanceByEmployee(this.currentEmployee.id)
         .pipe(
           first(),
           catchError(err => {
@@ -283,7 +332,8 @@ export class AttendanceManagementComponent implements OnInit {
         )
         .subscribe(records => {
           this.attendanceRecords = records;
-          
+          // Debug log: loaded records
+          console.log('[Attendance] Loaded records (single employee):', records);
           // Sort by date (newest first)
           this.attendanceRecords.sort((a, b) => {
             return new Date(b.date).getTime() - new Date(a.date).getTime();
@@ -305,7 +355,8 @@ export class AttendanceManagementComponent implements OnInit {
         )
         .subscribe((records: AttendanceRecord[]) => {
           this.attendanceRecords = records;
-          
+          // Debug log: loaded records
+          console.log('[Attendance] Loaded records (all employees):', records);
           // Sort by date (newest first)
           this.attendanceRecords.sort((a, b) => {
             return new Date(b.date).getTime() - new Date(a.date).getTime();
@@ -337,11 +388,11 @@ export class AttendanceManagementComponent implements OnInit {
       this.snackBar.open('Please fill in all required fields correctly', 'Close', { duration: 3000 });
       return;
     }
-    
+
     this.isLoading = true;
-    
+
     const formValues = this.attendanceForm.getRawValue(); // Use getRawValue to include disabled controls
-    
+
     // Find the employee
     const employee = this.employees.find(emp => emp.id === formValues.employeeId);
     if (!employee) {
@@ -349,12 +400,14 @@ export class AttendanceManagementComponent implements OnInit {
       this.isLoading = false;
       return;
     }
-    
+
     // Create attendance record object
+    const rawDate = new Date(formValues.date);
+    const normalizedDate = new Date(rawDate.getFullYear(), rawDate.getMonth(), rawDate.getDate());
     const attendanceRecord: AttendanceRecord = {
       id: '', // Will be set by the service
       employee: employee,
-      date: new Date(formValues.date),
+      date: normalizedDate, // Use normalized date
       checkIn: formValues.checkIn,
       checkOut: formValues.checkOut,
       status: formValues.status,
@@ -362,21 +415,24 @@ export class AttendanceManagementComponent implements OnInit {
       lateMinutes: 0, // Will be calculated by the service
       totalHours: 0 // Will be calculated by the service
     };
-    
+
     // If status is 'late', calculate late minutes
     if (formValues.status === 'late') {
       const scheduledStartTime = 8 * 60; // 8:00 AM in minutes
       const actualStartTime = this.parseTime(formValues.checkIn);
       attendanceRecord.lateMinutes = Math.max(0, actualStartTime - scheduledStartTime);
     }
-    
+
     // Calculate total hours
     const startTime = this.parseTime(formValues.checkIn);
     const endTime = this.parseTime(formValues.checkOut);
     const totalMinutes = endTime - startTime;
     attendanceRecord.totalHours = Math.max(0, totalMinutes / 60).toFixed(1);
-    
-    this.employeeService.addEmployeeAttendance(employee.id, attendanceRecord)
+
+    // Debug log: record being added
+    console.log('[Attendance] Adding record:', attendanceRecord);
+
+    this.dataRepository.addEmployeeAttendance(employee.id, attendanceRecord)
       .pipe(
         first(),
         catchError(err => {
@@ -390,7 +446,7 @@ export class AttendanceManagementComponent implements OnInit {
       .subscribe(result => {
         if (result) {
           this.snackBar.open('Attendance record added successfully', 'Close', { duration: 3000 });
-          
+
           // Reset the form
           this.attendanceForm.reset({
             employeeId: this.singleEmployeeMode ? this.currentEmployee?.id : '',
@@ -400,12 +456,12 @@ export class AttendanceManagementComponent implements OnInit {
             status: 'present',
             notes: ''
           });
-          
+
           // If in single employee mode, keep the employee field disabled
           if (this.singleEmployeeMode && this.currentEmployee) {
             this.attendanceForm.get('employeeId')?.disable();
           }
-          
+
           // Reload attendance records
           this.loadAttendanceForDateRange();
         }
@@ -472,7 +528,7 @@ export class AttendanceManagementComponent implements OnInit {
         attendanceRecord.lateMinutes = Math.max(0, actualStartTime - scheduledStartTime);
       }
       
-      this.employeeService.addEmployeeAttendance(employee.id, attendanceRecord)
+      this.dataRepository.addEmployeeAttendance(employee.id, attendanceRecord)
         .pipe(
           first(),
           catchError(err => {
@@ -535,7 +591,7 @@ export class AttendanceManagementComponent implements OnInit {
     if (confirm(`Are you sure you want to delete this attendance record for ${record.employee.name} on ${new Date(record.date).toLocaleDateString()}?`)) {
       this.isLoading = true;
       
-      this.employeeService.deleteEmployeeAttendance(record.employee.id, record.id)
+      this.dataRepository.deleteEmployeeAttendance(record.employee.id, record.id)
         .pipe(
           first(),
           catchError(err => {
@@ -620,7 +676,7 @@ export class AttendanceManagementComponent implements OnInit {
       // Save the updated record
       this.isLoading = true;
       
-      this.employeeService.updateEmployeeAttendance(record.employee.id, recordCopy)
+      this.dataRepository.updateEmployeeAttendance(record.employee.id, recordCopy)
         .pipe(
           first(),
           catchError(err => {
@@ -679,5 +735,144 @@ export class AttendanceManagementComponent implements OnInit {
       defaultCheckOut: '17:00',
       notes: ''
     });
+  }
+
+  // Download all attendance records as Excel
+  downloadAttendanceExcel(): void {
+    const data = this.attendanceRecords.map(record => ({
+      'Badge Number': record.employee.badgeNumber,
+      'Name': record.employee.name,
+      'Date': this.formatDateForApi(new Date(record.date)),
+      'Check-in Time': record.checkIn,
+      'Check-out Time': record.checkOut,
+      'Status': record.status
+    }));
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Attendance');
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    saveAs(new Blob([excelBuffer], { type: 'application/octet-stream' }), 'attendance_records.xlsx');
+  }
+
+  // Download bulk entry template as Excel
+  downloadBulkTemplate(): void {
+    const data = this.employees.map(emp => ({
+      'Badge Number': emp.badgeNumber,
+      'Name': emp.name,
+      'Date': this.formatDateForApi(this.startDate),
+      'Check-in Time': '',
+      'Check-out Time': '',
+      'Status': '',
+      'Late By': ''
+    }));
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'BulkTemplate');
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    saveAs(new Blob([excelBuffer], { type: 'application/octet-stream' }), 'attendance_bulk_template.xlsx');
+  }
+
+  // Handle Excel import for bulk attendance
+  handleBulkImport(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
+    const file = input.files[0];
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      const data = new Uint8Array(e.target.result);
+      const workbook = XLSX.read(data, { type: 'array' });
+      const sheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[sheetName];
+      const json: any[] = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
+      // Debug log: parsed rows
+      console.log('[Bulk Import] Parsed rows:', json);
+      // Validate and process rows
+      let attendanceList = [...this.dataRepository.getAllAttendanceRecords()];
+      let updatedCount = 0;
+      let addedCount = 0;
+      for (const row of json) {
+        const badge = row['Badge Number'];
+        const name = row['Name'];
+        const dateVal = row['Date'];
+        const checkInVal = row['Check-in Time'];
+        const checkOutVal = row['Check-out Time'];
+        const status = row['Status'];
+        const lateByVal = row['Late By'];
+        if (!badge || !name || !dateVal) {
+          console.warn('[Bulk Import] Skipping row (missing required fields):', row);
+          continue;
+        }
+        const employee = this.employees.find(e => e.badgeNumber === badge && e.name === name);
+        if (!employee) {
+          console.warn('[Bulk Import] No employee match for:', badge, name);
+          continue;
+        }
+        const date = parseExcelDate(dateVal);
+        if (!date) {
+          console.warn('[Bulk Import] Invalid date:', dateVal);
+          continue;
+        }
+        const normalizedDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        // Normalize status for comparison
+        const normalizedStatus = (status || '').toString().replace(/\s+/g, '').toLowerCase();
+        const isSpecialStatus = ['absent','vacation','sickleave'].includes(normalizedStatus);
+        // If check-in/out is blank, keep it blank, unless special status
+        let checkIn = checkInVal && parseExcelTime(checkInVal) ? parseExcelTime(checkInVal) : (checkInVal === '' ? '' : parseExcelTime(checkInVal));
+        let checkOut = checkOutVal && parseExcelTime(checkOutVal) ? parseExcelTime(checkOutVal) : (checkOutVal === '' ? '' : parseExcelTime(checkOutVal));
+        if (isSpecialStatus) {
+          checkIn = 'N/A';
+          checkOut = 'N/A';
+        }
+        // Parse lateByVal as number of minutes
+        let lateMinutes = 0;
+        if (typeof lateByVal === 'number') {
+          lateMinutes = lateByVal;
+        } else if (typeof lateByVal === 'string' && lateByVal.trim() !== '') {
+          // Accept formats like '10', '10 min', '10 mins', '10 minutes'
+          const match = lateByVal.match(/(\d+)/);
+          if (match) {
+            lateMinutes = parseInt(match[1], 10);
+          }
+        }
+        // Remove all existing records for this employee and date
+        attendanceList = attendanceList.filter(r => {
+          const rDate = new Date(r.date);
+          const rNormDate = new Date(rDate.getFullYear(), rDate.getMonth(), rDate.getDate());
+          return !(r.employee.id === employee.id && rNormDate.getTime() === normalizedDate.getTime());
+        });
+        // Add new record
+        const record: AttendanceRecord = {
+          id: '',
+          employee,
+          date: normalizedDate,
+          checkIn,
+          checkOut,
+          status: status || 'present',
+          notes: '',
+          lateMinutes,
+          totalHours: 0
+        };
+        attendanceList.push(record);
+        addedCount++;
+        console.log('[Bulk Import] Added/Updated record:', record);
+      }
+      // Persist and update
+      this.dataRepository.setAllAttendanceRecords(attendanceList);
+      // Persist to localStorage
+      try {
+        localStorage.setItem('attendance_records', JSON.stringify(attendanceList));
+      } catch {}
+      this.snackBar.open(`Bulk import complete: ${addedCount} records processed.`, 'Close', { duration: 3000 });
+      this.loadAttendanceForDateRange();
+      if (this.table) {
+        this.table.renderRows();
+      }
+      // Reset file input so user can upload again
+      input.value = '';
+    };
+    reader.onerror = (err) => {
+      this.snackBar.open('Failed to read the file. Please try again.', 'Close', { duration: 4000 });
+    };
+    reader.readAsArrayBuffer(file);
   }
 } 

@@ -12,16 +12,48 @@
 
   <!-- Stats Cards Row -->
   <div class="stats-cards-grid mb-4">
-    <div class="stats-card-wrapper" *ngFor="let card of statsCards">
-      <app-stats-card 
-        [title]="card.title"
-        [value]="card.value"
-        [icon]="card.icon"
-        [cardColor]="card.cardColor"
-        [trend]="card.trend"
-        [trendLabel]="card.trendLabel">
-      </app-stats-card>
-    </div>
+    <ng-container *ngIf="stats$ | async as stats">
+      <div class="stats-card-wrapper">
+        <app-stats-card 
+          title="Total Work Orders"
+          [value]="stats.total"
+          icon="description"
+          cardColor="primary"
+          [trend]="stats.trends[0]?.trend ?? 0"
+          trendLabel="since last month">
+        </app-stats-card>
+      </div>
+      <div class="stats-card-wrapper">
+        <app-stats-card 
+          title="Active Work Orders"
+          [value]="stats.active"
+          icon="fact_check"
+          cardColor="success"
+          [trend]="stats.trends[0]?.trend ?? 0"
+          trendLabel="since last month">
+        </app-stats-card>
+      </div>
+      <div class="stats-card-wrapper">
+        <app-stats-card 
+          title="Pending Work Orders"
+          [value]="stats.pending"
+          icon="schedule"
+          cardColor="warning"
+          [trend]="stats.trends[0]?.trend ?? 0"
+          trendLabel="since last month">
+        </app-stats-card>
+      </div>
+      <div class="stats-card-wrapper">
+        <app-stats-card 
+          title="Overdue"
+          [value]="stats.overdue"
+          icon="warning"
+          cardColor="error"
+          [trend]="stats.trends[0]?.trend ?? 0"
+          trendLabel="since last month">
+        </app-stats-card>
+      </div>
+    </ng-container>
   </div>
 
   <!-- Main Content -->
@@ -80,25 +112,35 @@
         </div>
         <div class="card-body">
           <div class="activity-list">
-            <div *ngIf="recentActivities.length === 0" class="no-activities">
-              <div class="empty-state d-flex flex-column align-items-center justify-content-center p-3">
-                <mat-icon class="empty-icon">history</mat-icon>
-                <p class="empty-text mt-2">No recent activities in the last 12 hours</p>
-              </div>
-            </div>
-            <div *ngFor="let activity of recentActivities" class="activity-item d-flex align-items-start">
-              <div class="activity-icon-container" [ngClass]="getIconColorClass(activity.action)">
-                <mat-icon class="activity-icon">{{ getActivityIcon(activity.action) }}</mat-icon>
-              </div>
-              <div class="activity-content">
-                <div class="activity-title">{{ activity.description }}</div>
-                <div class="activity-meta">
-                  <span class="activity-user">{{ activity.userName }}</span>
-                  <span class="activity-separator">•</span>
-                  <span class="activity-time">{{ activity.timestamp | date:'short' }}</span>
+            <ng-container *ngIf="recentActivities$ | async as allActivities">
+              <ng-container *ngIf="allActivities.length > 0; else noActivities">
+                <ng-container *ngFor="let activity of allActivities | slice:0:20">
+                  <ng-container *ngIf="isRecentActivity(activity)">
+                    <div class="activity-item d-flex align-items-start">
+                      <div class="activity-icon-container" [ngClass]="getIconColorClass(activity.action)">
+                        <mat-icon class="activity-icon">{{ getActivityIcon(activity.action) }}</mat-icon>
+                      </div>
+                      <div class="activity-content">
+                        <div class="activity-title">{{ activity.description }}</div>
+                        <div class="activity-meta">
+                          <span class="activity-user">{{ activity.userName }}</span>
+                          <span class="activity-separator">•</span>
+                          <span class="activity-time">{{ activity.timestamp | date:'short' }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+              <ng-template #noActivities>
+                <div class="no-activities">
+                  <div class="empty-state d-flex flex-column align-items-center justify-content-center p-3">
+                    <mat-icon class="empty-icon">history</mat-icon>
+                    <p class="empty-text mt-2">No recent activities in the last 12 hours</p>
+                  </div>
                 </div>
-              </div>
-            </div>
+              </ng-template>
+            </ng-container>
           </div>
         </div>
       </div>

@@ -27,11 +27,20 @@ export class AuthService {
   private mockUsers: AuthUser[] = [
     {
       id: 'user1',
-      name: 'John Smith',
-      email: 'john.smith@example.com',
-      role: 'engineer',
+      name: 'HR Admin',
+      email: 'hr.admin@example.com',
+      role: 'administrator',
       avatar: 'assets/avatars/user1.jpg',
-      permissions: ['work-orders.view', 'work-orders.edit', 'remarks.view', 'remarks.add'],
+      permissions: [
+        'hr.dashboard',
+        'hr.employees',
+        'hr.requests',
+        'hr.attendance',
+        'work-orders.view',
+        'work-orders.edit',
+        'remarks.view',
+        'remarks.add'
+      ],
       isActive: true,
       lastLogin: new Date(),
       isEmployee: true,
@@ -52,7 +61,7 @@ export class AuthService {
   ];
 
   constructor() {
-    // Simulate logged in user for development
+    // Always treat as logged in HR admin for development
     this.currentUserSubject.next(this.mockUsers[0]);
     
     // Check for stored auth token and restore session
