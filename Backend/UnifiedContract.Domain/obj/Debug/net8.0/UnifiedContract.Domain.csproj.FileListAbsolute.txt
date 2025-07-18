@@ -1,0 +1,26 @@
+F:\Zohary\Software Development\full-project\Backend\UnifiedContract.Domain\obj\Debug\net8.0\UnifiedContract.Domain.GeneratedMSBuildEditorConfig.editorconfig
+F:\Zohary\Software Development\full-project\Backend\UnifiedContract.Domain\obj\Debug\net8.0\UnifiedContract.Domain.AssemblyInfoInputs.cache
+F:\Zohary\Software Development\full-project\Backend\UnifiedContract.Domain\obj\Debug\net8.0\UnifiedContract.Domain.AssemblyInfo.cs
+F:\Zohary\Software Development\full-project\Backend\UnifiedContract.Domain\obj\Debug\net8.0\UnifiedContract.Domain.csproj.CoreCompileInputs.cache
+F:\Zohary\Software Development\full-project\Backend\UnifiedContract.Domain\obj\Debug\net8.0\UnifiedContract.Domain.sourcelink.json
+F:\Zohary\Software Development\full-project\Backend\UnifiedContract.Domain\obj\Debug\net8.0\UnifiedContract.Domain.csproj.AssemblyReference.cache
+F:\Zohary\Software Development\full-project\Backend\UnifiedContract.Domain\bin\Debug\net8.0\UnifiedContract.Domain.deps.json
+F:\Zohary\Software Development\full-project\Backend\UnifiedContract.Domain\bin\Debug\net8.0\UnifiedContract.Domain.dll
+F:\Zohary\Software Development\full-project\Backend\UnifiedContract.Domain\bin\Debug\net8.0\UnifiedContract.Domain.pdb
+F:\Zohary\Software Development\full-project\Backend\UnifiedContract.Domain\obj\Debug\net8.0\UnifiedContract.Domain.dll
+F:\Zohary\Software Development\full-project\Backend\UnifiedContract.Domain\obj\Debug\net8.0\refint\UnifiedContract.Domain.dll
+F:\Zohary\Software Development\full-project\Backend\UnifiedContract.Domain\obj\Debug\net8.0\UnifiedContract.Domain.pdb
+F:\Zohary\Software Development\full-project\Backend\UnifiedContract.Domain\obj\Debug\net8.0\ref\UnifiedContract.Domain.dll
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Domain\bin\Debug\net8.0\UnifiedContract.Domain.deps.json
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Domain\bin\Debug\net8.0\UnifiedContract.Domain.dll
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Domain\bin\Debug\net8.0\UnifiedContract.Domain.pdb
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Domain\obj\Debug\net8.0\UnifiedContract.Domain.csproj.AssemblyReference.cache
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Domain\obj\Debug\net8.0\UnifiedContract.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Domain\obj\Debug\net8.0\UnifiedContract.Domain.AssemblyInfoInputs.cache
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Domain\obj\Debug\net8.0\UnifiedContract.Domain.AssemblyInfo.cs
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Domain\obj\Debug\net8.0\UnifiedContract.Domain.csproj.CoreCompileInputs.cache
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Domain\obj\Debug\net8.0\UnifiedContract.Domain.sourcelink.json
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Domain\obj\Debug\net8.0\UnifiedContract.Domain.dll
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Domain\obj\Debug\net8.0\refint\UnifiedContract.Domain.dll
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Domain\obj\Debug\net8.0\UnifiedContract.Domain.pdb
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Domain\obj\Debug\net8.0\ref\UnifiedContract.Domain.dll

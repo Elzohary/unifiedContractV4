@@ -1,0 +1,8 @@
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.API\obj\Debug\net8.0\UnifiedContract.API.csproj.AssemblyReference.cache
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.API\obj\Debug\net8.0\UnifiedContract.API.GeneratedMSBuildEditorConfig.editorconfig
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.API\obj\Debug\net8.0\UnifiedContract.API.AssemblyInfoInputs.cache
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.API\obj\Debug\net8.0\UnifiedContract.API.AssemblyInfo.cs
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.API\obj\Debug\net8.0\UnifiedContract.API.csproj.CoreCompileInputs.cache
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.API\obj\Debug\net8.0\UnifiedContract.API.MvcApplicationPartsAssemblyInfo.cs
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.API\obj\Debug\net8.0\UnifiedContract.API.MvcApplicationPartsAssemblyInfo.cache
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.API\obj\Debug\net8.0\UnifiedContract.API.sourcelink.json

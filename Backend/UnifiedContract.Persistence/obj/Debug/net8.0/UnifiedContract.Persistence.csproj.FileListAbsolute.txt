@@ -1,0 +1,6 @@
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Persistence\obj\Debug\net8.0\UnifiedContract.Persistence.csproj.AssemblyReference.cache
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Persistence\obj\Debug\net8.0\UnifiedContract.Persistence.GeneratedMSBuildEditorConfig.editorconfig
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Persistence\obj\Debug\net8.0\UnifiedContract.Persistence.AssemblyInfoInputs.cache
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Persistence\obj\Debug\net8.0\UnifiedContract.Persistence.AssemblyInfo.cs
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Persistence\obj\Debug\net8.0\UnifiedContract.Persistence.csproj.CoreCompileInputs.cache
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Persistence\obj\Debug\net8.0\UnifiedContract.Persistence.sourcelink.json

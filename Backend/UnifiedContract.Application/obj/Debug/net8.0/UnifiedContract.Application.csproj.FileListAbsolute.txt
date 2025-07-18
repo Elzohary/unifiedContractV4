@@ -1,0 +1,16 @@
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Application\bin\Debug\net8.0\UnifiedContract.Application.deps.json
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Application\bin\Debug\net8.0\UnifiedContract.Application.dll
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Application\bin\Debug\net8.0\UnifiedContract.Application.pdb
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Application\bin\Debug\net8.0\UnifiedContract.Domain.dll
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Application\bin\Debug\net8.0\UnifiedContract.Domain.pdb
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Application\obj\Debug\net8.0\UnifiedContract.Application.csproj.AssemblyReference.cache
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Application\obj\Debug\net8.0\UnifiedContract.Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Application\obj\Debug\net8.0\UnifiedContract.Application.AssemblyInfoInputs.cache
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Application\obj\Debug\net8.0\UnifiedContract.Application.AssemblyInfo.cs
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Application\obj\Debug\net8.0\UnifiedContract.Application.csproj.CoreCompileInputs.cache
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Application\obj\Debug\net8.0\UnifiedContract.Application.sourcelink.json
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Application\obj\Debug\net8.0\UnifiedC.8A247388.Up2Date
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Application\obj\Debug\net8.0\UnifiedContract.Application.dll
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Application\obj\Debug\net8.0\refint\UnifiedContract.Application.dll
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Application\obj\Debug\net8.0\UnifiedContract.Application.pdb
+D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Application\obj\Debug\net8.0\ref\UnifiedContract.Application.dll
