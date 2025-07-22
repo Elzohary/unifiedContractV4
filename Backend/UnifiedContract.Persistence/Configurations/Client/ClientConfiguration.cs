@@ -84,7 +84,7 @@ namespace UnifiedContract.Persistence.Configurations.Client
                 .OnDelete(DeleteBehavior.SetNull);
                 
             builder.HasMany(c => c.WorkOrders)
-                .WithOne()
+                .WithOne(w => w.Client)
                 .HasForeignKey(w => w.ClientId)
                 .OnDelete(DeleteBehavior.Restrict);
                 

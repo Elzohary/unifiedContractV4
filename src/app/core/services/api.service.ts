@@ -17,13 +17,20 @@ export interface ApiResponse<T> {
 export class ApiService {
   private baseUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    // Forced test call to /test-auth
+    this.http.get(`${this.baseUrl.replace(/\/api$/, '')}/api/test-auth`).subscribe({
+      next: (res) => console.log('[API SERVICE TEST] /api/test-auth response:', res),
+      error: (err) => console.error('[API SERVICE TEST] /api/test-auth error:', err)
+    });
+  }
 
   get<T>(endpoint: string, params?: HttpParams): Observable<ApiResponse<T>> {
+    const finalEndpoint = endpoint.startsWith('/') ? endpoint.substring(1) : endpoint;
     if (environment.useMockData) {
-      return this.simulateApiCall<T>(endpoint, 'GET', params);
+      return this.simulateApiCall<T>(finalEndpoint, 'GET', params);
     }
-    return this.http.get<ApiResponse<T>>(`${this.baseUrl}/${endpoint}`, { params })
+    return this.http.get<ApiResponse<T>>(`${this.baseUrl}/${finalEndpoint}`, { params })
       .pipe(
         retry(3),
         catchError(this.handleError)
@@ -31,30 +38,33 @@ export class ApiService {
   }
 
   post<T>(endpoint: string, body: any): Observable<ApiResponse<T>> {
+    const finalEndpoint = endpoint.startsWith('/') ? endpoint.substring(1) : endpoint;
     if (environment.useMockData) {
-      return this.simulateApiCall<T>(endpoint, 'POST', body);
+      return this.simulateApiCall<T>(finalEndpoint, 'POST', body);
     }
-    return this.http.post<ApiResponse<T>>(`${this.baseUrl}/${endpoint}`, body)
+    return this.http.post<ApiResponse<T>>(`${this.baseUrl}/${finalEndpoint}`, body)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   put<T>(endpoint: string, body: any): Observable<ApiResponse<T>> {
+    const finalEndpoint = endpoint.startsWith('/') ? endpoint.substring(1) : endpoint;
     if (environment.useMockData) {
-      return this.simulateApiCall<T>(endpoint, 'PUT', body);
+      return this.simulateApiCall<T>(finalEndpoint, 'PUT', body);
     }
-    return this.http.put<ApiResponse<T>>(`${this.baseUrl}/${endpoint}`, body)
+    return this.http.put<ApiResponse<T>>(`${this.baseUrl}/${finalEndpoint}`, body)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   delete<T>(endpoint: string): Observable<ApiResponse<T>> {
+    const finalEndpoint = endpoint.startsWith('/') ? endpoint.substring(1) : endpoint;
     if (environment.useMockData) {
-      return this.simulateApiCall<T>(endpoint, 'DELETE');
+      return this.simulateApiCall<T>(finalEndpoint, 'DELETE');
     }
-    return this.http.delete<ApiResponse<T>>(`${this.baseUrl}/${endpoint}`)
+    return this.http.delete<ApiResponse<T>>(`${this.baseUrl}/${finalEndpoint}`)
       .pipe(
         catchError(this.handleError)
       );

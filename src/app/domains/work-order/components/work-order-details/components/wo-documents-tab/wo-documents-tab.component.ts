@@ -28,7 +28,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
 })
 export class WoDocumentsTabComponent implements OnInit, OnChanges {
   @Input() workOrder!: WorkOrder;
-  uploading: { [permitId: string]: boolean } = {};
+  generalAttachments: UploadedDocument[] = [];
+  permitDocuments: { [key: string]: UploadedDocument[] } = {};
+  uploading: { [key: string]: boolean } = {};
   uploadProgress: { [permitId: string]: number } = {};
   documents: { [permitId: string]: UploadedDocument[] } = {};
 
@@ -45,7 +47,7 @@ export class WoDocumentsTabComponent implements OnInit, OnChanges {
   }
 
   get approvedPermits(): Permit[] {
-    return (this.workOrder?.permits || []).filter((p: Permit) => p.status === 'approved');
+    return (this.workOrder?.permits || []).filter((p: Permit) => p.status?.toLowerCase() === 'approved');
   }
 
   refreshAllPermitDocuments() {
@@ -58,35 +60,44 @@ export class WoDocumentsTabComponent implements OnInit, OnChanges {
     });
   }
 
-  onFileSelected(event: Event, permit: Permit) {
+  onFileSelected(event: Event, permitType: string): void {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const files = Array.from(input.files);
-      this.uploading[permit.id] = true;
-      this.uploadProgress[permit.id] = 0;
-      this.documentService.uploadMultipleFiles(files, 'permit', permit.id, { workOrderId: this.workOrder.id })
-        .subscribe({
-          next: () => {
-            this.snackBar.open('File(s) uploaded', 'Close', { duration: 2000 });
-            this.refreshDocuments(permit.id);
-            this.uploading[permit.id] = false;
-          },
-          error: () => {
-            this.snackBar.open('Upload failed', 'Close', { duration: 3000 });
-            this.uploading[permit.id] = false;
-          }
-        });
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      this.documentService.uploadDocument(file, this.workOrder.id, 'WorkOrder').subscribe({
+        next: (uploadedDoc) => {
+          console.log('General document upload successful', uploadedDoc);
+        },
+        error: (err) => {
+          this.snackBar.open('Upload failed', 'Close', { duration: 3000 });
+          this.uploading[permitType] = false;
+        }
+      });
     }
   }
 
-  removeDocument(doc: UploadedDocument, permit: Permit) {
+  removeGeneralDocument(doc: UploadedDocument): void {
     this.documentService.deleteDocument(doc.id).subscribe(success => {
       if (success) {
-        this.snackBar.open('File deleted', 'Close', { duration: 2000 });
-        this.refreshDocuments(permit.id);
-      } else {
-        this.snackBar.open('Delete failed', 'Close', { duration: 3000 });
+        this.generalAttachments = this.generalAttachments.filter(d => d.id !== doc.id);
       }
+    });
+  }
+
+  removePermitDocument(doc: UploadedDocument, permitType: string): void {
+    this.documentService.deleteDocument(doc.id).subscribe(success => {
+      if (success) {
+        this.permitDocuments[permitType] = this.permitDocuments[permitType].filter(d => d.id !== doc.id);
+        this.snackBar.open('Document deleted', 'Close', { duration: 2000 });
+      } else {
+        this.snackBar.open('Failed to delete document', 'Close', { duration: 3000 });
+      }
+    });
+  }
+
+  loadPermitDocuments(permitId: string, permitType: string): void {
+    this.documentService.getDocumentsByEntity('permit', permitId).subscribe(docs => {
+      this.permitDocuments[permitType] = docs;
     });
   }
 } 

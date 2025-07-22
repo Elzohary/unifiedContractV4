@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
+import { ApiService, ApiResponse } from 'src/app/core/services/api.service';
 import { Observable, of } from 'rxjs';
-import { delay, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import { Attachment } from 'src/app/core/models/attachment.model';
 
 export interface UploadedDocument {
   id: string;
@@ -9,136 +11,70 @@ export interface UploadedDocument {
   fileType: string;
   fileSize: number;
   uploadedDate: Date;
-  uploadedBy: string;
-  entityType: 'work-order' | 'material' | 'invoice' | 'photo' | 'permit';
+  uploadedBy: string; // Should be user ID or name
+  entityType: string;
   entityId: string;
-  metadata?: any;
+  file?: File;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class DocumentService {
-  private mockDocuments: UploadedDocument[] = [];
 
-  constructor() {}
+  constructor(private apiService: ApiService) { }
 
-  /**
-   * Upload a file and associate it with an entity
-   */
-  uploadFile(
-    file: File,
-    entityType: 'work-order' | 'material' | 'invoice' | 'photo' | 'permit',
-    entityId: string,
-    metadata?: any
-  ): Observable<UploadedDocument> {
-    // In a real app, this would upload to a server
-    // For now, we'll create a mock URL using data URI
-    return new Observable<UploadedDocument>(observer => {
-      const reader = new FileReader();
-      
-      reader.onload = (e) => {
-        const document: UploadedDocument = {
-          id: `doc_${Date.now()}`,
+  getDocumentsByEntity(entityType: string, entityId: string): Observable<UploadedDocument[]> {
+    return this.apiService.get<Attachment[]>(`/documents/${entityType}/${entityId}`).pipe(
+      map(response => {
+        if (!response.data) return [];
+        return response.data.map(this.mapAttachmentToUploadedDocument);
+      })
+    );
+  }
+
+  deleteDocument(documentId: string): Observable<boolean> {
+    return this.apiService.delete(`/documents/${documentId}`).pipe(
+      map(response => response.status === 200)
+    );
+  }
+
+  uploadDocument(file: File, entityId: string, entityType: string): Observable<UploadedDocument> {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    formData.append('entityId', entityId);
+    formData.append('entityType', entityType);
+    
+    return this.apiService.post<{ filePath: string, id: string }>('/documents/upload', formData).pipe(
+      map(response => {
+        if (!response.data) {
+          throw new Error("Invalid response from server");
+        }
+        const newDoc: UploadedDocument = {
+          id: response.data.id,
           fileName: file.name,
-          fileUrl: e.target?.result as string, // In real app, this would be a server URL
+          fileUrl: response.data.filePath,
           fileType: file.type,
           fileSize: file.size,
           uploadedDate: new Date(),
-          uploadedBy: 'Current User', // Placeholder - replace with auth service integration
-          entityType,
-          entityId,
-          metadata
+          uploadedBy: 'current_user', // This should be replaced with actual user data
+          entityId: entityId,
+          entityType: entityType,
+          file: file
         };
-        
-        this.mockDocuments.push(document);
-        
-        // Simulate upload delay
-        setTimeout(() => {
-          observer.next(document);
-          observer.complete();
-        }, 1000);
-      };
-      
-      reader.onerror = () => {
-        observer.error(new Error('Failed to read file'));
-      };
-      
-      reader.readAsDataURL(file);
-    });
-  }
-
-  /**
-   * Upload multiple files
-   */
-  uploadMultipleFiles(
-    files: File[],
-    entityType: 'work-order' | 'material' | 'invoice' | 'photo' | 'permit',
-    entityId: string,
-    metadata?: any
-  ): Observable<UploadedDocument[]> {
-    const uploadPromises = files.map(file => 
-      this.uploadFile(file, entityType, entityId, metadata).toPromise()
+        return newDoc;
+      })
     );
-    
-    return new Observable<UploadedDocument[]>(observer => {
-      Promise.all(uploadPromises)
-        .then(documents => {
-          observer.next(documents.filter(doc => doc !== undefined) as UploadedDocument[]);
-          observer.complete();
-        })
-        .catch(error => {
-          observer.error(error);
-        });
-    });
   }
 
-  /**
-   * Get documents for a specific entity
-   */
-  getDocumentsByEntity(entityType: string, entityId: string): Observable<UploadedDocument[]> {
-    const documents = this.mockDocuments.filter(
-      doc => doc.entityType === entityType && doc.entityId === entityId
-    );
-    return of(documents).pipe(delay(500));
-  }
-
-  /**
-   * Get all documents for a work order (including related materials, invoices, etc.)
-   */
-  getWorkOrderDocuments(workOrderId: string): Observable<UploadedDocument[]> {
-    const documents = this.mockDocuments.filter(
-      doc => doc.entityId === workOrderId || 
-             (doc.metadata && doc.metadata.workOrderId === workOrderId)
-    );
-    return of(documents).pipe(delay(500));
-  }
-
-  /**
-   * Delete a document
-   */
-  deleteDocument(documentId: string): Observable<boolean> {
-    const index = this.mockDocuments.findIndex(doc => doc.id === documentId);
-    if (index > -1) {
-      this.mockDocuments.splice(index, 1);
-      return of(true).pipe(delay(500));
-    }
-    return of(false);
-  }
-
-  /**
-   * Validate file before upload
-   */
   validateFile(file: File, allowedTypes?: string[], maxSizeMB?: number): { valid: boolean; error?: string } {
-    // Check file type
     if (allowedTypes && allowedTypes.length > 0) {
       const fileExtension = file.name.split('.').pop()?.toLowerCase();
       const isValidType = allowedTypes.some(type => {
-        if (type.includes('*')) {
-          const [mainType] = type.split('/');
-          return file.type.startsWith(mainType);
+        if (type.endsWith('/*') && file.type.startsWith(type.slice(0, -1))) {
+          return true;
         }
-        return file.type === type || fileExtension === type;
+        return file.type === type || `.${fileExtension}` === type;
       });
       
       if (!isValidType) {
@@ -146,14 +82,27 @@ export class DocumentService {
       }
     }
     
-    // Check file size
     if (maxSizeMB) {
       const maxSizeBytes = maxSizeMB * 1024 * 1024;
       if (file.size > maxSizeBytes) {
-        return { valid: false, error: `File size exceeds ${maxSizeMB}MB limit` };
+        return { valid: false, error: `File size exceeds ${maxSizeMB}MB limit.` };
       }
     }
     
     return { valid: true };
+  }
+
+  private mapAttachmentToUploadedDocument(attachment: Attachment): UploadedDocument {
+    return {
+      id: attachment.id,
+      fileName: attachment.fileName,
+      fileUrl: attachment.filePath,
+      fileType: attachment.fileType,
+      fileSize: attachment.fileSize,
+      uploadedDate: attachment.createdAt,
+      uploadedBy: attachment.createdBy,
+      entityId: attachment.entityId.toString(),
+      entityType: attachment.entityType
+    };
   }
 } 

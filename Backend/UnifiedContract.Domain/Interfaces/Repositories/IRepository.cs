@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using UnifiedContract.Domain.Common;
+using System.Threading;
 
 namespace UnifiedContract.Domain.Interfaces.Repositories
 {
@@ -24,5 +25,6 @@ namespace UnifiedContract.Domain.Interfaces.Repositories
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
         Task<int> CountAsync(Expression<Func<T, bool>> predicate = null);
+        Task<T?> FindAsync(object id, CancellationToken cancellationToken = default);
     }
 } 

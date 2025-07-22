@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Elzohary\\IT\\2025 Software Projects\\unifiedContract - Full Project\\unifiedContract-Backend\\UnifiedContract.Persistence\\UnifiedContract.Persistence.csproj": {}
+    "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Persistence\\UnifiedContract.Persistence.csproj": {}
   },
   "projects": {
-    "D:\\Elzohary\\IT\\2025 Software Projects\\unifiedContract - Full Project\\unifiedContract-Backend\\UnifiedContract.Application\\UnifiedContract.Application.csproj": {
+    "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Application\\UnifiedContract.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Elzohary\\IT\\2025 Software Projects\\unifiedContract - Full Project\\unifiedContract-Backend\\UnifiedContract.Application\\UnifiedContract.Application.csproj",
+        "projectUniqueName": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Application\\UnifiedContract.Application.csproj",
         "projectName": "UnifiedContract.Application",
-        "projectPath": "D:\\Elzohary\\IT\\2025 Software Projects\\unifiedContract - Full Project\\unifiedContract-Backend\\UnifiedContract.Application\\UnifiedContract.Application.csproj",
-        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-        "outputPath": "D:\\Elzohary\\IT\\2025 Software Projects\\unifiedContract - Full Project\\unifiedContract-Backend\\UnifiedContract.Application\\obj\\",
+        "projectPath": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Application\\UnifiedContract.Application.csproj",
+        "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
+        "outputPath": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Application\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,8 +32,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Elzohary\\IT\\2025 Software Projects\\unifiedContract - Full Project\\unifiedContract-Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj": {
-                "projectPath": "D:\\Elzohary\\IT\\2025 Software Projects\\unifiedContract - Full Project\\unifiedContract-Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj"
+              "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj": {
+                "projectPath": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj"
               }
             }
           }
@@ -90,21 +94,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.206/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Elzohary\\IT\\2025 Software Projects\\unifiedContract - Full Project\\unifiedContract-Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj": {
+    "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Elzohary\\IT\\2025 Software Projects\\unifiedContract - Full Project\\unifiedContract-Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj",
+        "projectUniqueName": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj",
         "projectName": "UnifiedContract.Domain",
-        "projectPath": "D:\\Elzohary\\IT\\2025 Software Projects\\unifiedContract - Full Project\\unifiedContract-Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj",
-        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-        "outputPath": "D:\\Elzohary\\IT\\2025 Software Projects\\unifiedContract - Full Project\\unifiedContract-Backend\\UnifiedContract.Domain\\obj\\",
+        "projectPath": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj",
+        "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
+        "outputPath": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -156,21 +164,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.206/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Elzohary\\IT\\2025 Software Projects\\unifiedContract - Full Project\\unifiedContract-Backend\\UnifiedContract.Persistence\\UnifiedContract.Persistence.csproj": {
+    "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Persistence\\UnifiedContract.Persistence.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Elzohary\\IT\\2025 Software Projects\\unifiedContract - Full Project\\unifiedContract-Backend\\UnifiedContract.Persistence\\UnifiedContract.Persistence.csproj",
+        "projectUniqueName": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Persistence\\UnifiedContract.Persistence.csproj",
         "projectName": "UnifiedContract.Persistence",
-        "projectPath": "D:\\Elzohary\\IT\\2025 Software Projects\\unifiedContract - Full Project\\unifiedContract-Backend\\UnifiedContract.Persistence\\UnifiedContract.Persistence.csproj",
-        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-        "outputPath": "D:\\Elzohary\\IT\\2025 Software Projects\\unifiedContract - Full Project\\unifiedContract-Backend\\UnifiedContract.Persistence\\obj\\",
+        "projectPath": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Persistence\\UnifiedContract.Persistence.csproj",
+        "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
+        "outputPath": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Persistence\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -184,11 +196,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Elzohary\\IT\\2025 Software Projects\\unifiedContract - Full Project\\unifiedContract-Backend\\UnifiedContract.Application\\UnifiedContract.Application.csproj": {
-                "projectPath": "D:\\Elzohary\\IT\\2025 Software Projects\\unifiedContract - Full Project\\unifiedContract-Backend\\UnifiedContract.Application\\UnifiedContract.Application.csproj"
+              "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Application\\UnifiedContract.Application.csproj": {
+                "projectPath": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Application\\UnifiedContract.Application.csproj"
               },
-              "D:\\Elzohary\\IT\\2025 Software Projects\\unifiedContract - Full Project\\unifiedContract-Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj": {
-                "projectPath": "D:\\Elzohary\\IT\\2025 Software Projects\\unifiedContract - Full Project\\unifiedContract-Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj"
+              "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj": {
+                "projectPath": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj"
               }
             }
           }
@@ -208,13 +220,23 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Identity": {
+              "target": "Package",
+              "version": "[2.3.1, )"
+            },
             "Microsoft.EntityFrameworkCore.Analyzers": {
               "target": "Package",
-              "version": "[8.0.5, )"
+              "version": "[9.0.7, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.7, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[8.0.5, )"
+              "version": "[9.0.7, )"
             }
           },
           "imports": [
@@ -233,7 +255,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.206/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

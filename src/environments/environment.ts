@@ -1,8 +1,8 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000/api',
+  apiUrl: 'http://localhost:5275/api',
   websocketUrl: 'ws://localhost:3000/ws',
-  useMockData: true,
+  useMockData: false,
   mockDataDelay: 0,
   features: {
     workOrders: true,

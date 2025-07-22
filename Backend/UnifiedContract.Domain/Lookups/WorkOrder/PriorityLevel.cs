@@ -35,7 +35,6 @@ namespace UnifiedContract.Domain.Entities.WorkOrder.Lookups
         public virtual ICollection<WorkOrderTask> Tasks { get; set; }
         public virtual ICollection<WorkOrderIssue> Issues { get; set; }
         public virtual ICollection<WorkOrderAction> Actions { get; set; }
-        public virtual ICollection<ActionNeeded> ActionsNeeded { get; set; }
 
         public PriorityLevel()
         {
@@ -43,7 +42,6 @@ namespace UnifiedContract.Domain.Entities.WorkOrder.Lookups
             Tasks = new HashSet<WorkOrderTask>();
             Issues = new HashSet<WorkOrderIssue>();
             Actions = new HashSet<WorkOrderAction>();
-            ActionsNeeded = new HashSet<ActionNeeded>();
         }
     }
 } 

@@ -8,6 +8,8 @@ using UnifiedContract.Application.DTOs.Resource;
 using UnifiedContract.Application.Interfaces;
 using UnifiedContract.Domain.Entities.Resource;
 using UnifiedContract.Domain.Interfaces.Repositories;
+using UnifiedContract.Domain.Interfaces;
+using System.Linq;
 
 namespace UnifiedContract.API.Controllers
 {
@@ -17,15 +19,18 @@ namespace UnifiedContract.API.Controllers
     public class ClientMaterialsController : ControllerBase
     {
         private readonly IClientMaterialRepository _clientMaterialRepository;
+        private readonly IRepository<ReceivableMaterial> _receivableMaterialRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
         public ClientMaterialsController(
             IClientMaterialRepository clientMaterialRepository,
+            IRepository<ReceivableMaterial> receivableMaterialRepository,
             IUnitOfWork unitOfWork,
             IMapper mapper)
         {
             _clientMaterialRepository = clientMaterialRepository;
+            _receivableMaterialRepository = receivableMaterialRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
@@ -122,8 +127,8 @@ namespace UnifiedContract.API.Controllers
             }
 
             // Check if there are any receivable materials linked to this client material
-            var receivableMaterials = await _unitOfWork.Repository<ReceivableMaterial>()
-                .FindAsync(rm => rm.ClientMaterialId == id);
+            var receivableMaterials = (await _receivableMaterialRepository.GetAllAsync())
+                .Where(rm => rm.ClientMaterialId == id);
 
             if (receivableMaterials.Any())
             {

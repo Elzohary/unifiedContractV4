@@ -17,6 +17,9 @@ namespace UnifiedContract.Persistence.Repositories
         public async Task<WorkOrder> GetWorkOrderWithDetailsAsync(Guid id)
         {
             return await _dbContext.WorkOrders
+                .Include(w => w.Status)
+                .Include(w => w.Priority)
+                .Include(w => w.Client)
                 .Include(w => w.Items)
                 .Include(w => w.Remarks)
                 .Include(w => w.Issues)
@@ -33,7 +36,7 @@ namespace UnifiedContract.Persistence.Repositories
         public async Task<IEnumerable<WorkOrder>> GetWorkOrdersByClientAsync(string client)
         {
             return await _dbContext.WorkOrders
-                .Where(w => w.Client == client)
+                .Where(w => w.Client.Name == client)
                 .ToListAsync();
         }
 
@@ -67,7 +70,7 @@ namespace UnifiedContract.Persistence.Repositories
             if (workOrder == null)
                 return 0;
 
-            return workOrder.EstimatedCost;
+            return workOrder.EstimatedCost ?? 0m;
         }
 
         public async Task<decimal> GetTotalActualCostAsync(Guid id)
@@ -87,6 +90,32 @@ namespace UnifiedContract.Persistence.Repositories
             return materialCost + expenseCost + laborCost;
         }
 
+        public async Task<IEnumerable<WorkOrder>> GetAllAsyncWithStatusPriorityClient()
+        {
+            return await _dbContext.WorkOrders
+                .Include(w => w.Status)
+                .Include(w => w.Priority)
+                .Include(w => w.Client)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<WorkOrderItem>> GetItemsByWorkOrderIdAsync(Guid workOrderId)
+        {
+            return await _dbContext.WorkOrderItems
+                .Where(item => item.WorkOrderId == workOrderId)
+                .ToListAsync();
+        }
+
+        public async Task AddItemAsync(WorkOrderItem item)
+        {
+            await _dbContext.WorkOrderItems.AddAsync(item);
+        }
+
+        public async Task<IEnumerable<WorkOrderItem>> GetAllItemsAsync()
+        {
+            return await _dbContext.WorkOrderItems.ToListAsync();
+        }
+
         private async Task<decimal> GetMaterialCostAsync(Guid workOrderId)
         {
             var materials = await _dbContext.MaterialAssignments
@@ -97,7 +126,7 @@ namespace UnifiedContract.Persistence.Repositories
                     (ma, pm) => new { Material = pm })
                 .ToListAsync();
 
-            return materials.Sum(m => m.Material.TotalCost ?? 0);
+            return materials.Sum(m => m.Material.TotalCost ?? 0m);
         }
 
         private async Task<decimal> GetLaborCostAsync(Guid workOrderId)
@@ -105,6 +134,40 @@ namespace UnifiedContract.Persistence.Repositories
             // This would be calculated based on manpower assignments and their hourly rates
             // For now, returning a placeholder
             return 0;
+        }
+
+        public async Task UpdateWorkOrderPermitsAsync(Guid workOrderId, IEnumerable<Permit> newPermits, string currentUser)
+        {
+            var existingPermits = await _dbContext.Permits
+                .Where(p => p.WorkOrderId == workOrderId)
+                .ToListAsync();
+
+            _dbContext.Permits.RemoveRange(existingPermits);
+
+            var now = DateTime.UtcNow;
+            var permitsToAdd = newPermits.Select(p => new Permit
+            {
+                Id = Guid.NewGuid(),
+                WorkOrderId = workOrderId,
+                Type = p.Type,
+                Status = p.Status,
+                Title = p.Title ?? p.Type,
+                IssueDate = now,
+                ExpiryDate = now.AddYears(1),
+                Authority = p.Authority ?? "",
+                Description = p.Description ?? "",
+                Number = p.Number ?? "",
+                IssuedBy = p.IssuedBy ?? "",
+                DocumentRef = p.DocumentRef ?? "",
+                CreatedAt = now,
+                CreatedBy = currentUser,
+                LastModifiedAt = now,
+                LastModifiedBy = currentUser
+            }).ToList();
+
+            await _dbContext.Permits.AddRangeAsync(permitsToAdd);
+
+            await _dbContext.SaveChangesAsync();
         }
     }
 } 

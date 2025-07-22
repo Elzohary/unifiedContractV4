@@ -333,6 +333,8 @@ export interface workOrderDetail {
   status: WorkOrderStatus;
   priority: WorkOrderPriority;
   category: string;
+  type?: string; // Added for backend compatibility
+  class?: string; // Added for backend compatibility
   completionPercentage: number;
   receivedDate: string | Date;
   startDate?: string | Date;
@@ -342,6 +344,7 @@ export interface workOrderDetail {
   createdBy: string;
   lastUpdated?: string | Date;
   estimatedPrice?: number;
+  permits?: { type: string; status: string }[];
 }
 
 export interface workOrderItem {

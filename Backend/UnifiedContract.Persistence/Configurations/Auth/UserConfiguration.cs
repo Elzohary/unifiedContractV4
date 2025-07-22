@@ -1,3 +1,4 @@
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using UnifiedContract.Domain.Entities.Auth;
@@ -33,6 +34,7 @@ namespace UnifiedContract.Persistence.Configurations.Auth
                 .HasMaxLength(100);
                 
             builder.Property(u => u.Avatar)
+                .IsRequired(false)
                 .HasMaxLength(500);
                 
             builder.Property(u => u.IsActive)
@@ -51,12 +53,12 @@ namespace UnifiedContract.Persistence.Configurations.Auth
             builder.HasIndex(u => u.EmployeeId);
             builder.HasIndex(u => u.IsEmployee);
             
-            // Relationships
-            builder.HasOne<Employee>()
-                .WithOne()
-                .HasForeignKey<Employee>(e => e.UserId)
-                .IsRequired(false)
-                .OnDelete(DeleteBehavior.SetNull);
+            // Remove relationship to Employee.UserId (property no longer exists)
+            // builder.HasOne<Employee>()
+            //     .WithOne()
+            //     .HasForeignKey<Employee>(e => e.UserId)
+            //     .IsRequired(false)
+            //     .OnDelete(DeleteBehavior.SetNull);
             
             // Many-to-many relationship with roles through UserRole
             builder.HasMany(u => u.Roles)
@@ -78,6 +80,25 @@ namespace UnifiedContract.Persistence.Configurations.Auth
                         j.ToTable("UserRoles", "Auth");
                         j.HasIndex(ur => new { ur.UserId, ur.RoleId });
                     });
+                    
+            // Seed data for admin user
+            var adminUserId = new Guid("7eb08e14-4e4c-4801-93e5-5d821bba7fd2");
+            var staticAdminCreated = new DateTime(2024, 7, 20, 12, 0, 0, DateTimeKind.Utc);
+            builder.HasData(new User
+            {
+                Id = adminUserId,
+                UserName = "admin",
+                Email = "admin@unifiedcontract.com",
+                PasswordHash = "AQAAAAIAAYagAAAAELbXp1J2NwQxX8K8QxX8K8QxX8K8QxX8K8QxX8K8QxX8K8QxX8QxX8K8Q==", // This should be properly hashed
+                FullName = "System Administrator",
+                Avatar = null,
+                IsActive = true,
+                IsEmployee = false,
+                CreatedAt = staticAdminCreated,
+                LastModifiedAt = staticAdminCreated,
+                CreatedBy = "system",
+                LastModifiedBy = "system"
+            });
         }
     }
 } 

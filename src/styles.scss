@@ -103,6 +103,58 @@ body {
   }
 }
 
+/* Login page specific overrides */
+.login-page {
+  .mat-mdc-form-field {
+    .mat-mdc-text-field-wrapper {
+      background: transparent !important;
+    }
+    
+    .mat-mdc-form-field-flex {
+      background: transparent !important;
+    }
+    
+    .mat-mdc-form-field-infix {
+      background: transparent !important;
+    }
+    
+    .mat-mdc-input-element {
+      color: white !important;
+      caret-color: white !important;
+      background: transparent !important;
+    }
+    
+    .mat-mdc-form-field-label {
+      color: white !important;
+    }
+    
+    .mat-mdc-form-field-label-wrapper .mat-mdc-form-field-label {
+      color: white !important;
+    }
+    
+    .mat-mdc-form-field-label-wrapper .mat-mdc-form-field-label.mat-mdc-form-field-label-always-float {
+      color: white !important;
+    }
+    
+    .mat-icon {
+      color: white !important;
+    }
+    
+    .mat-mdc-form-field-prefix .mat-icon,
+    .mat-mdc-form-field-suffix .mat-icon {
+      color: white !important;
+    }
+    
+    .mat-mdc-icon-button .mat-icon {
+      color: white !important;
+    }
+  }
+  
+  .mat-mdc-form-field .mat-mdc-input-element::placeholder {
+    color: rgba(255, 255, 255, 0.5) !important;
+  }
+}
+
 /* Custom scrollbar styles for dialogs */
 .custom-scrollbar {
   &::-webkit-scrollbar {

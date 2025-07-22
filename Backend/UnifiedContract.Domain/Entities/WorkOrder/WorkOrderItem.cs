@@ -16,9 +16,12 @@ namespace UnifiedContract.Domain.Entities.WorkOrder
         public decimal ActualPrice { get; set; }
         public decimal ActualPriceWithVAT { get; set; }
         public string ReasonForFinalQuantity { get; set; }
+        public string PaymentType { get; set; }
+        public string ManagementArea { get; set; }
+        public string Currency { get; set; }
         
         // Foreign keys
-        public Guid WorkOrderId { get; set; }
+        public Guid? WorkOrderId { get; set; }
         
         // Navigation properties will be defined in the configurations
     }

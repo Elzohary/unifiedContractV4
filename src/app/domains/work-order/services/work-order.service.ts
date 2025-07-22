@@ -161,8 +161,30 @@ export class WorkOrderService {
     if (environment.useMockData) {
       return this.mockDatabaseService.getWorkOrders();
     } else {
-      return this.apiService.get<WorkOrder[]>(this.endpoint).pipe(
-        map(response => response.data)
+      return this.apiService.get<any[]>(this.endpoint).pipe(
+        map(response => response.data.map(wo => ({
+          ...wo,
+          details: {
+            workOrderNumber: wo.workOrderNumber,
+            internalOrderNumber: wo.internalOrderNumber,
+            title: wo.title,
+            description: wo.description,
+            client: wo.client || '',
+            location: wo.location,
+            status: wo.statusCode ? wo.statusCode.toLowerCase() : '',
+            priority: wo.priorityCode ? wo.priorityCode.toLowerCase() : '',
+            category: wo.category,
+            completionPercentage: wo.completionPercentage,
+            receivedDate: wo.receivedDate,
+            startDate: wo.startDate,
+            dueDate: wo.dueDate,
+            targetEndDate: wo.targetEndDate,
+            createdDate: wo.createdAt,
+            createdBy: wo.createdBy,
+            lastUpdated: wo.lastModifiedAt,
+            estimatedPrice: wo.estimatedCost
+          }
+        })))
       );
     }
   }
@@ -178,8 +200,36 @@ export class WorkOrderService {
         })
       );
     } else {
-      return this.apiService.get<WorkOrder>(`${this.endpoint}/${id}`).pipe(
-        map(response => response.data)
+      return this.apiService.get<any>(`${this.endpoint}/${id}`).pipe(
+        map(response => {
+          const wo = response.data;
+          return {
+            ...wo,
+            details: {
+              workOrderNumber: wo.workOrderNumber,
+              internalOrderNumber: wo.internalOrderNumber,
+              title: wo.title,
+              description: wo.description,
+              client: wo.client || '',
+              location: wo.location,
+              status: wo.status || '',
+              priority: wo.priority || '',
+              category: wo.category,
+              type: wo.type, // <-- Add this line
+              class: wo.class, // <-- Add this line
+              completionPercentage: wo.completionPercentage,
+              receivedDate: wo.receivedDate,
+              startDate: wo.startDate,
+              dueDate: wo.dueDate,
+              targetEndDate: wo.targetEndDate,
+              createdDate: wo.createdAt,
+              createdBy: wo.createdBy,
+              lastUpdated: wo.lastModifiedAt,
+              estimatedPrice: wo.estimatedCost,
+              permits: wo.permits
+            }
+          };
+        })
       );
     }
   }
@@ -742,39 +792,7 @@ export class WorkOrderService {
     }
   }
 
-  updateWorkOrderPermits(workOrderId: string, updatedStatuses: {type: string, status: string}[]): Observable<WorkOrder> {
-    if (environment.useMockData) {
-      return this.mockDatabaseService.getWorkOrderById(workOrderId).pipe(
-        switchMap(workOrder => {
-          if (!workOrder) {
-            throw new Error(`Work order with id ${workOrderId} not found`);
-          }
-          const allowedStatuses = ['pending', 'approved', 'rejected', 'expired'] as const;
-          console.log('Original permits:', workOrder.permits);
-          console.log('Updated statuses:', updatedStatuses);
-          let updatedPermits = (workOrder.permits || []).map(permit => {
-            const updated = updatedStatuses.find(u => u.type === permit.type);
-            let newStatus = permit.status;
-            if (updated && allowedStatuses.includes(updated.status as any)) {
-              newStatus = updated.status as typeof allowedStatuses[number];
-            }
-            return { ...permit, status: newStatus };
-          });
-          console.log('Merged updatedPermits:', updatedPermits);
-          if (!updatedPermits.length && workOrder.permits && workOrder.permits.length) {
-            updatedPermits = workOrder.permits;
-          }
-          const updatedWorkOrder = {
-            ...workOrder,
-            permits: updatedPermits
-          };
-          return this.mockDatabaseService.updateWorkOrder(workOrderId, updatedWorkOrder);
-        })
-      );
-    } else {
-      return this.apiService.put<WorkOrder>(`${this.endpoint}/${workOrderId}/permits`, { permits: updatedStatuses }).pipe(
-        map(response => response.data)
-      );
-    }
+  updateWorkOrderPermits(workOrderId: string, permits: { type: string, status: string }[]): Observable<any> {
+    return this.apiService.post<any>(`${this.endpoint}/${workOrderId}/permits`, permits);
   }
 }

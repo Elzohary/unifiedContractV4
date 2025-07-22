@@ -34,31 +34,31 @@ export const projectMenuItems = [
                 link: '/work-orders',
                 icon: 'list'
             },
-            {
+            /* {
                 label: 'Remarks',
                 link: '/work-order-sections/remarks',
                 icon: 'comment'
-            },
-            {
+            }, */
+            /* {
                 label: 'Issues',
                 link: '/work-order-sections/issues',
                 icon: 'error'
-            },
-            {
+            }, */
+            /* {
                 label: 'Actions Needed',
                 link: '/work-order-sections/actions',
                 icon: 'assignment'
-            },
+            }, */
             /* {
                 label: 'Photos',
                 link: '/work-order-sections/photos',
                 icon: 'photo_library'
             }, */
-            {
+            /* {
                 label: 'Documnets',
                 link: '/work-order-sections/forms',
                 icon: 'description'
-            },
+            }, */
             
             /* {
                 label: 'Invoices',
@@ -76,16 +76,16 @@ export const projectMenuItems = [
         label: 'Resources',
         icon: 'inventory_2',
         subItems: [
-            {
+            /* {
                 label: 'Manpower',
                 link: '/resources/manpower',
                 icon: 'people'
-            },
-            {
+            }, */
+            /* {
                 label: 'Equipment',
                 link: '/resources/equipment',
                 icon: 'build'
-            },
+            }, */
             {
               label: 'Material Dashboard',
               link: '/materials',

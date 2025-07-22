@@ -1,10 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "F:\\Zohary\\Software Development\\full-project\\Backend\\",
+  "WorkspaceRootPath": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DB4B11DB-C949-4B23-9FB6-3EBEE505B792}|UnifiedContract.Domain\\UnifiedContract.Domain.csproj|f:\\zohary\\software development\\full-project\\backend\\unifiedcontract.domain\\interfaces\\repositories\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB4B11DB-C949-4B23-9FB6-3EBEE505B792}|UnifiedContract.Domain\\UnifiedContract.Domain.csproj|solutionrelative:unifiedcontract.domain\\interfaces\\repositories\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\LENOVO\\AppData\\Local\\Temp\\r4d0ndrm..cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,19 +13,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{56df62a4-05a3-4e5b-aa1a-99371ccfb997}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "IUnitOfWork.cs",
-              "DocumentMoniker": "F:\\Zohary\\Software Development\\full-project\\Backend\\UnifiedContract.Domain\\Interfaces\\Repositories\\IUnitOfWork.cs",
-              "RelativeDocumentMoniker": "UnifiedContract.Domain\\Interfaces\\Repositories\\IUnitOfWork.cs",
-              "ToolTip": "F:\\Zohary\\Software Development\\full-project\\Backend\\UnifiedContract.Domain\\Interfaces\\Repositories\\IUnitOfWork.cs",
-              "RelativeToolTip": "UnifiedContract.Domain\\Interfaces\\Repositories\\IUnitOfWork.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAFAAAAAAAAAA==",
+              "Title": "r4d0ndrm..cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\AppData\\Local\\Temp\\r4d0ndrm..cs",
+              "ToolTip": "C:\\Users\\LENOVO\\AppData\\Local\\Temp\\r4d0ndrm..cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-20T14:09:05.064Z",
+              "WhenOpened": "2025-07-19T06:05:32.52Z",
               "EditorCaption": ""
             }
           ]

@@ -8,10 +8,16 @@ using UnifiedContract.API.Mapping;
 using UnifiedContract.API.Middleware;
 using UnifiedContract.Application;
 using UnifiedContract.Application.Interfaces;
+using UnifiedContract.Infrastructure.Services;
+using UnifiedContract.Domain.Interfaces;
 using UnifiedContract.Domain.Interfaces.Repositories;
 using UnifiedContract.Infrastructure;
 using UnifiedContract.Persistence;
 using UnifiedContract.Persistence.Repositories;
+using UnifiedContract.Domain.Entities.Resource;
+using UnifiedContract.Domain.Entities.HR;
+using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,13 +37,23 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 // Configure DbContext
 builder.Services.AddDbContext<UnifiedContractDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+{
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    options.UseSqlServer(connectionString, 
+        sqlServerOptions => sqlServerOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
+});
 
 // Register repositories
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IRepository<ReceivableMaterial>, Repository<ReceivableMaterial>>();
+builder.Services.AddScoped<IRepository<Employee>, Repository<Employee>>();
+builder.Services.AddScoped<IRepository<Department>, Repository<Department>>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IWorkOrderRepository, WorkOrderRepository>();
 builder.Services.AddScoped<IClientMaterialRepository, ClientMaterialRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IFileStorageService, LocalStorageService>();
+
 
 // Configure JWT Authentication
 builder.Services.AddAuthentication(options =>
@@ -56,6 +72,31 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
         ValidAudience = builder.Configuration["JwtSettings:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"]))
+    };
+    // Add event handlers for debugging
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var authHeader = context.Request.Headers["Authorization"].ToString();
+            Console.WriteLine($"[JWT DEBUG] Authorization header: {authHeader}");
+            return Task.CompletedTask;
+        },
+        OnAuthenticationFailed = context =>
+        {
+            Console.WriteLine($"JWT Authentication failed: {context.Exception.Message}");
+            return Task.CompletedTask;
+        },
+        OnTokenValidated = context =>
+        {
+            Console.WriteLine($"JWT Token validated for: {context.Principal.Identity?.Name}");
+            return Task.CompletedTask;
+        },
+        OnChallenge = context =>
+        {
+            Console.WriteLine($"JWT Challenge: {context.Error}, {context.ErrorDescription}");
+            return Task.CompletedTask;
+        }
     };
 });
 
@@ -99,16 +140,24 @@ builder.Services.AddSwaggerGen(c =>
             new string[] { }
         }
     });
+    // Fix for schemaId conflict
+    c.CustomSchemaIds(type => type.FullName);
 });
 
 // Add CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
+    options.AddPolicy("AllowAngularDev", policy =>
     {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
+        policy.WithOrigins(
+            "http://localhost:4200",
+            "http://localhost:4201",
+            "https://localhost:4200",
+            "https://localhost:4201"
+        )
+        .AllowAnyMethod()
+        .WithHeaders("Authorization", "Content-Type", "Accept", "Origin", "X-Requested-With")
+        .AllowCredentials();
     });
 });
 
@@ -129,7 +178,7 @@ app.UseResponseCompression();
 // Use Request Logging
 app.UseMiddleware<RequestLoggingMiddleware>();
 
-app.UseCors("AllowAll");
+app.UseCors("AllowAngularDev");
 
 app.UseAuthentication();
 app.UseAuthorization();

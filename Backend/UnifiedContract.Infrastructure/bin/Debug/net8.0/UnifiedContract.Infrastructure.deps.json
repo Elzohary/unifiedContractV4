@@ -864,10 +864,7 @@
           "UnifiedContract.Domain": "1.0.0"
         },
         "runtime": {
-          "UnifiedContract.Application.dll": {
-            "assemblyVersion": "1.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "UnifiedContract.Application.dll": {}
         }
       },
       "UnifiedContract.Domain/1.0.0": {
@@ -875,10 +872,7 @@
           "Microsoft.EntityFrameworkCore": "8.0.5"
         },
         "runtime": {
-          "UnifiedContract.Domain.dll": {
-            "assemblyVersion": "1.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "UnifiedContract.Domain.dll": {}
         }
       }
     }

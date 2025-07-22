@@ -14,5 +14,10 @@ namespace UnifiedContract.Domain.Interfaces.Repositories
         Task<IEnumerable<WorkOrder>> GetWorkOrdersForPeriodAsync(DateTime startDate, DateTime endDate);
         Task<decimal> GetTotalEstimatedCostAsync(Guid id);
         Task<decimal> GetTotalActualCostAsync(Guid id);
+        Task<IEnumerable<WorkOrder>> GetAllAsyncWithStatusPriorityClient();
+        Task<IEnumerable<WorkOrderItem>> GetItemsByWorkOrderIdAsync(Guid workOrderId);
+        Task AddItemAsync(WorkOrderItem item);
+        Task<IEnumerable<WorkOrderItem>> GetAllItemsAsync();
+        Task UpdateWorkOrderPermitsAsync(Guid workOrderId, IEnumerable<Permit> permits, string currentUser);
     }
 } 

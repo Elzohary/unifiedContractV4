@@ -14,11 +14,11 @@ namespace UnifiedContract.Domain.Entities.Analytics
         public string ExportFormats { get; set; } // CSV, Excel, PDF, etc. as JSON array
         public bool IsSystem { get; set; }
         public bool IsPublic { get; set; }
-        public Guid? CreatedById { get; set; }
+        public Guid? CreatedByUserId { get; set; }
         public Guid? TemplateId { get; set; }
         
         // Navigation properties
-        public virtual User CreatedBy { get; set; }
+        public virtual User CreatedByUser { get; set; }
         public virtual Document.DocumentTemplate Template { get; set; }
     }
 } 

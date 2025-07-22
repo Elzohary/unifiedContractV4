@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, BehaviorSubject } from 'rxjs';
 import { Iitem } from '../models/work-order-item.model';
+import { environment } from '../../../../environments/environment';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -88,8 +90,44 @@ export class WorkOrderItemService {
 
   constructor(private http: HttpClient) {}
 
-  getItems(): Observable<Iitem[]> {
-    return this.items$;
+  getItems(workOrderId: string): Observable<Iitem[]> {
+    if (environment.useMockData) {
+      return this.items$;
+    } else {
+      // Call backend API: GET /api/work-orders/{id}/items
+      return this.http.get<any>(`${environment.apiUrl}/work-orders/${workOrderId}/items`).pipe(
+        // The backend returns ApiResponse<{ data: WorkOrderItem[] }>
+        map(response => (response.data || []).map((item: any) => ({
+          id: item.id,
+          itemNumber: item.itemNumber,
+          lineType: 'Description', // or map if available
+          shortDescription: item.description,
+          longDescription: item.description,
+          UOM: item.unit,
+          currency: 'SAR', // or map if available
+          unitPrice: item.unitPrice,
+          paymentType: 'Fixed Price', // or map if available
+          managementArea: '', // or map if available
+        } as Iitem)))
+      );
+    }
+  }
+
+  getAllItems(): Observable<Iitem[]> {
+    return this.http.get<any>(`${environment.apiUrl}/work-order-items`).pipe(
+      map(response => (response.data || []).map((item: any) => ({
+        id: item.id,
+        itemNumber: item.itemNumber,
+        lineType: 'Description',
+        shortDescription: item.description,
+        longDescription: item.description,
+        UOM: item.unit,
+        currency: 'SAR',
+        unitPrice: item.unitPrice,
+        paymentType: 'Fixed Price',
+        managementArea: '',
+      } as Iitem)))
+    );
   }
 
   getItemById(id: string): Observable<Iitem | null> {
@@ -98,13 +136,30 @@ export class WorkOrderItemService {
   }
 
   createItem(item: Partial<Iitem>): Observable<Iitem> {
-    const newItem: Iitem = {
-      ...item,
-      id: (this.mockItems.length + 1).toString()
-    } as Iitem;
-    this.mockItems.push(newItem);
-    this.itemsSubject.next(this.mockItems);
-    return of(newItem);
+    const payload = {
+      itemNumber: item.itemNumber,
+      description: item.shortDescription || item.longDescription || '',
+      unit: item.UOM,
+      unitPrice: item.unitPrice,
+      paymentType: item.paymentType,
+      managementArea: item.managementArea,
+      currency: item.currency,
+    };
+    return this.http.post<any>(`${environment.apiUrl}/work-order-items`, payload)
+      .pipe(
+        map(response => ({
+          id: response.data.id,
+          itemNumber: response.data.itemNumber,
+          lineType: 'Description',
+          shortDescription: response.data.description,
+          longDescription: response.data.description,
+          UOM: response.data.unit,
+          currency: response.data.currency || 'SAR',
+          unitPrice: response.data.unitPrice,
+          paymentType: response.data.paymentType || 'Fixed Price',
+          managementArea: response.data.managementArea || '',
+        } as Iitem))
+      );
   }
 
   updateItem(id: string, item: Partial<Iitem>): Observable<Iitem> {
@@ -161,5 +216,23 @@ export class WorkOrderItemService {
     this.itemsSubject.next(this.mockItems);
 
     return of(newItems);
+  }
+
+  assignItemToWorkOrder(workOrderId: string, item: Iitem): Observable<any> {
+    const quantity = (item as any).estimatedQuantity || 1;
+    const payload = {
+      itemNumber: item.itemNumber,
+      description: item.shortDescription || item.longDescription || '',
+      unit: item.UOM,
+      unitPrice: item.unitPrice,
+      estimatedQuantity: quantity,
+      estimatedPrice: quantity * item.unitPrice,
+      estimatedPriceWithVAT: quantity * item.unitPrice * 1.15,
+      actualQuantity: 0,
+      actualPrice: 0,
+      actualPriceWithVAT: 0,
+      reasonForFinalQuantity: '',
+    };
+    return this.http.post(`${environment.apiUrl}/work-orders/${workOrderId}/items`, payload);
   }
 }

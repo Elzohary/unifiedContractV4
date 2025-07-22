@@ -1,0 +1,59 @@
+### Test API Health
+GET http://localhost:5000/health
+Accept: application/json
+
+### Test Get All Work Orders
+GET http://localhost:5000/api/WorkOrders
+Accept: application/json
+
+### Test Get All Client Materials
+GET http://localhost:5000/api/ClientMaterials
+Accept: application/json
+
+### Test Get All Employees
+GET http://localhost:5000/api/Employees
+Accept: application/json
+
+### Test Create Employee
+POST http://localhost:5000/api/Employees
+Content-Type: application/json
+
+{
+  "badgeNumber": "EMP001",
+  "name": "John Doe",
+  "jobTitle": "Software Developer",
+  "joinDate": "2023-01-15T00:00:00Z",
+  "nationality": "Saudi",
+  "departmentId": "00000000-0000-0000-0000-000000000000",
+  "companyPhone": "+966501234567",
+  "personalPhone": "+966501234568",
+  "salary": 15000.00,
+  "directManagerId": null
+}
+
+### Test Create Work Order
+POST http://localhost:5000/api/WorkOrders
+Content-Type: application/json
+
+{
+  "workOrderNumber": "WO-001",
+  "title": "Test Work Order",
+  "description": "This is a test work order",
+  "startDate": "2024-01-15T00:00:00Z",
+  "endDate": "2024-02-15T00:00:00Z",
+  "clientName": "Test Client",
+  "status": "InProgress"
+}
+
+### Test Create Client Material
+POST http://localhost:5000/api/ClientMaterials
+Content-Type: application/json
+
+{
+  "groupCode": "GROUP1",
+  "seq": 1,
+  "materialMasterCode": "MAT001",
+  "description": "Test Material",
+  "unit": "PCS",
+  "clientId": "00000000-0000-0000-0000-000000000000"
+} 

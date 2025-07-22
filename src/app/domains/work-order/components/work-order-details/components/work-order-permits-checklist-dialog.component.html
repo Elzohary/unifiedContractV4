@@ -3,7 +3,7 @@
   <mat-dialog-content>
     <form class="permits-form">
       <div *ngFor="let permit of permitTypes" class="permit-row">
-        <mat-checkbox [(ngModel)]="checklist[permit.type]" name="{{permit.type}}">
+        <mat-checkbox [(ngModel)]="checklist[permit.type]" [name]="permit.type">
           {{ permit.label }}
         </mat-checkbox>
         <mat-icon class="status-icon" [ngClass]="{approved: checklist[permit.type], pending: !checklist[permit.type]}">

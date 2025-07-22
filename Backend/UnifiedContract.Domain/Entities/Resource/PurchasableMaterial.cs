@@ -34,7 +34,7 @@ namespace UnifiedContract.Domain.Entities.Resource
         public decimal? UnitCost => _unitCost;
         public decimal? TotalCost => _totalCost;
         public string Status => _status;
-        public string SupplierName => _supplier;
+        public string SupplierName { get => _supplier; private set => _supplier = value; }
         public DateTime? OrderDate => _orderDate;
         public DateTime? DeliveryDate => _deliveryDate;
         

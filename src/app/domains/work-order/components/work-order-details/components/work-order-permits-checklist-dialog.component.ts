@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Permit } from '../../../models/work-order.model';
 
 interface PermitChecklistData {
   permits: { type: string; status: string }[];
@@ -37,10 +38,10 @@ export class WorkOrderPermitsChecklistDialogComponent {
     public dialogRef: MatDialogRef<WorkOrderPermitsChecklistDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: PermitChecklistData
   ) {
-    // Initialize checklist from data
+    // Initialize checklist from the predefined list, using backend data to set the status
     for (const permit of this.permitTypes) {
       const found = data.permits?.find(p => p.type === permit.type);
-      this.checklist[permit.type] = found?.status === 'approved';
+      this.checklist[permit.type] = found?.status?.toLowerCase() === 'approved';
     }
   }
 
@@ -49,13 +50,12 @@ export class WorkOrderPermitsChecklistDialogComponent {
   }
 
   onSave(): void {
-    // Return updated permit statuses
-    console.log('Dialog onSave - updated:', this.permitTypes.map(p => ({ type: p.type, status: this.checklist[p.type] ? 'approved' : 'pending' })));
-    const updated = this.permitTypes.map(p => ({
+    // Return updated permit statuses for all predefined types
+    const updatedStatuses = this.permitTypes.map(p => ({
       type: p.type,
       status: this.checklist[p.type] ? 'approved' : 'pending'
     }));
-    this.dialogRef.close(updated);
+    this.dialogRef.close(updatedStatuses);
   }
 
   onCancel(): void {

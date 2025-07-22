@@ -1,43 +1,29 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using UnifiedContract.Domain.Entities.WorkOrder;
 
 namespace UnifiedContract.Persistence.Configurations.WorkOrder
 {
-    public class WorkOrderInvoiceConfiguration : IEntityTypeConfiguration<WorkOrderInvoice>
+    public class WorkOrderInvoiceConfiguration : IEntityTypeConfiguration<UnifiedContract.Domain.Entities.WorkOrder.WorkOrderInvoice>
     {
-        public void Configure(EntityTypeBuilder<WorkOrderInvoice> builder)
+        public void Configure(EntityTypeBuilder<UnifiedContract.Domain.Entities.WorkOrder.WorkOrderInvoice> builder)
         {
-            builder.ToTable("WorkOrderInvoices");
-
-            builder.HasKey(invoice => invoice.Id);
-            
-            builder.Property(invoice => invoice.InvoiceNumber)
-                .IsRequired()
-                .HasMaxLength(50);
-                
-            builder.Property(invoice => invoice.InvoiceStatus)
-                .IsRequired()
-                .HasMaxLength(50);
-                
-            builder.Property(invoice => invoice.Amount)
-                .HasPrecision(18, 2);
-                
-            builder.Property(invoice => invoice.Description)
-                .HasMaxLength(1000);
-                
-            // Relationships
-            builder.HasOne<Domain.Entities.WorkOrder.WorkOrder>()
-                .WithMany(wo => wo.WorkOrderInvoices)
-                .HasForeignKey(invoice => invoice.WorkOrderId)
+            if (builder == null) throw new ArgumentNullException(nameof(builder));
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Number).IsRequired().HasMaxLength(50);
+            builder.Property(x => x.Amount).IsRequired().HasColumnType("decimal(18,2)");
+            builder.Property(x => x.Currency).IsRequired().HasMaxLength(10);
+            builder.Property(x => x.IssueDate).IsRequired();
+            builder.Property(x => x.DueDate).IsRequired();
+            builder.Property(x => x.Status).IsRequired();
+            builder.Property(x => x.PaidDate);
+            builder.Property(x => x.PaidById);
+            builder.Property(x => x.Url).HasMaxLength(500);
+            builder.Property(x => x.WorkOrderId).IsRequired();
+            // Keep any extra backend fields for future frontend use
+            builder.HasOne<UnifiedContract.Domain.Entities.WorkOrder.WorkOrder>()
+                .WithMany(x => x.Invoices)
+                .HasForeignKey(x => x.WorkOrderId)
                 .OnDelete(DeleteBehavior.Cascade);
-                
-            // Audit properties
-            builder.Property(invoice => invoice.CreatedBy)
-                .HasMaxLength(50);
-                
-            builder.Property(invoice => invoice.LastModifiedBy)
-                .HasMaxLength(50);
         }
     }
 } 

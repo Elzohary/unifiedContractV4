@@ -4,3 +4,23 @@ D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedCont
 D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Persistence\obj\Debug\net8.0\UnifiedContract.Persistence.AssemblyInfo.cs
 D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Persistence\obj\Debug\net8.0\UnifiedContract.Persistence.csproj.CoreCompileInputs.cache
 D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Persistence\obj\Debug\net8.0\UnifiedContract.Persistence.sourcelink.json
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Persistence\bin\Debug\net8.0\UnifiedContract.Persistence.deps.json
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Persistence\bin\Debug\net8.0\UnifiedContract.Persistence.dll
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Persistence\bin\Debug\net8.0\UnifiedContract.Persistence.pdb
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Persistence\bin\Debug\net8.0\UnifiedContract.Application.dll
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Persistence\bin\Debug\net8.0\UnifiedContract.Domain.dll
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Persistence\bin\Debug\net8.0\UnifiedContract.Domain.pdb
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Persistence\bin\Debug\net8.0\UnifiedContract.Application.pdb
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Persistence\obj\Debug\net8.0\UnifiedContract.Persistence.csproj.AssemblyReference.cache
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Persistence\obj\Debug\net8.0\UnifiedContract.Persistence.GeneratedMSBuildEditorConfig.editorconfig
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Persistence\obj\Debug\net8.0\UnifiedContract.Persistence.AssemblyInfoInputs.cache
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Persistence\obj\Debug\net8.0\UnifiedContract.Persistence.AssemblyInfo.cs
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Persistence\obj\Debug\net8.0\UnifiedContract.Persistence.csproj.CoreCompileInputs.cache
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Persistence\obj\Debug\net8.0\UnifiedContract.Persistence.sourcelink.json
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Persistence\obj\Debug\net8.0\UnifiedC.8FF526C1.Up2Date
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Persistence\obj\Debug\net8.0\UnifiedContract.Persistence.dll
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Persistence\obj\Debug\net8.0\refint\UnifiedContract.Persistence.dll
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Persistence\obj\Debug\net8.0\UnifiedContract.Persistence.pdb
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Persistence\obj\Debug\net8.0\ref\UnifiedContract.Persistence.dll
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Persistence\bin\Debug\net8.0\UnifiedContract.Persistence.runtimeconfig.json
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Persistence\obj\Debug\net8.0\UnifiedContract.Persistence.genruntimeconfig.cache

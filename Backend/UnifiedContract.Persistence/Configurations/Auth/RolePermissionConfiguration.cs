@@ -30,9 +30,13 @@ namespace UnifiedContract.Persistence.Configurations.Auth
             // Admin gets the full access permission
             builder.HasData(new RolePermission
             {
-                Id = Guid.NewGuid(),
+                Id = new Guid("11111111-1111-1111-1111-000000000053"), // RoleId + PermissionId based
                 RoleId = new Guid("1f43eb74-9db6-4128-a3e5-69bd3aff3d67"), // Administrator role
-                PermissionId = new Guid("00000000-0000-0000-0000-000000000053") // Admin.FullAccess permission
+                PermissionId = new Guid("00000000-0000-0000-0000-000000000053"), // Admin.FullAccess permission
+                CreatedBy = "system",
+                LastModifiedBy = "system",
+                CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                LastModifiedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc)
             });
         }
         
@@ -164,25 +168,34 @@ namespace UnifiedContract.Persistence.Configurations.Auth
         {
             // Calculate permission ID based on module and action
             // This method assumes the permissions were created in the same order as in PermissionConfiguration
-            
+
             string[] modules = { "WorkOrder", "User", "Role", "HR", "Equipment", "Material", "Client", "Report" };
             string[] actions = { "View", "Create", "Edit", "Delete", "Export", "Approve", "Assign" };
-            
+
             int moduleIndex = Array.IndexOf(modules, module);
             int actionIndex = Array.IndexOf(actions, action);
-            
+
             if (moduleIndex == -1 || actionIndex == -1)
             {
                 throw new ArgumentException($"Invalid module ({module}) or action ({action})");
             }
-            
+
             int permissionId = moduleIndex * actions.Length + actionIndex + 1;
-            
+            // Use a deterministic Guid for Id based on RoleId and PermissionId
+            var idBytes = roleId.ToByteArray();
+            var permBytes = new Guid($"00000000-0000-0000-0000-{permissionId:D12}").ToByteArray();
+            for (int i = 0; i < 16; i++) idBytes[i] ^= permBytes[i];
+            var deterministicId = new Guid(idBytes);
+
             return new RolePermission
             {
-                Id = Guid.NewGuid(),
+                Id = deterministicId,
                 RoleId = roleId,
-                PermissionId = new Guid($"00000000-0000-0000-0000-{permissionId:D12}")
+                PermissionId = new Guid($"00000000-0000-0000-0000-{permissionId:D12}"),
+                CreatedBy = "system",
+                LastModifiedBy = "system",
+                CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                LastModifiedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc)
             };
         }
     }

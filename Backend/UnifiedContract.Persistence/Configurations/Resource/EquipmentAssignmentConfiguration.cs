@@ -29,6 +29,16 @@ namespace UnifiedContract.Persistence.Configurations.Resource
                 .WithMany(e => e.Assignments)
                 .HasForeignKey(a => a.EquipmentId)
                 .OnDelete(DeleteBehavior.Restrict);
+                
+            builder.HasOne(a => a.WorkOrder)
+                .WithMany()
+                .HasForeignKey(a => a.WorkOrderId)
+                .OnDelete(DeleteBehavior.Restrict);
+                
+            builder.HasOne(a => a.Operator)
+                .WithMany()
+                .HasForeignKey(a => a.OperatorId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 } 

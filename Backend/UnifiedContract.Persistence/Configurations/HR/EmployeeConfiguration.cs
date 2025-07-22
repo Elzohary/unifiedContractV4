@@ -88,7 +88,8 @@ namespace UnifiedContract.Persistence.Configurations.HR
             builder.HasIndex(e => e.IqamaNumber);
             builder.HasIndex(e => e.Nationality);
             builder.HasIndex(e => e.JoinDate);
-            builder.HasIndex(e => e.UserId);
+            // Remove UserId index
+            // builder.HasIndex(e => e.UserId);
             builder.HasIndex(e => e.DirectManagerId);
             
             // Relationships
@@ -98,17 +99,18 @@ namespace UnifiedContract.Persistence.Configurations.HR
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.SetNull);
                 
-            builder.HasOne(e => e.User)
-                .WithOne()
-                .HasForeignKey<Employee>(e => e.UserId)
-                .IsRequired(false)
-                .OnDelete(DeleteBehavior.SetNull);
+            // Remove User relationship
+            // builder.HasOne(e => e.User)
+            //     .WithOne()
+            //     .HasForeignKey<Employee>(e => e.UserId)
+            //     .IsRequired(false)
+            //     .OnDelete(DeleteBehavior.SetNull);
                 
             builder.HasOne(e => e.DirectManager)
                 .WithMany(e => e.ManagedEmployees)
                 .HasForeignKey(e => e.DirectManagerId)
                 .IsRequired(false)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.Restrict);
                 
             // Collections
             builder.HasMany(e => e.Certificates)
@@ -121,6 +123,7 @@ namespace UnifiedContract.Persistence.Configurations.HR
                 .HasForeignKey(w => w.EmployeeId)
                 .OnDelete(DeleteBehavior.Cascade);
                 
+            // Identifications relationship - configured in IdentificationConfiguration
             builder.HasMany(e => e.Identifications)
                 .WithOne(i => i.Employee)
                 .HasForeignKey(i => i.EmployeeId)

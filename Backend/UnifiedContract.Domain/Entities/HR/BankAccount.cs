@@ -24,7 +24,7 @@ namespace UnifiedContract.Domain.Entities.HR
         // Public properties with private setters
         public string BankName => _bankName;
         public string AccountNumber => _accountNumber;
-        public string IBAN => _iban;
+        public string IBAN { get => _iban; private set => _iban = value; }
         public string SwiftCode => _swiftCode;
         public string BranchName => _branchName;
         public string BranchCode => _branchCode;

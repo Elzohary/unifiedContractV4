@@ -14,19 +14,20 @@ import { WorkOrderItemsListComponent } from './domains/work-order/components/wor
 import { MaterialsManagementComponent } from './domains/materials/components/materials-management/materials-management.component';
 import { WorkOrderDetailsRefactoredComponent } from './domains/work-order/components/work-order-details/work-order-details-refactored.component';
 import { MaterialInventoryDashboardComponent } from './domains/materials/components/material-inventory-dashboard/material-inventory-dashboard.component';
+import { AuthGuard } from './shared/guards/auth.guard';
 
 export const routes: Routes = [
-  // Login route
+  // Public routes (no auth required)
   { path: 'login', component: LoginComponent },
 
-  // Default route
+  // Default route - redirect to dashboard
   {
     path: '',
-    component: LoginComponent,
+    redirectTo: 'dashboard/overview',
     pathMatch: 'full'
   },
 
-  // Dashboard routes - keep both lazy loading and direct components
+  // Protected routes with canActivate
   {
     path: 'dashboard',
     redirectTo: 'dashboard/overview',
@@ -34,53 +35,64 @@ export const routes: Routes = [
   },
   {
     path: 'dashboard/overview',
-    component: OverviewComponent
+    component: OverviewComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'dashboard/analytics',
     component: UnderConstructionComponent,
+    canActivate: [AuthGuard],
     data: { title: 'Analytics Dashboard', message: 'The analytics dashboard is currently under development.' }
   },
   {
     path: 'dashboard/projects',
     component: UnderConstructionComponent,
+    canActivate: [AuthGuard],
     data: { title: 'Projects Dashboard', message: 'The projects dashboard is currently under development.' }
   },
 
-  // Work Order routes - direct component routes for better performance
+  // Work Order routes - protected
   {
     path: 'work-orders',
-    component: WorkOrderListComponent
+    component: WorkOrderListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'work-orders/list',
-    component: WorkOrderListComponent
+    component: WorkOrderListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'work-orders/new',
-    component: WorkOrderFormComponent
+    component: WorkOrderFormComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'work-orders/edit/:id',
-    component: WorkOrderFormComponent
+    component: WorkOrderFormComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'work-orders/details/:id',
-    component: WorkOrderDetailsRefactoredComponent
+    component: WorkOrderDetailsRefactoredComponent,
+    canActivate: [AuthGuard]
   },
 
-  // Work order sections - direct component routes from app.routes.ts
+  // Work order sections - protected
   {
     path: 'work-order-sections/remarks',
-    component: AllRemarksComponent
+    component: AllRemarksComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'work-order-sections/activity-log',
-    component: ActivityLogPageComponent
+    component: ActivityLogPageComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'work-order-sections/issues',
     component: UnderConstructionComponent,
+    canActivate: [AuthGuard],
     data: {
       title: 'Work Order Issues',
       message: 'The issues section is currently under development.',
@@ -90,6 +102,7 @@ export const routes: Routes = [
   {
     path: 'work-order-sections/actions',
     component: UnderConstructionComponent,
+    canActivate: [AuthGuard],
     data: {
       title: 'Work Order Actions',
       message: 'The actions needed section is currently under development.',
@@ -99,6 +112,7 @@ export const routes: Routes = [
   {
     path: 'work-order-sections/materials',
     component: UnderConstructionComponent,
+    canActivate: [AuthGuard],
     data: {
       title: 'Work Order Materials',
       message: 'The materials section is currently under development.',
@@ -108,6 +122,7 @@ export const routes: Routes = [
   {
     path: 'work-order-sections/photos',
     component: UnderConstructionComponent,
+    canActivate: [AuthGuard],
     data: {
       title: 'Work Order Photos',
       message: 'The photos section is currently under development.',
@@ -117,6 +132,7 @@ export const routes: Routes = [
   {
     path: 'work-order-sections/forms',
     component: UnderConstructionComponent,
+    canActivate: [AuthGuard],
     data: {
       title: 'Work Order Forms',
       message: 'The forms section is currently under development.',
@@ -126,6 +142,7 @@ export const routes: Routes = [
   {
     path: 'work-order-sections/expenses',
     component: UnderConstructionComponent,
+    canActivate: [AuthGuard],
     data: {
       title: 'Work Order Expenses',
       message: 'The expenses section is currently under development.',
@@ -135,6 +152,7 @@ export const routes: Routes = [
   {
     path: 'work-order-sections/invoices',
     component: UnderConstructionComponent,
+    canActivate: [AuthGuard],
     data: {
       title: 'Work Order Invoices',
       message: 'The invoices section is currently under development.',
@@ -144,10 +162,11 @@ export const routes: Routes = [
   {
     path: 'work-order-sections/items-list',
     component: WorkOrderItemsListComponent,
-    pathMatch: 'full'
+    pathMatch: 'full',
+    canActivate: [AuthGuard]
   },
 
-  // Resources routes - merge lazy and direct routes
+  // Resources routes - protected
   {
     path: 'resources',
     redirectTo: 'resources/manpower',
@@ -156,16 +175,19 @@ export const routes: Routes = [
   {
     path: 'resources/manpower',
     component: UnderConstructionComponent,
+    canActivate: [AuthGuard],
     data: { title: 'Manpower Management', message: 'The manpower management page is currently under development.' }
   },
   {
     path: 'resources/equipment',
-    component: EquipmentDashboardComponent
+    component: EquipmentDashboardComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'materials',
     loadComponent: () => import('./domains/materials/components/materials-hub/materials-hub.component')
       .then(c => c.MaterialsHubComponent),
+    canActivate: [AuthGuard],
     data: { 
       breadcrumb: { label: 'Materials Hub', icon: 'inventory_2' }
     }
@@ -173,6 +195,7 @@ export const routes: Routes = [
   {
     path: 'materials/dashboard',
     component: MaterialInventoryDashboardComponent,
+    canActivate: [AuthGuard],
     data: { 
       breadcrumb: { label: 'Inventory Dashboard', icon: 'dashboard' }
     }
@@ -180,6 +203,7 @@ export const routes: Routes = [
   {
     path: 'materials/catalog',
     component: MaterialsManagementComponent,
+    canActivate: [AuthGuard],
     data: { 
       breadcrumb: { label: 'Material Catalog', icon: 'library_books' }
     }
@@ -187,6 +211,7 @@ export const routes: Routes = [
   {
     path: 'materials/catalog/list',
     component: MaterialsManagementComponent,
+    canActivate: [AuthGuard],
     data: { 
       breadcrumb: { label: 'Material Catalog', icon: 'library_books' }
     }
@@ -195,6 +220,7 @@ export const routes: Routes = [
     path: 'materials/work-order-hub',
     loadComponent: () => import('./domains/materials/components/work-order-material-hub/work-order-material-hub.component')
       .then(c => c.WorkOrderMaterialHubComponent),
+    canActivate: [AuthGuard],
     data: { 
       breadcrumb: { label: 'Work Order Materials', icon: 'engineering' }
     }
@@ -202,6 +228,7 @@ export const routes: Routes = [
   {
     path: 'materials/purchase-orders',
     component: UnderConstructionComponent,
+    canActivate: [AuthGuard],
     data: { 
       title: 'Purchase Orders', 
       message: 'Purchase order management functionality is coming soon.',
@@ -211,6 +238,7 @@ export const routes: Routes = [
   {
     path: 'materials/stock-movements',
     component: UnderConstructionComponent,
+    canActivate: [AuthGuard],
     data: { 
       title: 'Stock Movements', 
       message: 'Stock movement tracking functionality is coming soon.',
@@ -220,6 +248,7 @@ export const routes: Routes = [
   {
     path: 'materials/reports',
     component: UnderConstructionComponent,
+    canActivate: [AuthGuard],
     data: { 
       title: 'Material Reports', 
       message: 'Material reporting functionality is coming soon.',
@@ -227,14 +256,15 @@ export const routes: Routes = [
     }
   },
 
-  // HR routes - keep lazy loading
+  // HR routes - protected
   {
     path: 'hr',
     loadChildren: () => import('./domains/hr/hr.module')
-      .then(m => m.HrModule)
+      .then(m => m.HrModule),
+    canActivate: [AuthGuard]
   },
 
-  // Reports routes from app.routes.ts
+  // Reports routes - protected
   {
     path: 'reports',
     redirectTo: 'reports/monthly',
@@ -243,64 +273,68 @@ export const routes: Routes = [
   {
     path: 'reports/monthly',
     component: UnderConstructionComponent,
+    canActivate: [AuthGuard],
     data: { title: 'Monthly Reports', message: 'The monthly reports page is currently under development.' }
   },
   {
     path: 'reports/performance',
     component: UnderConstructionComponent,
+    canActivate: [AuthGuard],
     data: { title: 'Performance Reports', message: 'The performance reports page is currently under development.' }
   },
   {
-    path: 'reports/custom',
+    path: 'reports/financial',
     component: UnderConstructionComponent,
-    data: { title: 'Custom Reports', message: 'The custom reports page is currently under development.' }
+    canActivate: [AuthGuard],
+    data: { title: 'Financial Reports', message: 'The financial reports page is currently under development.' }
   },
 
-  // Admin routes from app.routes.ts
+  // Users routes - protected
   {
-    path: 'admin',
-    redirectTo: 'admin/users',
+    path: 'users',
+    component: UserListComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'users/list',
+    component: UserListComponent,
+    canActivate: [AuthGuard]
+  },
+
+  // Settings routes - protected
+  {
+    path: 'settings',
+    redirectTo: 'settings/general',
     pathMatch: 'full'
   },
   {
-    path: 'admin/users',
-    component: UserListComponent,
-    data: { title: 'User Management', message: 'The user management page is currently under development.' }
-  },
-  {
-    path: 'admin/settings',
+    path: 'settings/general',
     component: UnderConstructionComponent,
-    data: { title: 'System Settings', message: 'The system settings page is currently under development.' }
+    canActivate: [AuthGuard],
+    data: { title: 'General Settings', message: 'The general settings page is currently under development.' }
+  },
+  {
+    path: 'settings/security',
+    component: UnderConstructionComponent,
+    canActivate: [AuthGuard],
+    data: { title: 'Security Settings', message: 'The security settings page is currently under development.' }
+  },
+  {
+    path: 'settings/notifications',
+    component: UnderConstructionComponent,
+    canActivate: [AuthGuard],
+    data: { title: 'Notification Settings', message: 'The notification settings page is currently under development.' }
   },
 
-  // Activity log direct routes
+  // Catch all route - redirect to dashboard
   {
-    path: 'activity-log',
-    component: ActivityLogPageComponent
-  },
-
-  // Activity Dashboard - keep the lazy loading approach
-  {
-    path: 'activity-dashboard',
-    loadComponent: () => import('./features/activity-dashboard/activity-dashboard.component')
-      .then(c => c.ActivityDashboardComponent)
+    path: '**',
+    redirectTo: 'dashboard/overview'
   }
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes),
-    // Import standalone components
-    WorkOrderListComponent,
-    WorkOrderDetailsComponent,
-    WorkOrderFormComponent,
-    OverviewComponent,
-    UnderConstructionComponent,
-    AllRemarksComponent,
-    ActivityLogPageComponent,
-    EquipmentDashboardComponent,
-    LoginComponent
-  ],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -46,17 +46,6 @@ namespace UnifiedContract.Persistence.Configurations.HR
                 .HasForeignKey(s => s.EmployeeId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Add missing collection configurations
-            builder.HasMany(s => s.Allowances)
-                .WithOne()
-                .HasForeignKey(a => a.SalaryId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasMany(s => s.Deductions)
-                .WithOne()
-                .HasForeignKey(d => d.SalaryId)
-                .OnDelete(DeleteBehavior.Cascade);
-
             // Add missing indexes
             builder.HasIndex(s => new { s.EffectiveDate, s.EndDate });
             builder.HasIndex(s => new { s.EmployeeId, s.IsActive });

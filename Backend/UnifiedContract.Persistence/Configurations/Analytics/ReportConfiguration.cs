@@ -46,17 +46,17 @@ namespace UnifiedContract.Persistence.Configurations.Analytics
             // Indexes
             builder.HasIndex(r => r.Name);
             builder.HasIndex(r => r.Type);
-            builder.HasIndex(r => r.CreatedById);
+            builder.HasIndex(r => r.CreatedByUserId);
             builder.HasIndex(r => r.TemplateId);
             builder.HasIndex(r => r.IsSystem);
             builder.HasIndex(r => r.IsPublic);
             builder.HasIndex(r => new { r.Type, r.IsPublic });
-            builder.HasIndex(r => new { r.CreatedById, r.IsPublic });
+            builder.HasIndex(r => new { r.CreatedByUserId, r.IsPublic });
             
             // Relationships
-            builder.HasOne(r => r.CreatedBy)
+            builder.HasOne(r => r.CreatedByUser)
                 .WithMany()
-                .HasForeignKey(r => r.CreatedById)
+                .HasForeignKey(r => r.CreatedByUserId)
                 .OnDelete(DeleteBehavior.SetNull);
                 
             builder.HasOne(r => r.Template)

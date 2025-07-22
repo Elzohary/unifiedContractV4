@@ -63,7 +63,7 @@ namespace UnifiedContract.Persistence.Configurations.HR
             builder.HasOne(l => l.Employee)
                 .WithMany(e => e.Leaves)
                 .HasForeignKey(l => l.EmployeeId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
                 
             builder.HasOne(l => l.ApprovedBy)
                 .WithMany()

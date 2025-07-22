@@ -16,6 +16,7 @@ import { EMPTY, Subject } from 'rxjs';
 import { WorkOrderItemService } from '../../services/work-order-item.service';
 import { Iitem } from '../../models/work-order-item.model';
 import { CreateMasterItemDialogComponent } from './create-master-item-dialog.component';
+import { AssignWorkOrderItemDialogComponent } from '../work-order-item-dialog/assign-work-order-item-dialog.component';
 import { NgCardComponent } from '../../../../shared/components/ng-card/ng-card.component';
 
 @Component({
@@ -86,7 +87,13 @@ export class WorkOrderItemsListComponent implements OnInit, AfterViewInit, OnDes
 
   loadItems(): void {
     this.isLoading = true;
-    this.workOrderItemService.items$
+    let itemsObservable;
+    if (this.workOrderId) {
+      itemsObservable = this.workOrderItemService.getItems(this.workOrderId);
+    } else {
+      itemsObservable = this.workOrderItemService.getAllItems();
+    }
+    itemsObservable
       .pipe(
         takeUntil(this.destroy$),
         finalize(() => this.isLoading = false),
@@ -98,7 +105,7 @@ export class WorkOrderItemsListComponent implements OnInit, AfterViewInit, OnDes
       )
       .subscribe(items => {
         this.dataSource.data = items;
-        this.isLoading = false
+        this.isLoading = false;
         // Ensure table refreshes
         this.dataSource._updateChangeSubscription();
       });
@@ -158,6 +165,38 @@ export class WorkOrderItemsListComponent implements OnInit, AfterViewInit, OnDes
 
   openEditDialog(item: Iitem): void {
     // Remove any usage of WorkOrderItemDialogComponent (should only use CreateMasterItemDialogComponent now)
+  }
+
+  openAssignDialog(): void {
+    const dialogRef = this.dialog.open(AssignWorkOrderItemDialogComponent, {
+      width: '600px',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      panelClass: 'full-screen-dialog',
+      data: {
+        title: 'Assign Work Order Item',
+        workOrderId: this.workOrderId,
+        assignedItemIds: this.dataSource.data.map(item => item.id)
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Call backend to assign the item
+        this.workOrderItemService.assignItemToWorkOrder(this.workOrderId, result)
+          .pipe(
+            catchError(error => {
+              this.showErrorMessage('Failed to assign item. Please try again.');
+              console.error('Error assigning item:', error);
+              return EMPTY;
+            })
+          )
+          .subscribe(() => {
+            this.showSuccessMessage('Item assigned successfully');
+            this.loadItems();
+          });
+      }
+    });
   }
 
   // Confirm delete with the user

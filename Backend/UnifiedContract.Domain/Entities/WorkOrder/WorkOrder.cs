@@ -15,6 +15,8 @@ namespace UnifiedContract.Domain.Entities.WorkOrder
         public string? Description { get; set; }
         public string Location { get; set; }
         public string? Category { get; set; }
+        public string? Type { get; set; }
+        public string? Class { get; set; }
         public decimal CompletionPercentage { get; set; }
         public DateTime ReceivedDate { get; set; }
         public DateTime? StartDate { get; set; }
@@ -40,14 +42,11 @@ namespace UnifiedContract.Domain.Entities.WorkOrder
         public virtual ICollection<WorkOrderTask> Tasks { get; set; }
         public virtual ICollection<Permit> Permits { get; set; }
         public virtual ICollection<WorkOrderAction> Actions { get; set; }
-        public virtual ICollection<ActionNeeded> ActionsNeeded { get; set; }
         public virtual ICollection<WorkOrderPhoto> Photos { get; set; }
         public virtual ICollection<WorkOrderForm> Forms { get; set; }
         public virtual ICollection<WorkOrderExpense> Expenses { get; set; }
         public virtual ICollection<WorkOrderInvoice> Invoices { get; set; }
-        public virtual ICollection<MaterialAssignment> Materials { get; set; }
-        public virtual ICollection<ManpowerAssignment> Manpower { get; set; }
-        public virtual ICollection<EquipmentAssignment> Equipment { get; set; }
+        public virtual ICollection<SiteReport> SiteReports { get; set; } = new List<SiteReport>();
         
         // For expense breakdown
         public decimal MaterialsExpense { get; set; }
@@ -62,14 +61,10 @@ namespace UnifiedContract.Domain.Entities.WorkOrder
             Tasks = new HashSet<WorkOrderTask>();
             Permits = new HashSet<Permit>();
             Actions = new HashSet<WorkOrderAction>();
-            ActionsNeeded = new HashSet<ActionNeeded>();
             Photos = new HashSet<WorkOrderPhoto>();
             Forms = new HashSet<WorkOrderForm>();
             Expenses = new HashSet<WorkOrderExpense>();
             Invoices = new HashSet<WorkOrderInvoice>();
-            Materials = new HashSet<MaterialAssignment>();
-            Manpower = new HashSet<ManpowerAssignment>();
-            Equipment = new HashSet<EquipmentAssignment>();
         }
     }
 } 

@@ -201,10 +201,7 @@
           "Microsoft.EntityFrameworkCore": "8.0.5"
         },
         "runtime": {
-          "UnifiedContract.Domain.dll": {
-            "assemblyVersion": "1.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "UnifiedContract.Domain.dll": {}
         }
       }
     }

@@ -279,16 +279,12 @@ export class MaterialUsageDialogComponent implements OnInit {
       let photosDocs: any[] = [];
       if (this.usagePhotos.length > 0) {
         this.uploadProgress = 50;
-        const uploadResult = await this.documentService.uploadMultipleFiles(
-          this.usagePhotos,
-          'photo',
-          this.data.material.id,
-          {
-            workOrderId: this.data.workOrderId,
-            photoType: this.data.action === 'issue-to-site' ? 'site-issue' : 'usage'
-          }
-        ).toPromise();
-        photosDocs = uploadResult || [];
+        const entityType = this.data.action === 'issue-to-site' ? 'MaterialSiteIssue' : 'MaterialUsage';
+        const uploadPromises = this.usagePhotos.map(file =>
+          this.documentService.uploadDocument(file, this.data.material.id, entityType).toPromise()
+        );
+        const uploadedDocs = await Promise.all(uploadPromises);
+        photosDocs = uploadedDocs.filter(doc => !!doc);
       }
       
       this.uploadProgress = 80;

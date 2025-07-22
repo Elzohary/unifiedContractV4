@@ -55,7 +55,7 @@ export class AssignWorkOrderItemDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.itemService.getItems().subscribe({
+    this.itemService.getItems(this.data.workOrderId).subscribe({
       next: items => {
         this.availableItems = items;
         this.filteredItems = items.filter(item => !this.assignedItemIds.includes(item.id));

@@ -16,3 +16,21 @@ D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedCont
 D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Infrastructure\obj\Debug\net8.0\refint\UnifiedContract.Infrastructure.dll
 D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Infrastructure\obj\Debug\net8.0\UnifiedContract.Infrastructure.pdb
 D:\Elzohary\IT\2025 Software Projects\unifiedContract - Full Project\unifiedContract-Backend\UnifiedContract.Infrastructure\obj\Debug\net8.0\ref\UnifiedContract.Infrastructure.dll
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Infrastructure\bin\Debug\net8.0\UnifiedContract.Infrastructure.deps.json
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Infrastructure\bin\Debug\net8.0\UnifiedContract.Infrastructure.dll
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Infrastructure\bin\Debug\net8.0\UnifiedContract.Infrastructure.pdb
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Infrastructure\bin\Debug\net8.0\UnifiedContract.Application.dll
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Infrastructure\bin\Debug\net8.0\UnifiedContract.Domain.dll
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Infrastructure\bin\Debug\net8.0\UnifiedContract.Application.pdb
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Infrastructure\bin\Debug\net8.0\UnifiedContract.Domain.pdb
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Infrastructure\obj\Debug\net8.0\UnifiedContract.Infrastructure.csproj.AssemblyReference.cache
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Infrastructure\obj\Debug\net8.0\UnifiedContract.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Infrastructure\obj\Debug\net8.0\UnifiedContract.Infrastructure.AssemblyInfoInputs.cache
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Infrastructure\obj\Debug\net8.0\UnifiedContract.Infrastructure.AssemblyInfo.cs
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Infrastructure\obj\Debug\net8.0\UnifiedContract.Infrastructure.csproj.CoreCompileInputs.cache
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Infrastructure\obj\Debug\net8.0\UnifiedContract.Infrastructure.sourcelink.json
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Infrastructure\obj\Debug\net8.0\UnifiedC.BB983BE4.Up2Date
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Infrastructure\obj\Debug\net8.0\UnifiedContract.Infrastructure.dll
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Infrastructure\obj\Debug\net8.0\refint\UnifiedContract.Infrastructure.dll
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Infrastructure\obj\Debug\net8.0\UnifiedContract.Infrastructure.pdb
+D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Infrastructure\obj\Debug\net8.0\ref\UnifiedContract.Infrastructure.dll

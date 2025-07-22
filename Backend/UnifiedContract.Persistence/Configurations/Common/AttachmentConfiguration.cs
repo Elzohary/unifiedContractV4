@@ -25,22 +25,21 @@ namespace UnifiedContract.Persistence.Configurations.Common
             builder.Property(e => e.FileSize)
                 .IsRequired();
                 
-            builder.Property(e => e.Url)
+            builder.Property(e => e.FilePath)
                 .IsRequired()
                 .HasMaxLength(1000);
                 
-            builder.Property(e => e.Description)
-                .HasMaxLength(500);
-                
             builder.Property(e => e.UploadDate)
-                .IsRequired()
-                .HasDefaultValueSql("GETDATE()");
-            
+                .IsRequired();
+
+            builder.Property(e => e.EntityType)
+                .HasMaxLength(50);
+                
             // Indexes
             builder.HasIndex(e => e.UploadedById);
             builder.HasIndex(e => e.UploadDate);
             builder.HasIndex(e => e.FileType);
-            builder.HasIndex(e => new { e.UploadDate, e.UploadedById });
+            builder.HasIndex(e => new { e.EntityType, e.EntityId });
             
             // Relationships
             builder.HasOne<User>()

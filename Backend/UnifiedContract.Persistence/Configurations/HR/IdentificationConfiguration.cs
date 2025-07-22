@@ -37,11 +37,7 @@ namespace UnifiedContract.Persistence.Configurations.HR
             builder.HasIndex(i => i.ExpiryDate);
             builder.HasIndex(i => new { i.Type, i.Number }).IsUnique();
             
-            // Relationships
-            builder.HasOne<Employee>()
-                .WithMany(e => e.Identifications)
-                .HasForeignKey(i => i.EmployeeId)
-                .OnDelete(DeleteBehavior.Cascade);
+            // Relationships - configured in EmployeeConfiguration to avoid duplicate foreign keys
         }
     }
 } 

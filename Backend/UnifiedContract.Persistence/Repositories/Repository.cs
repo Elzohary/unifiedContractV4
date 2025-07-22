@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using UnifiedContract.Domain.Common;
 using UnifiedContract.Domain.Interfaces.Repositories;
+using System.Threading;
 
 namespace UnifiedContract.Persistence.Repositories
 {
@@ -60,6 +61,11 @@ namespace UnifiedContract.Persistence.Repositories
             if (orderBy != null)
                 return await orderBy(query).ToListAsync();
             return await query.ToListAsync();
+        }
+
+        public virtual async Task<T?> FindAsync(object id, CancellationToken cancellationToken = default)
+        {
+            return await _dbContext.Set<T>().FindAsync(new object[] { id }, cancellationToken);
         }
 
         public virtual async Task<T> GetByIdAsync(Guid id)

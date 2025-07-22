@@ -44,7 +44,7 @@ namespace UnifiedContract.Persistence.Configurations.HR
             builder.HasOne(a => a.Salary)
                 .WithMany(s => s.Allowances)
                 .HasForeignKey(a => a.SalaryId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 } 

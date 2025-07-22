@@ -74,7 +74,11 @@ namespace UnifiedContract.Persistence.Configurations.Auth
                         NormalizedName = permissionName.ToUpper(),
                         Description = $"Permission to {action.ToLower()} {module.ToLower()}s",
                         Module = module,
-                        Action = action
+                        Action = action,
+                        CreatedBy = "system",
+                        LastModifiedBy = "system",
+                        CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                        LastModifiedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc)
                     });
                     id++;
                 }
@@ -88,7 +92,11 @@ namespace UnifiedContract.Persistence.Configurations.Auth
                 NormalizedName = "ADMIN.FULLACCESS",
                 Description = "Full access to all system features",
                 Module = "Admin",
-                Action = "FullAccess"
+                Action = "FullAccess",
+                CreatedBy = "system",
+                LastModifiedBy = "system",
+                CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                LastModifiedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc)
             });
             
             builder.HasData(permissions);

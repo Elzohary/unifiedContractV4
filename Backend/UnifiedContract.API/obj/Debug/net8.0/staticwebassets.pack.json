@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.API\\wwwroot\\uploads\\48a88160-2cc2-47a4-b332-08bf17e48132.xlsx",
+      "PackagePath": "staticwebassets\\uploads\\48a88160-2cc2-47a4-b332-08bf17e48132.xlsx"
+    },
+    {
+      "Id": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.API\\wwwroot\\uploads\\c9df78df-c7f6-4339-9814-0dd843f3a1ba.xlsb",
+      "PackagePath": "staticwebassets\\uploads\\c9df78df-c7f6-4339-9814-0dd843f3a1ba.xlsb"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.UnifiedContract.API.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.UnifiedContract.API.props",
+      "PackagePath": "build\\UnifiedContract.API.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.UnifiedContract.API.props",
+      "PackagePath": "buildMultiTargeting\\UnifiedContract.API.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.UnifiedContract.API.props",
+      "PackagePath": "buildTransitive\\UnifiedContract.API.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

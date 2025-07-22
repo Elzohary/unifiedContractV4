@@ -119,7 +119,7 @@ export class MaterialDeliveryDialogComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       const file = input.files[0];
-      const validation = this.documentService.validateFile(file, ['pdf', 'image/*'], 10);
+      const validation = this.documentService.validateFile(file, ['application/pdf', 'image/*'], 10);
       
       if (validation.valid) {
         this.invoiceFile = file;
@@ -175,15 +175,10 @@ export class MaterialDeliveryDialogComponent implements OnInit {
       let invoiceDoc = null;
       if (this.invoiceFile) {
         this.uploadProgress = 20;
-        invoiceDoc = await this.documentService.uploadFile(
+        invoiceDoc = await this.documentService.uploadDocument(
           this.invoiceFile,
-          'invoice',
           this.data.material.id,
-          {
-            workOrderId: this.data.workOrderId,
-            invoiceNumber: formValue.invoiceNumber,
-            invoiceAmount: formValue.invoiceAmount
-          }
+          'MaterialInvoice'
         ).toPromise();
       }
       
@@ -191,16 +186,14 @@ export class MaterialDeliveryDialogComponent implements OnInit {
       let photosDocs: any[] = [];
       if (this.deliveryPhotos.length > 0) {
         this.uploadProgress = 50;
-        const uploadResult = await this.documentService.uploadMultipleFiles(
-          this.deliveryPhotos,
-          'photo',
-          this.data.material.id,
-          {
-            workOrderId: this.data.workOrderId,
-            photoType: 'delivery'
-          }
-        ).toPromise();
-        photosDocs = uploadResult || [];
+        for (const file of this.deliveryPhotos) {
+          const uploadResult = await this.documentService.uploadDocument(
+            file,
+            this.data.material.id,
+            'MaterialPhoto'
+          ).toPromise();
+          photosDocs.push(uploadResult || {});
+        }
       }
       
       this.uploadProgress = 80;

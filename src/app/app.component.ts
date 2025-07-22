@@ -56,7 +56,7 @@ import { WORK_ORDER_PROVIDERS } from './domains/work-order/work-order.providers'
             <app-header-dashboard-management></app-header-dashboard-management>
           </mat-toolbar>
 
-          <div class="page-content">
+          <div class="page-content" [class.login-page]="isLoginPage">
             <router-outlet></router-outlet>
           </div>
         </mat-sidenav-content>
@@ -153,6 +153,27 @@ import { WORK_ORDER_PROVIDERS } from './domains/work-order/work-order.providers'
       height: calc(100vh - 64px);
     }
 
+    .page-content.login-page {
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      position: relative;
+      z-index: 1;
+    }
+
+    // Ensure sidebar is hidden on login page
+    .page-content.login-page ~ mat-sidenav {
+      display: none !important;
+    }
+
+    // Hide sidebar overlay on login page
+    .page-content.login-page ~ .mat-sidenav-backdrop {
+      display: none !important;
+    }
+
     @media (max-width: 992px) {
       .app-sidenav {
         width: 80%;
@@ -183,14 +204,28 @@ export class AppComponent implements OnInit {
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
       this.checkCurrentRoute();
-      if (this.isMobile && this.sidenav?.opened) {
-        this.sidenav.close();
-      }
+      this.updateSidenavState();
     });
   }
 
   private checkCurrentRoute() {
-    this.isLoginPage = this.router.url === '/' || this.router.url === '/login';
+    const currentUrl = this.router.url;
+    this.isLoginPage = currentUrl === '/' || currentUrl === '/login' || currentUrl.startsWith('/login');
+  }
+
+  private updateSidenavState() {
+    if (this.sidenav) {
+      if (this.isLoginPage) {
+        // Always close sidebar on login page
+        this.sidenav.close();
+      } else if (this.isMobile) {
+        this.sidenav.close();
+        this.sidenav.mode = 'over';
+      } else {
+        this.sidenav.open();
+        this.sidenav.mode = 'side';
+      }
+    }
   }
 
   @HostListener('window:resize')
@@ -201,15 +236,7 @@ export class AppComponent implements OnInit {
   private checkScreenSize() {
     if (this.isBrowser) {
       this.isMobile = window.innerWidth < 992;
-      if (this.sidenav) {
-        if (this.isMobile) {
-          this.sidenav.close();
-          this.sidenav.mode = 'over';
-        } else {
-          this.sidenav.open();
-          this.sidenav.mode = 'side';
-        }
-      }
+      this.updateSidenavState();
     }
   }
 }

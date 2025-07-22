@@ -1,0 +1,58 @@
+{
+  "Version": 1,
+  "Hash": "P2/OVqzT9UeM5xS9VTc2C1ViLPgLmgoRbN2FzJiP1RI=",
+  "Source": "UnifiedContract.API",
+  "BasePath": "_content/UnifiedContract.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "UnifiedContract.API\\wwwroot",
+      "Source": "UnifiedContract.API",
+      "ContentRoot": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.API\\wwwroot\\",
+      "BasePath": "_content/UnifiedContract.API",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.API\\wwwroot\\uploads\\48a88160-2cc2-47a4-b332-08bf17e48132.xlsx",
+      "SourceId": "UnifiedContract.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.API\\wwwroot\\",
+      "BasePath": "_content/UnifiedContract.API",
+      "RelativePath": "uploads/48a88160-2cc2-47a4-b332-08bf17e48132.xlsx",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\48a88160-2cc2-47a4-b332-08bf17e48132.xlsx"
+    },
+    {
+      "Identity": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.API\\wwwroot\\uploads\\c9df78df-c7f6-4339-9814-0dd843f3a1ba.xlsb",
+      "SourceId": "UnifiedContract.API",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.API\\wwwroot\\",
+      "BasePath": "_content/UnifiedContract.API",
+      "RelativePath": "uploads/c9df78df-c7f6-4339-9814-0dd843f3a1ba.xlsb",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\c9df78df-c7f6-4339-9814-0dd843f3a1ba.xlsb"
+    }
+  ]
+}

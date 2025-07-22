@@ -31,13 +31,13 @@ namespace UnifiedContract.Domain.Entities.HR
         public int SickLeaveCounter { get; private set; }
         public int OffDays { get; private set; }
         public Money Salary { get; private set; }
-        public Guid? UserId { get; private set; }
+        public bool IsActive { get; set; } = true;
         
         // Navigation properties
         public virtual Employee DirectManager { get; set; }
         public virtual Department Department { get; set; }
         // Using object instead of ApplicationUser until Identity framework is implemented
-        public virtual object User { get; set; }
+        // public virtual object User { get; set; } // TODO: Replace with proper navigation property when Identity is integrated
         public virtual ICollection<Employee> ManagedEmployees { get; set; } = new List<Employee>();
         public virtual ICollection<EmergencyContact> EmergencyContacts { get; set; } = new List<EmergencyContact>();
         public virtual ICollection<Certificate> Certificates { get; set; } = new List<Certificate>();
@@ -48,11 +48,11 @@ namespace UnifiedContract.Domain.Entities.HR
         public virtual ICollection<PerformanceReview> PerformanceReviews { get; set; } = new List<PerformanceReview>();
         public virtual ICollection<PerformanceReview> ReviewsGiven { get; set; } = new List<PerformanceReview>();
         public virtual ICollection<Department> ManagedDepartments { get; set; } = new List<Department>();
-        public virtual ICollection<Identification> Identifications { get; set; } = new List<Identification>();
         public virtual ICollection<BankAccount> BankAccounts { get; set; } = new List<BankAccount>();
         public virtual ICollection<Training> Trainings { get; set; } = new List<Training>();
         public virtual ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
         public virtual ICollection<Salary> SalaryHistory { get; set; } = new List<Salary>();
+        public virtual ICollection<Identification> Identifications { get; set; } = new List<Identification>();
         
         // For EF Core
         protected Employee() { }

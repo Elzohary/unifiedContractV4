@@ -53,12 +53,12 @@ namespace UnifiedContract.Persistence.Configurations.Document
             builder.HasIndex(dt => new { dt.Name, dt.Version });
             
             // Relationships
-            builder.HasOne(dt => dt.CreatedBy)
+            builder.HasOne(dt => dt.CreatedByUser)
                 .WithMany()
                 .HasForeignKey(dt => dt.CreatedById)
                 .OnDelete(DeleteBehavior.Restrict);
                 
-            builder.HasOne(dt => dt.LastModifiedBy)
+            builder.HasOne(dt => dt.LastModifiedByUser)
                 .WithMany()
                 .HasForeignKey(dt => dt.LastModifiedById)
                 .OnDelete(DeleteBehavior.SetNull);

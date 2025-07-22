@@ -141,7 +141,8 @@ export class WorkOrderFormComponent implements OnInit, OnDestroy {
 
   // Load available items for dropdown
   private loadAvailableItems(): void {
-    this.workOrderItemService.getItems()
+    // If you have a workOrderId, pass it here. Otherwise, use a placeholder or refactor as needed.
+    this.workOrderItemService.getItems('')
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (items: Iitem[]) => {

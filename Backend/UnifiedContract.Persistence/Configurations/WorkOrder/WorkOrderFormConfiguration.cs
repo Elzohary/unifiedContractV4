@@ -1,39 +1,26 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using UnifiedContract.Domain.Entities.WorkOrder;
 
 namespace UnifiedContract.Persistence.Configurations.WorkOrder
 {
-    public class WorkOrderFormConfiguration : IEntityTypeConfiguration<WorkOrderForm>
+    public class WorkOrderFormConfiguration : IEntityTypeConfiguration<UnifiedContract.Domain.Entities.WorkOrder.WorkOrderForm>
     {
-        public void Configure(EntityTypeBuilder<WorkOrderForm> builder)
+        public void Configure(EntityTypeBuilder<UnifiedContract.Domain.Entities.WorkOrder.WorkOrderForm> builder)
         {
-            builder.ToTable("WorkOrderForms");
-
-            builder.HasKey(form => form.Id);
-            
-            builder.Property(form => form.FormName)
-                .IsRequired()
-                .HasMaxLength(200);
-                
-            builder.Property(form => form.FormType)
-                .HasMaxLength(50);
-                
-            builder.Property(form => form.FormData)
-                .HasColumnType("nvarchar(max)");
-                
-            // Relationships
-            builder.HasOne<Domain.Entities.WorkOrder.WorkOrder>()
-                .WithMany(wo => wo.WorkOrderForms)
-                .HasForeignKey(form => form.WorkOrderId)
+            if (builder == null) throw new ArgumentNullException(nameof(builder));
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Title).IsRequired().HasMaxLength(100);
+            builder.Property(x => x.Type).IsRequired();
+            builder.Property(x => x.Status).IsRequired();
+            builder.Property(x => x.SubmittedDate);
+            builder.Property(x => x.SubmittedById);
+            builder.Property(x => x.Url).HasMaxLength(500);
+            builder.Property(x => x.WorkOrderId).IsRequired();
+            // Keep any extra backend fields for future frontend use
+            builder.HasOne<UnifiedContract.Domain.Entities.WorkOrder.WorkOrder>()
+                .WithMany(x => x.Forms)
+                .HasForeignKey(x => x.WorkOrderId)
                 .OnDelete(DeleteBehavior.Cascade);
-                
-            // Audit properties
-            builder.Property(form => form.CreatedBy)
-                .HasMaxLength(50);
-                
-            builder.Property(form => form.LastModifiedBy)
-                .HasMaxLength(50);
         }
     }
 } 

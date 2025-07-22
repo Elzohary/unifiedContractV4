@@ -4,38 +4,38 @@
     Permit Documents
   </h2>
   <mat-accordion>
-    <mat-expansion-panel *ngFor="let permit of approvedPermits" class="permit-doc-group">
+    <mat-expansion-panel *ngFor="let permit of approvedPermits" class="permit-section">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <mat-icon color="primary">gavel</mat-icon>
-          {{ permit.title || permit.type }}
+          <mat-icon>{{ permit.type === 'Initial' ? 'flag' : (permit.type === 'RoadDepartment' ? 'traffic' : (permit.type === 'Traffic' ? 'traffic' : 'location_city')) }}</mat-icon>
+          {{ permit.type }} Permit Documents
         </mat-panel-title>
-        <mat-panel-description>
-          <span class="permit-meta">#{{ permit.number }} | {{ permit.authority }}</span>
-        </mat-panel-description>
       </mat-expansion-panel-header>
-      <div class="upload-section">
-        <input type="file" #fileInput (change)="onFileSelected($event, permit)" style="display:none" multiple />
-        <button mat-stroked-button color="primary" (click)="fileInput.click()" [disabled]="uploading[permit.id]">
+      <div class="document-upload">
+        <input type="file" (change)="onFileSelected($event, permit.type)" [hidden]="true" #fileInput>
+        <button mat-stroked-button color="primary" (click)="fileInput.click()">
           <mat-icon>upload_file</mat-icon>
-          Upload Files
+          Upload Document
         </button>
-        <mat-progress-bar *ngIf="uploading[permit.id]" mode="indeterminate"></mat-progress-bar>
+        <mat-progress-bar *ngIf="uploading[permit.type]" mode="indeterminate"></mat-progress-bar>
       </div>
-      <mat-list *ngIf="documents[permit.id]?.length" class="file-list">
-        <mat-list-item *ngFor="let doc of documents[permit.id]">
-          <mat-icon matListIcon>{{ doc.fileType.startsWith('image') ? 'image' : (doc.fileType === 'application/pdf' ? 'picture_as_pdf' : 'insert_drive_file') }}</mat-icon>
+      <mat-list *ngIf="permitDocuments[permit.type]?.length" class="file-list">
+        <mat-list-item *ngFor="let doc of permitDocuments[permit.type]">
+          <mat-icon matListIcon>{{ doc.fileType.startsWith('image') ? 'image' : (doc.fileType.includes('pdf') ? 'picture_as_pdf' : 'insert_drive_file') }}</mat-icon>
           <span matLine>{{ doc.fileName }}</span>
           <span class="file-meta" matLine>{{ doc.fileType | uppercase }} • {{ doc.fileSize / 1024 | number:'1.0-1' }} KB</span>
-          <button mat-icon-button color="warn" (click)="removeDocument(doc, permit)" matTooltip="Delete">
-            <mat-icon>delete</mat-icon>
-          </button>
-          <a mat-icon-button [href]="doc.fileUrl" target="_blank" matTooltip="View/Download">
-            <mat-icon>download</mat-icon>
-          </a>
+          
+          <div class="document-actions">
+            <a mat-icon-button [href]="doc.fileUrl" target="_blank" matTooltip="View/Download">
+              <mat-icon>visibility</mat-icon>
+            </a>
+            <button mat-icon-button (click)="removePermitDocument(doc, permit.type)" matTooltip="Delete">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
         </mat-list-item>
       </mat-list>
-      <div *ngIf="!documents[permit.id]?.length" class="empty-docs">
+      <div *ngIf="!permitDocuments[permit.type]?.length" class="empty-docs">
         <mat-icon>info</mat-icon>
         <span>No documents uploaded for this permit.</span>
       </div>

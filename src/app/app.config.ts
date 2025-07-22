@@ -11,6 +11,7 @@ import { inject } from '@angular/core';
 import { ActivityLogService } from './shared/services/activity-log.service';
 import { UserService } from './shared/services/user.service';
 import { activityLoggingInterceptor } from './shared/interceptors/activity-logging.interceptor';
+import { authInterceptor } from './shared/interceptors/auth.interceptor';
 import { GlobalErrorHandler } from './shared/error-handlers/global-error-handler';
 
 // Factory function to initialize user activity tracking
@@ -38,7 +39,7 @@ export const appConfig: ApplicationConfig = {
       withFetch(),
       withJsonpSupport(),
       withInterceptors([
-        // Enable activity logging interceptor
+        authInterceptor,
         activityLoggingInterceptor
       ])
     ),

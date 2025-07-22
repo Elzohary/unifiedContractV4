@@ -115,6 +115,24 @@ export class WoOverviewTabComponent implements OnChanges {
     }
   }
 
+  assignItem() {
+    const dialogRef = this.dialog.open(AssignWorkOrderItemDialogComponent, {
+      width: '600px',
+      data: {
+        title: 'Assign Work Order Item',
+        workOrderId: this.workOrder.id,
+        assignedItemIds: this.workOrder.items?.map(item => item.id) || []
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.workOrderService.addItemToWorkOrder(this.workOrder.id, result).subscribe(() => {
+          this.itemsChanged.emit();
+        });
+      }
+    });
+  }
+
   getTotalEstimatedPrice(): number {
     if (!this.workOrder.items || this.workOrder.items.length === 0) return 0;
     return this.workOrder.items.reduce((total, item) => {
@@ -127,7 +145,7 @@ export class WoOverviewTabComponent implements OnChanges {
   getPermitStatus(type: string): boolean {
     if (!this.workOrder.permits) return false;
     const permit = this.workOrder.permits.find(p => p.type === type);
-    return permit?.status === 'approved';
+    return permit?.status?.toLowerCase() === 'approved';
   }
 
   formatDate(date?: string | Date): string {
@@ -158,19 +176,24 @@ export class WoOverviewTabComponent implements OnChanges {
   }
 
   openPermitChecklistDialog() {
-    console.log('openPermitChecklistDialog called');
     const dialogRef = this.dialog.open(WorkOrderPermitsChecklistDialogComponent, {
       width: '400px',
       data: {
-        permits: this.workOrder.permits
+        permits: this.workOrder.permits || []
       }
     });
-    console.log('Dialog opened:', dialogRef);
-    dialogRef.afterClosed().subscribe((updatedStatuses: {type: string, status: string}[] | undefined) => {
-      console.log('Dialog afterClosed fired:', updatedStatuses);
-      if (updatedStatuses) {
-        this.permitsChanged.emit(updatedStatuses);
-        console.log('permitsChanged emitted:', updatedStatuses);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.workOrderService.updateWorkOrderPermits(this.workOrder.id, result).subscribe({
+          next: () => {
+            this.workOrderService.getWorkOrderById(this.workOrder.id).subscribe(updatedWorkOrder => {
+              this.workOrder = updatedWorkOrder;
+              this.cdr.markForCheck();
+            });
+          },
+          error: (err) => console.error('Failed to update permits', err)
+        });
       }
     });
   }
@@ -290,6 +313,12 @@ export class WoOverviewTabComponent implements OnChanges {
 
   // Always calculate completion percentage from items
   get completionPercentage(): number {
+    // Prefer the backend value if it's a valid number
+    if (this.workOrder && this.workOrder.details && typeof this.workOrder.details.completionPercentage === 'number') {
+      return Math.round(this.workOrder.details.completionPercentage);
+    }
+    
+    // Fallback to frontend calculation if backend value is not available
     if (!this.workOrder || !this.workOrder.items || this.workOrder.items.length === 0) return 0;
     const totalActual = this.workOrder.items.reduce((sum, it) => sum + (it.actualQuantity || 0), 0);
     const totalEstimated = this.workOrder.items.reduce((sum, it) => sum + (it.estimatedQuantity || 0), 0);

@@ -19,9 +19,13 @@ namespace UnifiedContract.Persistence.Configurations.Auth
             
             builder.HasData(new UserRole
             {
-                Id = Guid.NewGuid(),
+                Id = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
                 UserId = adminUserId,
-                RoleId = adminRoleId
+                RoleId = adminRoleId,
+                CreatedBy = "system",
+                LastModifiedBy = "system",
+                CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                LastModifiedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc)
             });
         }
     }

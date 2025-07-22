@@ -1,56 +1,28 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using UnifiedContract.Domain.Entities.WorkOrder;
 
 namespace UnifiedContract.Persistence.Configurations.WorkOrder
 {
-    public class WorkOrderTaskConfiguration : IEntityTypeConfiguration<WorkOrderTask>
+    public class WorkOrderTaskConfiguration : IEntityTypeConfiguration<UnifiedContract.Domain.Entities.WorkOrder.WorkOrderTask>
     {
-        public void Configure(EntityTypeBuilder<WorkOrderTask> builder)
+        public void Configure(EntityTypeBuilder<UnifiedContract.Domain.Entities.WorkOrder.WorkOrderTask> builder)
         {
-            builder.ToTable("WorkOrderTasks");
-
-            builder.HasKey(task => task.Id);
-            
-            builder.Property(task => task.Title)
-                .IsRequired()
-                .HasMaxLength(200);
-                
-            builder.Property(task => task.Description)
-                .HasMaxLength(1000);
-                
-            builder.Property(task => task.Status)
-                .IsRequired()
-                .HasMaxLength(50);
-                
-            builder.Property(task => task.Priority)
-                .IsRequired()
-                .HasMaxLength(20);
-                
-            builder.Property(task => task.Category)
-                .HasMaxLength(50);
-                
-            builder.Property(task => task.EstimatedHours)
-                .HasPrecision(10, 2);
-                
-            builder.Property(task => task.ActualHours)
-                .HasPrecision(10, 2);
-                
-            // Relationships
-            builder.HasOne<Domain.Entities.WorkOrder.WorkOrder>()
-                .WithMany(wo => wo.WorkOrderTasks)
-                .HasForeignKey(task => task.WorkOrderId)
+            if (builder == null) throw new ArgumentNullException(nameof(builder));
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Title).IsRequired().HasMaxLength(200);
+            builder.Property(x => x.Description).IsRequired().HasMaxLength(1000);
+            builder.Property(x => x.StartDate);
+            builder.Property(x => x.DueDate);
+            builder.Property(x => x.Priority);
+            builder.Property(x => x.Status);
+            builder.Property(x => x.Completed);
+            builder.Property(x => x.WorkOrderId);
+            builder.Property(x => x.ConfirmedById);
+            // Keep any extra backend fields for future frontend use
+            builder.HasOne<UnifiedContract.Domain.Entities.WorkOrder.WorkOrder>()
+                .WithMany(x => x.Tasks)
+                .HasForeignKey(x => x.WorkOrderId)
                 .OnDelete(DeleteBehavior.Cascade);
-                
-            // User assignment (assuming User is an entity in your system)
-            builder.Property(task => task.AssignedToId);
-                
-            // Audit properties
-            builder.Property(task => task.CreatedBy)
-                .HasMaxLength(50);
-                
-            builder.Property(task => task.LastModifiedBy)
-                .HasMaxLength(50);
         }
     }
 } 

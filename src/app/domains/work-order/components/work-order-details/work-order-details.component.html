@@ -109,7 +109,7 @@
         </mat-card-header>
         <mat-card-content>
           <app-work-order-items-list
-            [workOrderId]="workOrder.details.workOrderNumber"
+            [workOrderId]="workOrder.id"
             (itemsUpdated)="onItemsUpdated($event)">
           </app-work-order-items-list>
         </mat-card-content>

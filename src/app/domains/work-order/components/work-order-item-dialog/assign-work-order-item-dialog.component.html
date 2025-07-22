@@ -12,7 +12,7 @@
               <input #searchBox matInput placeholder="Search..." (input)="onFilterChange(searchBox.value)" aria-label="Search Items">
             </mat-option>
             <mat-option *ngFor="let item of filteredItems" [value]="item.id">
-              {{ item.itemNumber }} - {{ item.shortDescription }} - {{ item.longDescription }}
+              {{ item.shortDescription }}
             </mat-option>
           </mat-select>
         </mat-form-field>
