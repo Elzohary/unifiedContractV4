@@ -1,5 +1,5 @@
-import { Iitem } from './work-order-item.model';
-export type { Iitem };
+import { Iitem, ItemDto, WorkOrderItemAssignmentDto } from './work-order-item.model';
+export type { Iitem, ItemDto, WorkOrderItemAssignmentDto };
 
 export interface User {
   id: string;
@@ -296,7 +296,8 @@ export {WorkOrderStatus} from './work-order-status.enum';
 export interface WorkOrder {
   id: string;
   details: workOrderDetail;
-  items: workOrderItem[];
+  items: workOrderItem[]; // Legacy - for backward compatibility
+  itemAssignments?: WorkOrderItemAssignmentDto[]; // New many-to-many relationship
   remarks: WorkOrderRemark[];
   engineerInCharge?: {
     id: string;

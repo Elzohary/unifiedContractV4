@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { delay, map, catchError, switchMap } from 'rxjs/operators';
-import { WorkOrder, WorkOrderPriority, WorkOrderIssue, materialAssignment } from '../models/work-order.model';
+import { WorkOrder, WorkOrderPriority, WorkOrderIssue, materialAssignment, ItemDto, WorkOrderItemAssignmentDto } from '../models/work-order.model';
 import { Task } from '../models/work-order.model';
 import { WorkOrderStatus } from '../models/work-order-status.enum';
 import { ApiService } from '../../../core/services/api.service';
@@ -781,6 +781,105 @@ export class WorkOrderService {
       );
     } else {
       return this.apiService.delete<boolean>(`${this.endpoint}/${workOrderId}/materials/${assignmentId}`).pipe(
+        map(response => response.data)
+      );
+    }
+  }
+
+  /**
+   * Get available items for a work order (filtered by client)
+   */
+  getAvailableItems(workOrderId: string): Observable<ItemDto[]> {
+    if (environment.useMockData) {
+      // Mock data for available items
+      const mockItems: ItemDto[] = [
+        {
+          id: '20000000-0000-0000-0000-000000000001',
+          itemNumber: 'ITEM-001',
+          description: 'Concrete Mix - Grade 30 for foundation work',
+          unit: 'm³',
+          unitPrice: 100.00,
+          paymentType: 'Fixed Price',
+          managementArea: 'Construction',
+          currency: 'SAR',
+          isActive: true,
+          clientId: 'cccccccc-cccc-cccc-cccc-cccccccccccc',
+          clientName: 'SEC',
+          createdAt: '2024-07-20T12:00:00',
+          createdBy: 'seed',
+          lastModifiedAt: '2024-07-20T12:00:00',
+          lastModifiedBy: 'seed'
+        },
+        {
+          id: '20000000-0000-0000-0000-000000000002',
+          itemNumber: 'ITEM-002',
+          description: 'Steel Reinforcement - Grade 60',
+          unit: 'kg',
+          unitPrice: 2.50,
+          paymentType: 'Fixed Price',
+          managementArea: 'Construction',
+          currency: 'SAR',
+          isActive: true,
+          clientId: 'cccccccc-cccc-cccc-cccc-cccccccccccc',
+          clientName: 'SEC',
+          createdAt: '2024-07-20T12:00:00',
+          createdBy: 'seed',
+          lastModifiedAt: '2024-07-20T12:00:00',
+          lastModifiedBy: 'seed'
+        }
+      ];
+      return of(mockItems).pipe(delay(environment.mockDataDelay));
+    } else {
+      return this.apiService.get<ItemDto[]>(`${this.endpoint}/${workOrderId}/available-items`).pipe(
+        map(response => response.data)
+      );
+    }
+  }
+
+  /**
+   * Get work order item assignments
+   */
+  getWorkOrderItemAssignments(workOrderId: string): Observable<WorkOrderItemAssignmentDto[]> {
+    if (environment.useMockData) {
+      // Mock data for item assignments
+      const mockAssignments: WorkOrderItemAssignmentDto[] = [
+        {
+          id: 'e5f1cf23-0f60-4c92-9393-42d29502e7d6',
+          workOrderId: workOrderId,
+          itemId: '20000000-0000-0000-0000-000000000001',
+          estimatedQuantity: 5.0,
+          estimatedPrice: 500.00,
+          estimatedPriceWithVAT: 575.00,
+          actualQuantity: 0.0,
+          actualPrice: 0.0,
+          actualPriceWithVAT: 0.0,
+          reasonForFinalQuantity: 'Initial estimate',
+          createdAt: '2025-07-28T09:13:42.9209098',
+          createdBy: 'system',
+          lastModifiedAt: '2025-07-28T09:13:42.8471357',
+          lastModifiedBy: 'system',
+          item: {
+            id: '20000000-0000-0000-0000-000000000001',
+            itemNumber: 'ITEM-001',
+            description: 'Concrete Mix - Grade 30 for foundation work',
+            unit: 'm³',
+            unitPrice: 100.00,
+            paymentType: 'Fixed Price',
+            managementArea: 'Construction',
+            currency: 'SAR',
+            isActive: true,
+            clientId: 'cccccccc-cccc-cccc-cccc-cccccccccccc',
+            clientName: 'SEC',
+            createdAt: '2024-07-20T12:00:00',
+            createdBy: 'seed',
+            lastModifiedAt: '2024-07-20T12:00:00',
+            lastModifiedBy: 'seed'
+          }
+        }
+      ];
+      return of(mockAssignments).pipe(delay(environment.mockDataDelay));
+    } else {
+      return this.apiService.get<WorkOrderItemAssignmentDto[]>(`${this.endpoint}/${workOrderId}/item-assignments`).pipe(
         map(response => response.data)
       );
     }

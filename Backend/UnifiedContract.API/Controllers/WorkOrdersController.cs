@@ -218,7 +218,7 @@ namespace UnifiedContract.API.Controllers
                     LastModifiedBy = User?.Identity?.Name ?? "system"
                 };
 
-                var createdWorkOrder = await _workOrderRepository.AddAsync(workOrder);
+            var createdWorkOrder = await _workOrderRepository.AddAsync(workOrder);
                 await _unitOfWork.SaveChangesAsync();
 
                 // Get the created work order with details
@@ -343,9 +343,9 @@ namespace UnifiedContract.API.Controllers
         public async Task<ActionResult<ApiResponse<bool>>> DeleteWorkOrder(Guid id)
         {
             try
-            {
-                var workOrder = await _workOrderRepository.GetByIdAsync(id);
-                if (workOrder == null)
+        {
+            var workOrder = await _workOrderRepository.GetByIdAsync(id);
+            if (workOrder == null)
                 {
                     return NotFound(new ApiResponse<bool>
                     {

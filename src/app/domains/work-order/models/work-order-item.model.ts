@@ -13,6 +13,43 @@ export interface Iitem {
   isActive?: boolean;
 }
 
+// New interfaces for the many-to-many relationship
+export interface ItemDto {
+  id: string;
+  itemNumber: string;
+  description: string;
+  unit: string;
+  unitPrice: number;
+  paymentType: string;
+  managementArea: string;
+  currency: string;
+  isActive: boolean;
+  clientId: string;
+  clientName: string;
+  createdAt: string;
+  createdBy: string;
+  lastModifiedAt: string;
+  lastModifiedBy: string;
+}
+
+export interface WorkOrderItemAssignmentDto {
+  id: string;
+  workOrderId: string;
+  itemId: string;
+  estimatedQuantity: number;
+  estimatedPrice: number;
+  estimatedPriceWithVAT: number;
+  actualQuantity: number;
+  actualPrice: number;
+  actualPriceWithVAT: number;
+  reasonForFinalQuantity: string;
+  createdAt: string;
+  createdBy: string;
+  lastModifiedAt: string;
+  lastModifiedBy: string;
+  item: ItemDto | null;
+}
+
 export interface estimatedItemsPricesDetails {
   totalEstimatedPrice: number;
   EstimationVAT: number;

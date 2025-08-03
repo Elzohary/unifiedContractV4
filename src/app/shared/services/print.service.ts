@@ -659,6 +659,590 @@ export class PrintService {
   }
 
   /**
+   * Prints a work order in O & M WORK ORDER FORM format
+   * @param workOrder The work order to print
+   */
+  printWorkOrderForm(workOrder: WorkOrder): void {
+    console.log('🖨️ Printing O & M WORK ORDER FORM for:', workOrder.details.workOrderNumber);
+    // Log this activity
+    this.activityLogService.addActivityLog({
+      action: 'print',
+      entityType: 'workOrder',
+      entityId: workOrder.id.toString(),
+      userId: 'system',
+      userName: 'System',
+      description: `Printed work order form #${workOrder.details.workOrderNumber}`,
+      details: {
+        format: 'O&M_FORM'
+      }
+    });
+
+    // Create a new window for printing
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) {
+      alert('Please allow pop-ups to print this work order form.');
+      return;
+    }
+
+    // Format the date
+    const formatDate = (date: Date | string | undefined): string => {
+      if (!date) return '';
+      return new Date(date).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      });
+    };
+
+    // Calculate totals
+    const calculateLaborTotal = () => {
+      if (!workOrder.items || workOrder.items.length === 0) return 0;
+      return workOrder.items.reduce((total, item) => total + (item.estimatedPrice || 0), 0);
+    };
+
+    const laborTotal = calculateLaborTotal();
+    const vatAmount = laborTotal * 0.15; // 15% VAT
+    const totalWithVAT = laborTotal + vatAmount;
+
+    // Generate materials HTML - only receivable materials
+    let materialsHtml = '';
+    if (workOrder.materials && workOrder.materials.length > 0) {
+      const receivableMaterials = workOrder.materials.filter(material => material.materialType === 'receivable');
+      if (receivableMaterials.length > 0) {
+        materialsHtml = `
+          <table class="materials-table">
+            <thead>
+              <tr>
+                <th>SL#</th>
+                <th>ITEM#</th>
+                <th>MATERIALS DESCRIPTION</th>
+                <th>QTY</th>
+                <th>UNIT</th>
+                <th>REMARKS</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${receivableMaterials.map((material, index) => {
+                const materialData = material.receivableMaterial as ReceivableMaterial;
+                return `
+                  <tr>
+                    <td>${index + 1}</td>
+                    <td>${materialData?.id || 'N/A'}</td>
+                    <td>${materialData?.name || 'N/A'}</td>
+                    <td>${materialData?.estimatedQuantity || '0'}</td>
+                    <td>${materialData?.unit || 'N/A'}</td>
+                    <td></td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        `;
+      }
+    }
+
+    // Generate HTML content
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>O & M WORK ORDER FORM - ${workOrder.details.workOrderNumber}</title>
+        <style>
+          @media print {
+            @page {
+              size: A4;
+              margin: 15mm;
+            }
+          }
+
+          body {
+            font-family: Arial, sans-serif;
+            line-height: 1.4;
+            color: #000;
+            margin: 0;
+            padding: 0;
+            background: white;
+          }
+
+          .form-container {
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 20px;
+          }
+
+          .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #000;
+            padding-bottom: 15px;
+          }
+
+          .logo-section {
+            flex: 0 0 200px;
+            display: flex;
+            align-items: center;
+          }
+
+          .logo-section img {
+            max-width: 160px;
+            height: auto;
+          }
+
+          .company-info {
+            flex: 1;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+          }
+
+          .form-title {
+            font-size: 28px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin: 0 0 8px 0;
+            text-align: center;
+            letter-spacing: 1px;
+          }
+
+          .company-name {
+            font-size: 14px;
+            color: #333;
+            margin: 0 0 4px 0;
+            font-weight: 500;
+          }
+
+          .company-tagline {
+            font-size: 12px;
+            color: #666;
+            margin: 0;
+            font-style: italic;
+          }
+
+          .contractor-info {
+            flex: 0 0 280px;
+            text-align: right;
+            font-size: 11px;
+            line-height: 1.3;
+          }
+
+          .contractor-info div {
+            margin-bottom: 3px;
+          }
+
+          .contractor-info .project-title {
+            font-weight: bold;
+            font-size: 12px;
+            margin: 8px 0 4px 0;
+            color: #000;
+          }
+
+          .contractor-info .work-order-number {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 4px 0;
+            color: #000;
+          }
+
+          .contractor-info .date-info {
+            font-size: 10px;
+            color: #333;
+          }
+
+          .work-order-details {
+            margin-bottom: 20px;
+          }
+
+          .work-order-details table {
+            width: 100%;
+            border-collapse: collapse;
+          }
+
+          .work-order-details td {
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            font-size: 12px;
+          }
+
+          .work-order-details td:first-child {
+            font-weight: bold;
+            background-color: #f5f5f5;
+            width: 120px;
+          }
+
+          .labor-cost-section {
+            margin-bottom: 20px;
+          }
+
+          .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            text-align: center;
+            background-color: #e0e0e0;
+            padding: 10px;
+            border: 2px solid #000;
+            letter-spacing: 1px;
+          }
+
+          .labor-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+          }
+
+          .labor-table th,
+          .labor-table td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+            font-size: 11px;
+            vertical-align: top;
+          }
+
+          .labor-table th {
+            background-color: #e0e0e0;
+            font-weight: bold;
+            text-align: center;
+            font-size: 12px;
+            padding: 10px 8px;
+          }
+
+          .labor-table .description-cell {
+            width: 40%;
+          }
+
+          .labor-table .number-cell {
+            width: 10%;
+            text-align: center;
+          }
+
+          .labor-table .unit-cell {
+            width: 8%;
+            text-align: center;
+          }
+
+          .labor-table .qty-cell {
+            width: 8%;
+            text-align: center;
+          }
+
+          .labor-table .rate-cell {
+            width: 12%;
+            text-align: right;
+          }
+
+          .labor-table .amount-cell {
+            width: 12%;
+            text-align: right;
+          }
+
+          .total-row {
+            font-weight: bold;
+            background-color: #f9f9f9;
+          }
+
+          .status-section {
+            margin-bottom: 20px;
+          }
+
+          .status-box {
+            border: 2px solid #000;
+            min-height: 100px;
+            padding: 10px;
+            margin-top: 10px;
+          }
+
+          .materials-section {
+            margin-bottom: 20px;
+          }
+
+          .materials-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+          }
+
+          .materials-table th,
+          .materials-table td {
+            border: 1px solid #000;
+            padding: 6px;
+            text-align: left;
+            font-size: 11px;
+          }
+
+          .materials-table th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            text-align: center;
+          }
+
+          .reference-section {
+            margin-bottom: 20px;
+          }
+
+          .reference-table {
+            width: 100%;
+            border-collapse: collapse;
+          }
+
+          .reference-table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            font-size: 12px;
+            height: 30px;
+          }
+
+          .reference-table td:first-child {
+            font-weight: bold;
+            background-color: #f5f5f5;
+            width: 150px;
+          }
+
+          .signature-section {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+          }
+
+          .signature-box {
+            flex: 1;
+            margin: 0 10px;
+            text-align: center;
+          }
+
+          .signature-line {
+            border-bottom: 1px solid #000;
+            height: 40px;
+            margin-bottom: 5px;
+          }
+
+          .signature-label {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 5px;
+          }
+
+          .signature-name {
+            font-size: 11px;
+            color: #666;
+          }
+
+          .stamp-section {
+            text-align: right;
+            margin-top: 20px;
+          }
+
+          .stamp {
+            display: inline-block;
+            border: 2px solid #000;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            text-align: center;
+            font-size: 8px;
+            padding: 10px;
+            color: #000;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="form-container">
+          <!-- Header -->
+          <div class="header">
+            <div class="logo-section">
+              <img src="/assets/clientLogo.png" alt="Saudi Electricity Company" />
+            </div>
+            <div class="company-info">
+              <div class="form-title">O & M WORK ORDER FORM</div>
+              <div class="company-name">الشركة السعودية للكهرباء</div>
+              <div class="company-tagline">طاقة مثمرة</div>
+            </div>
+            <div class="contractor-info">
+              <div><strong>CONTRACTOR:</strong> Excellence Tracks</div>
+              <div><strong>VENDOR NO.:</strong> 1000178</div>
+              <div><strong>PROJECT NO.:</strong> 1-2543002.21.0001</div>
+              <div class="project-title">${workOrder.details.title || 'REPLACE METER BOX'}</div>
+              <div class="work-order-number">${workOrder.details.workOrderNumber}</div>
+              <div class="date-info"><strong>ISSUED DATE:</strong> ${formatDate(workOrder.details.createdDate)}</div>
+              <div class="date-info"><strong>TARGET DATE:</strong> ${formatDate(workOrder.details.targetEndDate || workOrder.details.dueDate)}</div>
+            </div>
+          </div>
+
+          <!-- Work Order Details -->
+          <div class="work-order-details">
+            <table>
+              <tr>
+                <td style="width: 120px; font-weight: bold; background-color: #f5f5f5;">LOCATION:</td>
+                <td style="width: 150px;">${workOrder.details.location || 'HAFAR'}</td>
+                <td style="width: 80px; font-weight: bold; background-color: #f5f5f5;">S/S#:</td>
+                <td style="width: 100px;"></td>
+                <td style="width: 140px; font-weight: bold; background-color: #f5f5f5;">WORK ORDER NO:</td>
+                <td style="width: 150px;">${workOrder.details.workOrderNumber}</td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- Labor Cost Section -->
+          <div class="labor-cost-section">
+            <div class="section-title">LABOR COST</div>
+            <table class="labor-table">
+              <thead>
+                <tr>
+                  <th>ITEM NO</th>
+                  <th class="description-cell">DESCRIPTION</th>
+                  <th class="unit-cell">UNIT</th>
+                  <th class="qty-cell">QTY</th>
+                  <th class="rate-cell">RATE</th>
+                  <th class="amount-cell">AMOUNT</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${workOrder.items && workOrder.items.length > 0 ? workOrder.items.map((item, index) => `
+                  <tr>
+                    <td class="number-cell">${item.itemDetail?.itemNumber || 'N/A'}</td>
+                    <td class="description-cell">${item.itemDetail?.shortDescription || 'N/A'}<br/>
+                      <span style="font-size: 10px; color: #666;">${item.itemDetail?.longDescription || ''}</span>
+                    </td>
+                    <td class="unit-cell">${item.itemDetail?.UOM || 'N/A'}</td>
+                    <td class="qty-cell">${item.estimatedQuantity || '0'}</td>
+                    <td class="rate-cell">${item.itemDetail?.unitPrice?.toFixed(2) || '0.00'}</td>
+                    <td class="amount-cell">${item.estimatedPrice?.toFixed(2) || '0.00'}</td>
+                  </tr>
+                `).join('') : `
+                  <tr>
+                    <td class="number-cell">502010001</td>
+                    <td class="description-cell">Replacement of an existing one whole current-meter assembly by another one whole current meter assembly with its accessories, including all disconnections and reconnections works, Any size / type<br/>
+                      <span style="font-size: 10px; color: #666;">استبدال مجموعة عداد تيار كاملة موجودة بمجموعة عداد تيار كاملة أخرى مع ملحقاتها، بما في ذلك جميع أعمال الفصل وإعادة الاتصال، أي حجم / نوع</span>
+                    </td>
+                    <td class="unit-cell">ASM</td>
+                    <td class="qty-cell">100</td>
+                    <td class="rate-cell">230.00</td>
+                    <td class="amount-cell">23,000.00</td>
+                  </tr>
+                  <tr>
+                    <td class="number-cell">305010401</td>
+                    <td class="description-cell">installation of terminal lugs (4EA) for 4-Cores LV cable, any size for an existing equipment / meter<br/>
+                      <span style="font-size: 10px; color: #666;">تركيب وصلات طرفية (4 قطع) لكابل الجهد المنخفض 4 نوى، أي حجم للمعدات / العداد الموجود</span>
+                    </td>
+                    <td class="unit-cell">ST</td>
+                    <td class="qty-cell">200</td>
+                    <td class="rate-cell">113.00</td>
+                    <td class="amount-cell">22,600.00</td>
+                  </tr>
+                `}
+                <tr class="total-row">
+                  <td colspan="5" style="text-align: right;"><strong>TOTAL:</strong></td>
+                  <td class="amount-cell"><strong>${laborTotal.toFixed(2)}</strong></td>
+                </tr>
+                <tr class="total-row">
+                  <td colspan="5" style="text-align: right;"><strong>45%:</strong></td>
+                  <td class="amount-cell"><strong>0.00</strong></td>
+                </tr>
+                <tr class="total-row">
+                  <td colspan="5" style="text-align: right;"><strong>TOTAL:</strong></td>
+                  <td class="amount-cell"><strong>${laborTotal.toFixed(2)}</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Status Section -->
+          <div class="status-section">
+            <div class="section-title">STATUS</div>
+            <div class="status-box">
+              <!-- Status content will be added here -->
+            </div>
+          </div>
+
+          <!-- Materials Section -->
+          <div class="materials-section">
+            <div class="section-title">MATERIALS USED / (Specified Who Provide Materials SCECO or Contractor on Remarks.)</div>
+            ${materialsHtml}
+            <div style="text-align: center; margin-top: 10px; font-weight: bold;">************MATERIALS USED IN SITE************</div>
+          </div>
+
+          <!-- Reference Numbers Section -->
+          <div class="reference-section">
+            <table class="reference-table">
+              <tr>
+                <td>NOTIFICATION NO.</td>
+                <td></td>
+                <td>RESERVATION NO.</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>W.O. NO.</td>
+                <td>${workOrder.details.workOrderNumber}</td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>PURCHASE REQUISITION</td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>PURCHASE ORDER</td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>ENTRY SHEET</td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- Signature Section -->
+          <div class="signature-section">
+            <div class="signature-box">
+              <div class="signature-label">PREPARED BY:</div>
+              <div class="signature-line"></div>
+              <div class="signature-name"></div>
+            </div>
+            <div class="signature-box">
+              <div class="signature-label">VERIFIED BY:</div>
+              <div class="signature-line"></div>
+              <div class="signature-name"></div>
+            </div>
+            <div class="signature-box">
+              <div class="signature-label">SCECO REPRESENTATIVE:</div>
+              <div class="signature-line"></div>
+              <div class="signature-name"></div>
+            </div>
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+
+    // Write to the new window and print
+    printWindow.document.open();
+    printWindow.document.write(htmlContent);
+    printWindow.document.close();
+
+    // Wait for resources to load before printing
+    printWindow.addEventListener('load', () => {
+      // Slight delay to ensure CSS is applied
+      setTimeout(() => {
+        printWindow.print();
+        // Close the window after printing (or if user cancels)
+        printWindow.addEventListener('afterprint', () => {
+          printWindow.close();
+        });
+      }, 500);
+    });
+  }
+
+  /**
    * Prints a specific element with custom CSS
    * @param elementId The ID of the element to print
    * @param title The title of the print document

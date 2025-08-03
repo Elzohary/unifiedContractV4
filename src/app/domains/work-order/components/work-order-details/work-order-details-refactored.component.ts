@@ -232,8 +232,8 @@ export class WorkOrderDetailsRefactoredComponent implements OnInit, OnDestroy {
   onPrint(): void {
     this.workOrder$.subscribe(workOrder => {
       if (workOrder) {
-        this.printService.printWorkOrder(workOrder);
-        this.snackBar.open('Printing work order...', 'Close', { duration: 3000 });
+        this.printService.printWorkOrderForm(workOrder);
+        this.snackBar.open('Printing work order form...', 'Close', { duration: 3000 });
       }
     }).unsubscribe();
   }

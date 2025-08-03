@@ -286,8 +286,8 @@ export class WorkOrderDetailsComponent implements OnInit, OnDestroy, AfterViewIn
    */
   printWorkOrder(): void {
     if (this.workOrder) {
-      this.printService.printWorkOrder(this.workOrder);
-      this.snackBar.open('Printing work order...', 'Close', {
+      this.printService.printWorkOrderForm(this.workOrder);
+      this.snackBar.open('Printing work order form...', 'Close', {
         duration: 3000
       });
     }
