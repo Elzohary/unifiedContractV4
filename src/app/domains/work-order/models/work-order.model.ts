@@ -335,6 +335,9 @@ export interface workOrderDetail {
   category: string;
   type?: string; // Added for backend compatibility
   class?: string; // Added for backend compatibility
+  projectType?: string; // Added for new project type field
+  po?: string; // Added for PO field
+  d1?: string; // Added for D1 field
   completionPercentage: number;
   receivedDate: string | Date;
   startDate?: string | Date;

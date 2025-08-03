@@ -18,6 +18,9 @@ import { Iitem } from '../../models/work-order-item.model';
 import { CreateMasterItemDialogComponent } from './create-master-item-dialog.component';
 import { AssignWorkOrderItemDialogComponent } from '../work-order-item-dialog/assign-work-order-item-dialog.component';
 import { NgCardComponent } from '../../../../shared/components/ng-card/ng-card.component';
+import { ExcelUploadDialogComponent, ExcelUploadDialogData } from '../../../../shared/components/excel-upload-dialog/excel-upload-dialog.component';
+import { ExcelUploadService, ExcelUploadConfig } from '../../../../shared/services/excel-upload.service';
+import { AuthService } from '../../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-work-order-items-list',
@@ -37,7 +40,8 @@ import { NgCardComponent } from '../../../../shared/components/ng-card/ng-card.c
     MatDialogModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
-    NgCardComponent
+    NgCardComponent,
+    ExcelUploadDialogComponent
   ]
 })
 export class WorkOrderItemsListComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -65,7 +69,9 @@ export class WorkOrderItemsListComponent implements OnInit, AfterViewInit, OnDes
   constructor(
     private workOrderItemService: WorkOrderItemService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private excelUploadService: ExcelUploadService,
+    private authService: AuthService
   ) {
     this.dataSource = new MatTableDataSource();
   }
@@ -254,5 +260,123 @@ export class WorkOrderItemsListComponent implements OnInit, AfterViewInit, OnDes
   // Method to emit updated items
   updateItems(items: Iitem[]): void {
     this.itemsUpdated.emit(items);
+  }
+
+  openExcelUploadDialog(): void {
+    const config: ExcelUploadConfig = {
+      requiredColumns: [
+        'Item',
+        'Short Description'
+      ],
+      dataTransformer: (row: any) => {
+        return {
+          itemNumber: row['Item']?.toString().trim() || '',
+          lineType: row['Line type']?.toString().trim() || 'Description',
+          shortDescription: row['Short Description']?.toString().trim() || '',
+          longDescription: row['Long Description']?.toString().trim() || '',
+          UOM: row['UOM']?.toString().trim() || 'Piece', // Required field, must have default
+          currency: row['Currency']?.toString().trim() || 'SAR',
+          unitPrice: this.parseUnitPrice(row['ادارة كهرباء الأحساء']) || 0,
+          paymentType: row['Payment Type']?.toString().trim() || 'Fixed Price',
+          managementArea: 'ادارة كهرباء الأحساء',
+          clientId: this.authService.getClientIdFromToken() || '00000000-0000-0000-0000-000000000000',
+          isActive: true
+        };
+      },
+      validator: (row: any) => {
+        const errors: string[] = [];
+        
+        if (!row['Item'] || row['Item'].toString().trim() === '') {
+          errors.push('Item number is required');
+        }
+        
+        if (!row['Short Description'] || row['Short Description'].toString().trim() === '') {
+          errors.push('Short description is required');
+        }
+        
+
+        
+        // Only validate unit price if it's provided
+        if (row['ادارة كهرباء الأحساء'] && row['ادارة كهرباء الأحساء'].toString().trim() !== '') {
+          const unitPrice = this.parseUnitPrice(row['ادارة كهرباء الأحساء']);
+          if (isNaN(unitPrice) || unitPrice < 0) {
+            errors.push('Unit price must be a valid positive number');
+          }
+        }
+        
+        return {
+          isValid: errors.length === 0,
+          errors
+        };
+      }
+    };
+
+    const dialogData: ExcelUploadDialogData = {
+      title: 'Upload Items from Excel',
+      description: 'Upload multiple items from an Excel file. The file should contain the following columns: Item, Line type, Short Description, Long Description, UOM, Currency, Payment Type, and ادارة كهرباء الأحساء (unit rates).',
+      config,
+      templateHeaders: [
+        'Item',
+        'Line type',
+        'Short Description',
+        'Long Description',
+        'UOM',
+        'Currency',
+        'Payment Type',
+        'ادارة كهرباء الأحساء'
+      ],
+      templateFilename: 'items_template.xlsx',
+      onUpload: async (data: any[]) => {
+        try {
+          console.log('Uploading items data:', data);
+          
+          // Create items one by one
+          const results = await Promise.all(
+            data.map(itemData => 
+              this.workOrderItemService.createItem(itemData).toPromise()
+            )
+          );
+          
+          // Check if all items were created successfully
+          const successCount = results.filter((result: any) => result !== undefined).length;
+          console.log(`Successfully created ${successCount} out of ${data.length} items`);
+          
+          // Reload items list
+          this.loadItems();
+          
+          return successCount === data.length;
+        } catch (error) {
+          console.error('Error uploading items:', error);
+          return false;
+        }
+      }
+    };
+
+    const dialogRef = this.dialog.open(ExcelUploadDialogComponent, {
+      width: '700px',
+      data: dialogData,
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result?.success) {
+        this.snackBar.open(result.message, 'Close', { duration: 3000 });
+      }
+    });
+  }
+
+  private parseUnitPrice(value: any): number {
+    if (typeof value === 'number') {
+      return value;
+    }
+    
+    if (typeof value === 'string') {
+      // Remove any non-numeric characters except decimal point
+      const cleaned = value.replace(/[^\d.]/g, '');
+      const parsed = parseFloat(cleaned);
+      return isNaN(parsed) ? 0 : parsed;
+    }
+    
+    return 0;
   }
 }

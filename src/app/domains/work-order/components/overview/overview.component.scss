@@ -7,40 +7,110 @@
 
 // Header styling
 .dashboard-header {
-  margin-bottom: 32px;
+  margin-bottom: 40px;
   position: relative;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--neutral-variant);
 
   &::after {
     content: '';
     position: absolute;
-    bottom: -16px;
+    bottom: -1px;
     left: 0;
-    width: 60px;
+    width: 80px;
     height: 3px;
+    background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+    border-radius: 2px;
   }
 
   .dashboard-title {
     margin: 0;
-    font-size: 28px;
-    font-weight: 500;
+    font-size: 32px;
+    font-weight: 700;
     color: var(--text-primary);
     letter-spacing: -0.5px;
+    position: relative;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      left: -12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 32px;
+      background: linear-gradient(180deg, var(--primary) 0%, var(--primary-light) 100%);
+      border-radius: 2px;
+    }
+  }
+}
+
+// Metrics sections
+.metrics-section {
+  margin-bottom: 32px;
+
+  .section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary-light);
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background-color: var(--primary);
+    }
   }
 }
 
 // Stats cards grid
 .stats-cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 24px;
-  margin-bottom: 32px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+
+  &.financial-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+  }
 
   .stats-card-wrapper {
     height: 100%;
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     
     &:hover {
-      transform: translateY(-4px);
+      transform: translateY(-6px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+  }
+}
+
+// Responsive grid adjustments
+@media (max-width: 1200px) {
+  .stats-cards-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .stats-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .metrics-section {
+    .section-title {
+      font-size: 18px;
+      margin-bottom: 16px;
     }
   }
 }

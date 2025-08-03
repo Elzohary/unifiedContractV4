@@ -567,11 +567,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj",
+      "projectUniqueName": "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj",
       "projectName": "UnifiedContract.Domain",
-      "projectPath": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj",
+      "projectPath": "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj",
       "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-      "outputPath": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\obj\\",
+      "outputPath": "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

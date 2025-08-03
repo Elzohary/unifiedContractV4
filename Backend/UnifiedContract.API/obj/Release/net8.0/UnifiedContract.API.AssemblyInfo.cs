@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UnifiedContract.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+79bd0258b2c54b7c40cfb0ca70de30cd2c9f1f44")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e2acee7711aa7553d934b762cdfdae6e8f4aa1d7")]
 [assembly: System.Reflection.AssemblyProductAttribute("UnifiedContract.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UnifiedContract.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

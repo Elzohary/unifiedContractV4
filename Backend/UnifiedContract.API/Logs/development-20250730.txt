@@ -1,0 +1,344 @@
+2025-07-30 08:57:38.188 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - null null
+2025-07-30 08:57:38.241 +03:00 [INF] HTTP GET /api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - Request: http localhost:5275/api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa  
+2025-07-30 08:57:38.286 +03:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '28-Jul-25 11:05:32 AM', Current time (UTC): '30-Jul-25 5:57:38 AM'.
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2025-07-30 08:57:38.325 +03:00 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '28-Jul-25 11:05:32 AM', Current time (UTC): '30-Jul-25 5:57:38 AM'.
+2025-07-30 08:57:38.330 +03:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2025-07-30 08:57:38.341 +03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-07-30 08:57:38.342 +03:00 [INF] HTTP GET /api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - Response: 401: 
+2025-07-30 08:57:38.344 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - 401 0 null 168.0051ms
+2025-07-30 08:57:47.698 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5275/api/user/login - application/json 75
+2025-07-30 08:57:47.704 +03:00 [INF] HTTP POST /api/user/login - Request: http localhost:5275/api/user/login  {
+    "password":  "zzzzzz",
+    "email":  "admin@unifiedcontract.com"
+}
+2025-07-30 08:57:47.705 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.UserController.Login (UnifiedContract.API)'
+2025-07-30 08:57:47.736 +03:00 [INF] Route matched with {action = "Login", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(UnifiedContract.API.Controllers.LoginRequest) on controller UnifiedContract.API.Controllers.UserController (UnifiedContract.API).
+2025-07-30 08:57:47.894 +03:00 [INF] Executed DbCommand (52ms) [Parameters=[@__email_0='?' (Size = 100)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Avatar], [u].[CreatedAt], [u].[CreatedBy], [u].[Email], [u].[EmployeeId], [u].[FullName], [u].[IsActive], [u].[IsDeleted], [u].[IsEmployee], [u].[LastModifiedAt], [u].[LastModifiedBy], [u].[PasswordHash], [u].[UserName]
+FROM [Auth].[Users] AS [u]
+WHERE [u].[Email] = @__email_0
+2025-07-30 08:57:48.056 +03:00 [INF] Executing OkObjectResult, writing value of type 'UnifiedContract.API.Models.ApiResponse`1[[UnifiedContract.API.Controllers.LoginResponse, UnifiedContract.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-30 08:57:48.059 +03:00 [INF] Executed action UnifiedContract.API.Controllers.UserController.Login (UnifiedContract.API) in 322.245ms
+2025-07-30 08:57:48.059 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.UserController.Login (UnifiedContract.API)'
+2025-07-30 08:57:48.059 +03:00 [INF] HTTP POST /api/user/login - Response: 200: {"data":{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3ZWIwOGUxNC00ZTRjLTQ4MDEtOTNlNS01ZDgyMWJiYTdmZDIiLCJlbWFpbCI6ImFkbWluQHVuaWZpZWRjb250cmFjdC5jb20iLCJuYW1lIjoiU3lzdGVtIEFkbWluaXN0cmF0b3IiLCJyb2xlIjoidXNlciIsImV4cCI6MTc1Mzg2MjI2OCwiaXNzIjoiVW5pZmllZENvbnRyYWN0QVBJX0RldiIsImF1ZCI6IlVuaWZpZWRDb250cmFjdENsaWVudF9EZXYifQ.Qtp3EdAHrCRPuigB85PBuqw-t9gDv9IiXa3VWlDAOvU"},"message":"Login successful","status":200,"timestamp":"2025-07-30T05:57:48.056Z","errorCode":null,"validationErrors":null}
+2025-07-30 08:57:48.061 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5275/api/user/login - 200 null application/json; charset=utf-8 363.0818ms
+2025-07-30 08:57:55.837 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - null null
+2025-07-30 08:57:55.837 +03:00 [INF] HTTP GET /api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - Request: http localhost:5275/api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa  
+2025-07-30 08:57:55.839 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.WorkOrdersController.GetWorkOrder (UnifiedContract.API)'
+2025-07-30 08:57:55.839 +03:00 [INF] Route matched with {action = "GetWorkOrder", controller = "WorkOrders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[UnifiedContract.API.Models.ApiResponse`1[UnifiedContract.Application.DTOs.WorkOrderDetailsDto]]] GetWorkOrder(System.Guid) on controller UnifiedContract.API.Controllers.WorkOrdersController (UnifiedContract.API).
+2025-07-30 08:57:55.868 +03:00 [INF] Executed DbCommand (23ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[Id], [w].[Category], [w].[Class], [w].[ClientId], [w].[CompletionPercentage], [w].[CreatedAt], [w].[CreatedBy], [w].[Description], [w].[DueDate], [w].[EngineerInChargeId], [w].[EstimatedCost], [w].[InternalOrderNumber], [w].[IsDeleted], [w].[LaborExpense], [w].[LastModifiedAt], [w].[LastModifiedBy], [w].[Location], [w].[MaterialsExpense], [w].[OtherExpense], [w].[PriorityLevelId], [w].[ReceivedDate], [w].[StartDate], [w].[TargetEndDate], [w].[Title], [w].[Type], [w].[WorkOrderNumber], [w].[WorkOrderStatusId], [w0].[Id], [w0].[AllowsEditing], [w0].[Code], [w0].[ColorCode], [w0].[CreatedAt], [w0].[CreatedBy], [w0].[Description], [w0].[DisplayOrder], [w0].[IsActive], [w0].[IsCompleted], [w0].[IsDeleted], [w0].[LastModifiedAt], [w0].[LastModifiedBy], [w0].[Metadata], [w0].[Name], [w0].[RequiresApproval], [p].[Id], [p].[Code], [p].[ColorCode], [p].[CreatedAt], [p].[CreatedBy], [p].[Description], [p].[DisplayOrder], [p].[IsActive], [p].[IsDeleted], [p].[LastModifiedAt], [p].[LastModifiedBy], [p].[Metadata], [p].[Name], [p].[RequiresImmediateNotification], [p].[SeverityValue], [p].[TargetResponseHours], [c].[Id], [c].[AccountManagerId], [c].[AlternatePhone], [c].[CompanyName], [c].[ContactPerson], [c].[CreatedAt], [c].[CreatedBy], [c].[Email], [c].[Industry], [c].[IsActive], [c].[IsDeleted], [c].[LastModifiedAt], [c].[LastModifiedBy], [c].[LogoUrl], [c].[Name], [c].[Notes], [c].[Phone], [c].[VatNumber], [c].[Website], [c].[City], [c].[Country], [c].[Address_FormattedAddress], [c].[Address_Latitude], [c].[Address_Longitude], [c].[PostalCode], [c].[State], [c].[Street]
+FROM [WorkOrders] AS [w]
+INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+WHERE [w].[Id] = @__id_0
+ORDER BY [w].[Id], [w0].[Id], [p].[Id], [c].[Id]
+2025-07-30 08:57:55.883 +03:00 [INF] Executed DbCommand (10ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w1].[Id], [w1].[ActualPrice], [w1].[ActualPriceWithVAT], [w1].[ActualQuantity], [w1].[CreatedAt], [w1].[CreatedBy], [w1].[EstimatedPrice], [w1].[EstimatedPriceWithVAT], [w1].[EstimatedQuantity], [w1].[IsDeleted], [w1].[ItemId], [w1].[LastModifiedAt], [w1].[LastModifiedBy], [w1].[ReasonForFinalQuantity], [w1].[WorkOrderId], [s].[Id], [s].[Id0], [s].[Id1], [s].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s]
+INNER JOIN [WorkOrderItemAssignments] AS [w1] ON [s].[Id] = [w1].[WorkOrderId]
+ORDER BY [s].[Id], [s].[Id0], [s].[Id1], [s].[Id2]
+2025-07-30 08:57:55.889 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w2].[Id], [w2].[Content], [w2].[CreatedAt], [w2].[CreatedBy], [w2].[IsDeleted], [w2].[LastModifiedAt], [w2].[LastModifiedBy], [w2].[PeopleInvolved], [w2].[Type], [w2].[WorkOrderId], [s0].[Id], [s0].[Id0], [s0].[Id1], [s0].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s0]
+INNER JOIN [WorkOrderRemarks] AS [w2] ON [s0].[Id] = [w2].[WorkOrderId]
+ORDER BY [s0].[Id], [s0].[Id0], [s0].[Id1], [s0].[Id2]
+2025-07-30 08:57:55.893 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w3].[Id], [w3].[AssignedToId], [w3].[CreatedAt], [w3].[CreatedBy], [w3].[Description], [w3].[IsDeleted], [w3].[LastModifiedAt], [w3].[LastModifiedBy], [w3].[Priority], [w3].[PriorityLevelId], [w3].[ReportedById], [w3].[ReportedDate], [w3].[ResolutionDate], [w3].[ResolutionNotes], [w3].[Severity], [w3].[Status], [w3].[Title], [w3].[WorkOrderId], [s1].[Id], [s1].[Id0], [s1].[Id1], [s1].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s1]
+INNER JOIN [WorkOrderIssues] AS [w3] ON [s1].[Id] = [w3].[WorkOrderId]
+ORDER BY [s1].[Id], [s1].[Id0], [s1].[Id1], [s1].[Id2]
+2025-07-30 08:57:55.897 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w4].[Id], [w4].[Completed], [w4].[ConfirmedById], [w4].[CreatedAt], [w4].[CreatedBy], [w4].[Description], [w4].[DueDate], [w4].[IsDeleted], [w4].[LastModifiedAt], [w4].[LastModifiedBy], [w4].[Priority], [w4].[PriorityLevelId], [w4].[StartDate], [w4].[Status], [w4].[Title], [w4].[WorkOrderId], [s2].[Id], [s2].[Id0], [s2].[Id1], [s2].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s2]
+INNER JOIN [WorkOrderTasks] AS [w4] ON [s2].[Id] = [w4].[WorkOrderId]
+ORDER BY [s2].[Id], [s2].[Id0], [s2].[Id1], [s2].[Id2]
+2025-07-30 08:57:55.902 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [p0].[Id], [p0].[Authority], [p0].[CreatedAt], [p0].[CreatedBy], [p0].[Description], [p0].[DocumentRef], [p0].[ExpiryDate], [p0].[IsDeleted], [p0].[IssueDate], [p0].[IssuedBy], [p0].[LastModifiedAt], [p0].[LastModifiedBy], [p0].[Number], [p0].[Status], [p0].[Title], [p0].[Type], [p0].[WorkOrderId], [s3].[Id], [s3].[Id0], [s3].[Id1], [s3].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s3]
+INNER JOIN [Permits] AS [p0] ON [s3].[Id] = [p0].[WorkOrderId]
+ORDER BY [s3].[Id], [s3].[Id0], [s3].[Id1], [s3].[Id2]
+2025-07-30 08:57:55.907 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w5].[Id], [w5].[AssignedToId], [w5].[CompletedById], [w5].[CompletedDate], [w5].[CreatedAt], [w5].[CreatedBy], [w5].[Description], [w5].[DueDate], [w5].[IsDeleted], [w5].[LastModifiedAt], [w5].[LastModifiedBy], [w5].[Priority], [w5].[PriorityLevelId], [w5].[Status], [w5].[Title], [w5].[WorkOrderId], [s4].[Id], [s4].[Id0], [s4].[Id1], [s4].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s4]
+INNER JOIN [WorkOrderActions] AS [w5] ON [s4].[Id] = [w5].[WorkOrderId]
+ORDER BY [s4].[Id], [s4].[Id0], [s4].[Id1], [s4].[Id2]
+2025-07-30 08:57:55.910 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w6].[Id], [w6].[Caption], [w6].[CreatedAt], [w6].[CreatedBy], [w6].[IsDeleted], [w6].[LastModifiedAt], [w6].[LastModifiedBy], [w6].[Type], [w6].[UploadedById], [w6].[UploadedDate], [w6].[Url], [w6].[WorkOrderId], [s5].[Id], [s5].[Id0], [s5].[Id1], [s5].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s5]
+INNER JOIN [WorkOrderPhotos] AS [w6] ON [s5].[Id] = [w6].[WorkOrderId]
+ORDER BY [s5].[Id], [s5].[Id0], [s5].[Id1], [s5].[Id2]
+2025-07-30 08:57:55.914 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w7].[Id], [w7].[CreatedAt], [w7].[CreatedBy], [w7].[IsDeleted], [w7].[LastModifiedAt], [w7].[LastModifiedBy], [w7].[Status], [w7].[SubmittedById], [w7].[SubmittedDate], [w7].[Title], [w7].[Type], [w7].[Url], [w7].[WorkOrderId], [s6].[Id], [s6].[Id0], [s6].[Id1], [s6].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s6]
+INNER JOIN [WorkOrderForms] AS [w7] ON [s6].[Id] = [w7].[WorkOrderId]
+ORDER BY [s6].[Id], [s6].[Id0], [s6].[Id1], [s6].[Id2]
+2025-07-30 08:57:55.919 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w8].[Id], [w8].[Amount], [w8].[ApprovedById], [w8].[ApprovedDate], [w8].[Category], [w8].[CreatedAt], [w8].[CreatedBy], [w8].[Currency], [w8].[Date], [w8].[Description], [w8].[IsDeleted], [w8].[LastModifiedAt], [w8].[LastModifiedBy], [w8].[Receipt], [w8].[Status], [w8].[SubmittedById], [w8].[WorkOrderId], [s7].[Id], [s7].[Id0], [s7].[Id1], [s7].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s7]
+INNER JOIN [WorkOrderExpenses] AS [w8] ON [s7].[Id] = [w8].[WorkOrderId]
+ORDER BY [s7].[Id], [s7].[Id0], [s7].[Id1], [s7].[Id2]
+2025-07-30 08:57:55.924 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w9].[Id], [w9].[Amount], [w9].[CreatedAt], [w9].[CreatedBy], [w9].[Currency], [w9].[DueDate], [w9].[IsDeleted], [w9].[IssueDate], [w9].[LastModifiedAt], [w9].[LastModifiedBy], [w9].[Number], [w9].[PaidById], [w9].[PaidDate], [w9].[Status], [w9].[Url], [w9].[WorkOrderId], [s8].[Id], [s8].[Id0], [s8].[Id1], [s8].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s8]
+INNER JOIN [WorkOrderInvoices] AS [w9] ON [s8].[Id] = [w9].[WorkOrderId]
+ORDER BY [s8].[Id], [s8].[Id0], [s8].[Id1], [s8].[Id2]
+2025-07-30 08:57:55.925 +03:00 [INF] Executing OkObjectResult, writing value of type 'UnifiedContract.API.Models.ApiResponse`1[[UnifiedContract.Application.DTOs.WorkOrderDetailsDto, UnifiedContract.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-30 08:57:55.927 +03:00 [INF] Executed action UnifiedContract.API.Controllers.WorkOrdersController.GetWorkOrder (UnifiedContract.API) in 87.2898ms
+2025-07-30 08:57:55.927 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.WorkOrdersController.GetWorkOrder (UnifiedContract.API)'
+2025-07-30 08:57:55.928 +03:00 [INF] HTTP GET /api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - Response: 200: {"data":{"id":"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa","workOrderNumber":"WO-1001","internalOrderNumber":"INT-1001","title":"Demo Work Order 1","description":"Demo work order for testing.","client":"SEC","location":"Riyadh","status":"Pending","priority":"Normal","category":"Electrical","type":"Project","class":"A","completionPercentage":30.00,"receivedDate":"2024-07-15T12:00:00","startDate":"2024-07-16T08:00:00","dueDate":"2024-07-25T17:00:00","targetEndDate":"2024-07-27T17:00:00","createdDate":"2024-07-20T12:00:00","createdBy":"seed","lastUpdated":"2024-07-20T12:00:00","estimatedPrice":0.00,"engineerInCharge":"","permits":[{"type":"Initial","status":"Pending"},{"type":"Municipality","status":"Pending"},{"type":"Traffic","status":"Pending"},{"type":"RoadDepartment","status":"Approved"}],"itemAssignments":[{"id":"e5f1cf23-0f60-4c92-9393-42d29502e7d6","workOrderId":"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa","itemId":"20000000-0000-0000-0000-000000000001","estimatedQuantity":5.00,"estimatedPrice":500.00,"estimatedPriceWithVAT":575.00,"actualQuantity":0.00,"actualPrice":0.00,"actualPriceWithVAT":0.00,"reasonForFinalQuantity":"Initial estimate","createdAt":"2025-07-28T09:13:42.9209098","createdBy":"system","lastModifiedAt":"2025-07-28T09:13:42.8471357","lastModifiedBy":"system","item":null}]},"message":"Success","status":200,"timestamp":"2025-07-30T05:57:55.925Z","errorCode":null,"validationErrors":null}
+2025-07-30 08:57:55.929 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - 200 null application/json; charset=utf-8 92.3743ms
+2025-07-30 08:59:23.457 +03:00 [INF] Executed DbCommand (12ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-07-30 08:59:23.492 +03:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-07-30 08:59:23.534 +03:00 [INF] Executed DbCommand (39ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-07-30 08:59:23.594 +03:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-07-30 08:59:23.600 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-07-30 08:59:23.601 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-07-30 08:59:23.604 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-07-30 08:59:23.609 +03:00 [INF] No migrations were applied. The database is already up to date.
+2025-07-30 08:59:23.611 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_releaseapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session';
+SELECT @result
+2025-07-30 08:59:23.615 +03:00 [INF] Starting web host
+2025-07-30 08:59:23.629 +03:00 [INF] User profile is available. Using 'C:\Users\LENOVO\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-07-30 08:59:23.718 +03:00 [INF] Now listening on: http://localhost:5275
+2025-07-30 08:59:23.720 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-30 08:59:23.721 +03:00 [INF] Hosting environment: Development
+2025-07-30 08:59:23.721 +03:00 [INF] Content root path: D:\Zohary\Development\Repos\V2\For Cursor\unifiedContractV2-main\Backend\UnifiedContract.API
+2025-07-30 08:59:23.968 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - null null
+2025-07-30 08:59:23.993 +03:00 [WRN] Failed to determine the https port for redirect.
+2025-07-30 08:59:24.000 +03:00 [INF] HTTP GET /api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - Request: http localhost:5275/api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa  
+2025-07-30 08:59:25.568 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.WorkOrdersController.GetWorkOrder (UnifiedContract.API)'
+2025-07-30 08:59:25.589 +03:00 [INF] Route matched with {action = "GetWorkOrder", controller = "WorkOrders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[UnifiedContract.API.Models.ApiResponse`1[UnifiedContract.Application.DTOs.WorkOrderDetailsDto]]] GetWorkOrder(System.Guid) on controller UnifiedContract.API.Controllers.WorkOrdersController (UnifiedContract.API).
+2025-07-30 08:59:26.220 +03:00 [INF] Executed DbCommand (109ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[Id], [w].[Category], [w].[Class], [w].[ClientId], [w].[CompletionPercentage], [w].[CreatedAt], [w].[CreatedBy], [w].[Description], [w].[DueDate], [w].[EngineerInChargeId], [w].[EstimatedCost], [w].[InternalOrderNumber], [w].[IsDeleted], [w].[LaborExpense], [w].[LastModifiedAt], [w].[LastModifiedBy], [w].[Location], [w].[MaterialsExpense], [w].[OtherExpense], [w].[PriorityLevelId], [w].[ReceivedDate], [w].[StartDate], [w].[TargetEndDate], [w].[Title], [w].[Type], [w].[WorkOrderNumber], [w].[WorkOrderStatusId], [w0].[Id], [w0].[AllowsEditing], [w0].[Code], [w0].[ColorCode], [w0].[CreatedAt], [w0].[CreatedBy], [w0].[Description], [w0].[DisplayOrder], [w0].[IsActive], [w0].[IsCompleted], [w0].[IsDeleted], [w0].[LastModifiedAt], [w0].[LastModifiedBy], [w0].[Metadata], [w0].[Name], [w0].[RequiresApproval], [p].[Id], [p].[Code], [p].[ColorCode], [p].[CreatedAt], [p].[CreatedBy], [p].[Description], [p].[DisplayOrder], [p].[IsActive], [p].[IsDeleted], [p].[LastModifiedAt], [p].[LastModifiedBy], [p].[Metadata], [p].[Name], [p].[RequiresImmediateNotification], [p].[SeverityValue], [p].[TargetResponseHours], [c].[Id], [c].[AccountManagerId], [c].[AlternatePhone], [c].[CompanyName], [c].[ContactPerson], [c].[CreatedAt], [c].[CreatedBy], [c].[Email], [c].[Industry], [c].[IsActive], [c].[IsDeleted], [c].[LastModifiedAt], [c].[LastModifiedBy], [c].[LogoUrl], [c].[Name], [c].[Notes], [c].[Phone], [c].[VatNumber], [c].[Website], [c].[City], [c].[Country], [c].[Address_FormattedAddress], [c].[Address_Latitude], [c].[Address_Longitude], [c].[PostalCode], [c].[State], [c].[Street]
+FROM [WorkOrders] AS [w]
+INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+WHERE [w].[Id] = @__id_0
+ORDER BY [w].[Id], [w0].[Id], [p].[Id], [c].[Id]
+2025-07-30 08:59:26.483 +03:00 [INF] Executed DbCommand (14ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s0].[Id], [s0].[ActualPrice], [s0].[ActualPriceWithVAT], [s0].[ActualQuantity], [s0].[CreatedAt], [s0].[CreatedBy], [s0].[EstimatedPrice], [s0].[EstimatedPriceWithVAT], [s0].[EstimatedQuantity], [s0].[IsDeleted], [s0].[ItemId], [s0].[LastModifiedAt], [s0].[LastModifiedBy], [s0].[ReasonForFinalQuantity], [s0].[WorkOrderId], [s0].[Id0], [s0].[ClientId], [s0].[CreatedAt0], [s0].[CreatedBy0], [s0].[Currency], [s0].[Description], [s0].[IsActive], [s0].[IsDeleted0], [s0].[ItemNumber], [s0].[LastModifiedAt0], [s0].[LastModifiedBy0], [s0].[ManagementArea], [s0].[PaymentType], [s0].[Unit], [s0].[UnitPrice], [s0].[Id1], [s0].[AccountManagerId], [s0].[AlternatePhone], [s0].[CompanyName], [s0].[ContactPerson], [s0].[CreatedAt1], [s0].[CreatedBy1], [s0].[Email], [s0].[Industry], [s0].[IsActive0], [s0].[IsDeleted1], [s0].[LastModifiedAt1], [s0].[LastModifiedBy1], [s0].[LogoUrl], [s0].[Name], [s0].[Notes], [s0].[Phone], [s0].[VatNumber], [s0].[Website], [s0].[City], [s0].[Country], [s0].[Address_FormattedAddress], [s0].[Address_Latitude], [s0].[Address_Longitude], [s0].[PostalCode], [s0].[State], [s0].[Street], [s].[Id], [s].[Id0], [s].[Id1], [s].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s]
+INNER JOIN (
+    SELECT [w1].[Id], [w1].[ActualPrice], [w1].[ActualPriceWithVAT], [w1].[ActualQuantity], [w1].[CreatedAt], [w1].[CreatedBy], [w1].[EstimatedPrice], [w1].[EstimatedPriceWithVAT], [w1].[EstimatedQuantity], [w1].[IsDeleted], [w1].[ItemId], [w1].[LastModifiedAt], [w1].[LastModifiedBy], [w1].[ReasonForFinalQuantity], [w1].[WorkOrderId], [i].[Id] AS [Id0], [i].[ClientId], [i].[CreatedAt] AS [CreatedAt0], [i].[CreatedBy] AS [CreatedBy0], [i].[Currency], [i].[Description], [i].[IsActive], [i].[IsDeleted] AS [IsDeleted0], [i].[ItemNumber], [i].[LastModifiedAt] AS [LastModifiedAt0], [i].[LastModifiedBy] AS [LastModifiedBy0], [i].[ManagementArea], [i].[PaymentType], [i].[Unit], [i].[UnitPrice], [c0].[Id] AS [Id1], [c0].[AccountManagerId], [c0].[AlternatePhone], [c0].[CompanyName], [c0].[ContactPerson], [c0].[CreatedAt] AS [CreatedAt1], [c0].[CreatedBy] AS [CreatedBy1], [c0].[Email], [c0].[Industry], [c0].[IsActive] AS [IsActive0], [c0].[IsDeleted] AS [IsDeleted1], [c0].[LastModifiedAt] AS [LastModifiedAt1], [c0].[LastModifiedBy] AS [LastModifiedBy1], [c0].[LogoUrl], [c0].[Name], [c0].[Notes], [c0].[Phone], [c0].[VatNumber], [c0].[Website], [c0].[City], [c0].[Country], [c0].[Address_FormattedAddress], [c0].[Address_Latitude], [c0].[Address_Longitude], [c0].[PostalCode], [c0].[State], [c0].[Street]
+    FROM [WorkOrderItemAssignments] AS [w1]
+    INNER JOIN [Items] AS [i] ON [w1].[ItemId] = [i].[Id]
+    INNER JOIN [Client].[Client] AS [c0] ON [i].[ClientId] = [c0].[Id]
+) AS [s0] ON [s].[Id] = [s0].[WorkOrderId]
+ORDER BY [s].[Id], [s].[Id0], [s].[Id1], [s].[Id2]
+2025-07-30 08:59:26.532 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w2].[Id], [w2].[Content], [w2].[CreatedAt], [w2].[CreatedBy], [w2].[IsDeleted], [w2].[LastModifiedAt], [w2].[LastModifiedBy], [w2].[PeopleInvolved], [w2].[Type], [w2].[WorkOrderId], [s1].[Id], [s1].[Id0], [s1].[Id1], [s1].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s1]
+INNER JOIN [WorkOrderRemarks] AS [w2] ON [s1].[Id] = [w2].[WorkOrderId]
+ORDER BY [s1].[Id], [s1].[Id0], [s1].[Id1], [s1].[Id2]
+2025-07-30 08:59:26.541 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w3].[Id], [w3].[AssignedToId], [w3].[CreatedAt], [w3].[CreatedBy], [w3].[Description], [w3].[IsDeleted], [w3].[LastModifiedAt], [w3].[LastModifiedBy], [w3].[Priority], [w3].[PriorityLevelId], [w3].[ReportedById], [w3].[ReportedDate], [w3].[ResolutionDate], [w3].[ResolutionNotes], [w3].[Severity], [w3].[Status], [w3].[Title], [w3].[WorkOrderId], [s2].[Id], [s2].[Id0], [s2].[Id1], [s2].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s2]
+INNER JOIN [WorkOrderIssues] AS [w3] ON [s2].[Id] = [w3].[WorkOrderId]
+ORDER BY [s2].[Id], [s2].[Id0], [s2].[Id1], [s2].[Id2]
+2025-07-30 08:59:26.547 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w4].[Id], [w4].[Completed], [w4].[ConfirmedById], [w4].[CreatedAt], [w4].[CreatedBy], [w4].[Description], [w4].[DueDate], [w4].[IsDeleted], [w4].[LastModifiedAt], [w4].[LastModifiedBy], [w4].[Priority], [w4].[PriorityLevelId], [w4].[StartDate], [w4].[Status], [w4].[Title], [w4].[WorkOrderId], [s3].[Id], [s3].[Id0], [s3].[Id1], [s3].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s3]
+INNER JOIN [WorkOrderTasks] AS [w4] ON [s3].[Id] = [w4].[WorkOrderId]
+ORDER BY [s3].[Id], [s3].[Id0], [s3].[Id1], [s3].[Id2]
+2025-07-30 08:59:26.553 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [p0].[Id], [p0].[Authority], [p0].[CreatedAt], [p0].[CreatedBy], [p0].[Description], [p0].[DocumentRef], [p0].[ExpiryDate], [p0].[IsDeleted], [p0].[IssueDate], [p0].[IssuedBy], [p0].[LastModifiedAt], [p0].[LastModifiedBy], [p0].[Number], [p0].[Status], [p0].[Title], [p0].[Type], [p0].[WorkOrderId], [s4].[Id], [s4].[Id0], [s4].[Id1], [s4].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s4]
+INNER JOIN [Permits] AS [p0] ON [s4].[Id] = [p0].[WorkOrderId]
+ORDER BY [s4].[Id], [s4].[Id0], [s4].[Id1], [s4].[Id2]
+2025-07-30 08:59:26.593 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w5].[Id], [w5].[AssignedToId], [w5].[CompletedById], [w5].[CompletedDate], [w5].[CreatedAt], [w5].[CreatedBy], [w5].[Description], [w5].[DueDate], [w5].[IsDeleted], [w5].[LastModifiedAt], [w5].[LastModifiedBy], [w5].[Priority], [w5].[PriorityLevelId], [w5].[Status], [w5].[Title], [w5].[WorkOrderId], [s5].[Id], [s5].[Id0], [s5].[Id1], [s5].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s5]
+INNER JOIN [WorkOrderActions] AS [w5] ON [s5].[Id] = [w5].[WorkOrderId]
+ORDER BY [s5].[Id], [s5].[Id0], [s5].[Id1], [s5].[Id2]
+2025-07-30 08:59:26.599 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w6].[Id], [w6].[Caption], [w6].[CreatedAt], [w6].[CreatedBy], [w6].[IsDeleted], [w6].[LastModifiedAt], [w6].[LastModifiedBy], [w6].[Type], [w6].[UploadedById], [w6].[UploadedDate], [w6].[Url], [w6].[WorkOrderId], [s6].[Id], [s6].[Id0], [s6].[Id1], [s6].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s6]
+INNER JOIN [WorkOrderPhotos] AS [w6] ON [s6].[Id] = [w6].[WorkOrderId]
+ORDER BY [s6].[Id], [s6].[Id0], [s6].[Id1], [s6].[Id2]
+2025-07-30 08:59:26.607 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w7].[Id], [w7].[CreatedAt], [w7].[CreatedBy], [w7].[IsDeleted], [w7].[LastModifiedAt], [w7].[LastModifiedBy], [w7].[Status], [w7].[SubmittedById], [w7].[SubmittedDate], [w7].[Title], [w7].[Type], [w7].[Url], [w7].[WorkOrderId], [s7].[Id], [s7].[Id0], [s7].[Id1], [s7].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s7]
+INNER JOIN [WorkOrderForms] AS [w7] ON [s7].[Id] = [w7].[WorkOrderId]
+ORDER BY [s7].[Id], [s7].[Id0], [s7].[Id1], [s7].[Id2]
+2025-07-30 08:59:26.615 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w8].[Id], [w8].[Amount], [w8].[ApprovedById], [w8].[ApprovedDate], [w8].[Category], [w8].[CreatedAt], [w8].[CreatedBy], [w8].[Currency], [w8].[Date], [w8].[Description], [w8].[IsDeleted], [w8].[LastModifiedAt], [w8].[LastModifiedBy], [w8].[Receipt], [w8].[Status], [w8].[SubmittedById], [w8].[WorkOrderId], [s8].[Id], [s8].[Id0], [s8].[Id1], [s8].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s8]
+INNER JOIN [WorkOrderExpenses] AS [w8] ON [s8].[Id] = [w8].[WorkOrderId]
+ORDER BY [s8].[Id], [s8].[Id0], [s8].[Id1], [s8].[Id2]
+2025-07-30 08:59:26.622 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w9].[Id], [w9].[Amount], [w9].[CreatedAt], [w9].[CreatedBy], [w9].[Currency], [w9].[DueDate], [w9].[IsDeleted], [w9].[IssueDate], [w9].[LastModifiedAt], [w9].[LastModifiedBy], [w9].[Number], [w9].[PaidById], [w9].[PaidDate], [w9].[Status], [w9].[Url], [w9].[WorkOrderId], [s9].[Id], [s9].[Id0], [s9].[Id1], [s9].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s9]
+INNER JOIN [WorkOrderInvoices] AS [w9] ON [s9].[Id] = [w9].[WorkOrderId]
+ORDER BY [s9].[Id], [s9].[Id0], [s9].[Id1], [s9].[Id2]
+2025-07-30 08:59:26.640 +03:00 [INF] Executing OkObjectResult, writing value of type 'UnifiedContract.API.Models.ApiResponse`1[[UnifiedContract.Application.DTOs.WorkOrderDetailsDto, UnifiedContract.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-30 08:59:26.708 +03:00 [INF] Executed action UnifiedContract.API.Controllers.WorkOrdersController.GetWorkOrder (UnifiedContract.API) in 1114.6452ms
+2025-07-30 08:59:26.709 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.WorkOrdersController.GetWorkOrder (UnifiedContract.API)'
+2025-07-30 08:59:26.711 +03:00 [INF] HTTP GET /api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - Response: 200: {"data":{"id":"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa","workOrderNumber":"WO-1001","internalOrderNumber":"INT-1001","title":"Demo Work Order 1","description":"Demo work order for testing.","client":"SEC","location":"Riyadh","status":"Pending","priority":"Normal","category":"Electrical","type":"Project","class":"A","completionPercentage":30.00,"receivedDate":"2024-07-15T12:00:00","startDate":"2024-07-16T08:00:00","dueDate":"2024-07-25T17:00:00","targetEndDate":"2024-07-27T17:00:00","createdDate":"2024-07-20T12:00:00","createdBy":"seed","lastUpdated":"2024-07-20T12:00:00","estimatedPrice":0.00,"engineerInCharge":"","permits":[{"type":"Initial","status":"Pending"},{"type":"Municipality","status":"Pending"},{"type":"Traffic","status":"Pending"},{"type":"RoadDepartment","status":"Approved"}],"itemAssignments":[{"id":"e5f1cf23-0f60-4c92-9393-42d29502e7d6","workOrderId":"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa","itemId":"20000000-0000-0000-0000-000000000001","estimatedQuantity":5.00,"estimatedPrice":500.00,"estimatedPriceWithVAT":575.00,"actualQuantity":0.00,"actualPrice":0.00,"actualPriceWithVAT":0.00,"reasonForFinalQuantity":"Initial estimate","createdAt":"2025-07-28T09:13:42.9209098","createdBy":"system","lastModifiedAt":"2025-07-28T09:13:42.8471357","lastModifiedBy":"system","item":{"id":"20000000-0000-0000-0000-000000000001","itemNumber":"ITEM-001","description":"Concrete Mix - Grade 30 for foundation work","unit":"m³","unitPrice":100.00,"paymentType":"Fixed Price","managementArea":"Construction","currency":"SAR","isActive":true,"clientId":"cccccccc-cccc-cccc-cccc-cccccccccccc","clientName":"SEC","createdAt":"2024-07-20T12:00:00","createdBy":"seed","lastModifiedAt":"2024-07-20T12:00:00","lastModifiedBy":"seed"}}]},"message":"Success","status":200,"timestamp":"2025-07-30T05:59:26.634Z","errorCode":null,"validationErrors":null}
+2025-07-30 08:59:26.722 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - 200 null application/json; charset=utf-8 2754.7149ms

@@ -1,5 +1,21 @@
 ﻿<Project>
   <ItemGroup>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\09db174c-2a96-4653-8c23-68c90786cd31.xlsb))">
+      <SourceType>Package</SourceType>
+      <SourceId>UnifiedContract.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/UnifiedContract.API</BasePath>
+      <RelativePath>uploads/09db174c-2a96-4653-8c23-68c90786cd31.xlsb</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\09db174c-2a96-4653-8c23-68c90786cd31.xlsb))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\48a88160-2cc2-47a4-b332-08bf17e48132.xlsx))">
       <SourceType>Package</SourceType>
       <SourceId>UnifiedContract.API</SourceId>
@@ -31,6 +47,22 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\c9df78df-c7f6-4339-9814-0dd843f3a1ba.xlsb))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\e0b17861-a81d-4199-b0b3-1a0b572af4d3.xlsx))">
+      <SourceType>Package</SourceType>
+      <SourceId>UnifiedContract.API</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/UnifiedContract.API</BasePath>
+      <RelativePath>uploads/e0b17861-a81d-4199-b0b3-1a0b572af4d3.xlsx</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\e0b17861-a81d-4199-b0b3-1a0b572af4d3.xlsx))</OriginalItemSpec>
     </StaticWebAsset>
   </ItemGroup>
 </Project>

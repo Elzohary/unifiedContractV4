@@ -9,6 +9,8 @@ export interface Iitem {
   unitPrice: number;
   paymentType:string;
   managementArea:string;
+  clientId?: string;
+  isActive?: boolean;
 }
 
 export interface estimatedItemsPricesDetails {

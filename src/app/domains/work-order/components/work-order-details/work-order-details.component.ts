@@ -40,6 +40,7 @@ import { Location } from '@angular/common';
 import { WorkOrderItemsListComponent } from '../work-order-items-list/work-order-items-list.component';
 import { Iitem } from '../../models/work-order-item.model';
 import { MaterialAssignmentDialogComponent } from './components/material-assignment-dialog/material-assignment-dialog.component';
+import { DeleteConfirmationDialogComponent } from '../../../../shared/components/delete-confirmation-dialog/delete-confirmation-dialog.component';
 
 interface IssueDialogData {
   title: string;
@@ -290,6 +291,54 @@ export class WorkOrderDetailsComponent implements OnInit, OnDestroy, AfterViewIn
         duration: 3000
       });
     }
+  }
+
+  deleteWorkOrder(): void {
+    if (this.workOrder) {
+      this.showDeleteConfirmationDialog();
+    }
+  }
+
+  private showDeleteConfirmationDialog(): void {
+    const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Delete Work Order',
+        message: `Are you sure you want to delete Work Order #${this.workOrder?.details.workOrderNumber}?`,
+        details: 'This action will permanently delete all work order data including items, remarks, tasks, materials, and related records. This action cannot be undone.',
+        confirmButton: 'Delete',
+        cancelButton: 'Cancel'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && this.workOrder) {
+        this.performDeleteWorkOrder(this.workOrder.id);
+      }
+    });
+  }
+
+  private performDeleteWorkOrder(workOrderId: string): void {
+    this.workOrderService.deleteWorkOrder(workOrderId).subscribe({
+      next: (success) => {
+        if (success) {
+          this.snackBar.open('Work order deleted successfully', 'Close', { duration: 3000 });
+          console.log('Navigating to work orders list after successful deletion');
+          // Use replaceUrl to prevent back navigation to deleted work order
+          this.router.navigate(['/work-orders'], { replaceUrl: true }).then(() => {
+            console.log('Navigation to work orders list completed');
+          }).catch(err => {
+            console.error('Navigation failed:', err);
+          });
+        } else {
+          this.snackBar.open('Failed to delete work order', 'Close', { duration: 3000 });
+        }
+      },
+      error: (error) => {
+        console.error('Error deleting work order:', error);
+        this.snackBar.open('Error deleting work order', 'Close', { duration: 3000 });
+      }
+    });
   }
 
   // Navigation methods for tabs

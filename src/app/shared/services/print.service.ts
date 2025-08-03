@@ -269,6 +269,31 @@ export class PrintService {
             margin-top: 5px;
           }
 
+          .site-report-item {
+            background-color: #fafafa;
+            border-left: 4px solid #2196F3 !important;
+          }
+
+          .site-report-item h4 {
+            color: #2196F3;
+            font-size: 16px;
+            font-weight: 600;
+          }
+
+          .status-open { background-color: #E3F2FD; color: #1565C0; }
+          .status-resolved { background-color: #E8F5E9; color: #2E7D32; }
+          .status-closed { background-color: #EEEEEE; color: #757575; }
+
+          .page-break {
+            page-break-before: always;
+          }
+
+          .section-break {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+          }
+
           .footer {
             margin-top: 50px;
             text-align: center;
@@ -325,12 +350,48 @@ export class PrintService {
               <div class="detail-value">${workOrder.details.category}</div>
             </div>
 
-          <div class="detail-item" style="margin-top: 15px;">
-            <span class="detail-label">Completion</span>
-            <div class="completion-bar">
-              <div class="completion-progress" style="width: ${workOrder.details.completionPercentage}%;"></div>
+            <div class="detail-item">
+              <span class="detail-label">Type</span>
+              <div class="detail-value">${workOrder.details.type || 'N/A'}</div>
             </div>
-            <div class="completion-label">${workOrder.details.completionPercentage}%</div>
+
+            <div class="detail-item">
+              <span class="detail-label">Class</span>
+              <div class="detail-value">${workOrder.details.class || 'N/A'}</div>
+            </div>
+
+            <div class="detail-item">
+              <span class="detail-label">Project Type</span>
+              <div class="detail-value">${workOrder.details.projectType || 'N/A'}</div>
+            </div>
+
+            <div class="detail-item">
+              <span class="detail-label">PO</span>
+              <div class="detail-value">${workOrder.details.po || 'N/A'}</div>
+            </div>
+
+            <div class="detail-item">
+              <span class="detail-label">D1</span>
+              <div class="detail-value">${workOrder.details.d1 || 'N/A'}</div>
+            </div>
+
+            <div class="detail-item">
+              <span class="detail-label">Internal Order Number</span>
+              <div class="detail-value">${workOrder.details.internalOrderNumber || 'N/A'}</div>
+            </div>
+
+            <div class="detail-item">
+              <span class="detail-label">Estimated Cost</span>
+              <div class="detail-value">$${workOrder.details['estimatedCost']?.toFixed(2) || '0.00'}</div>
+            </div>
+
+            <div class="detail-item" style="margin-top: 15px;">
+              <span class="detail-label">Completion</span>
+              <div class="completion-bar">
+                <div class="completion-progress" style="width: ${workOrder.details.completionPercentage}%;"></div>
+              </div>
+              <div class="completion-label">${workOrder.details.completionPercentage}%</div>
+            </div>
           </div>
         </div>
 
@@ -393,6 +454,177 @@ export class PrintService {
                   </tr>
                 `;
               }).join('')}
+            </tbody>
+          </table>
+        </div>
+        ` : ''}
+
+        ${workOrder.items && workOrder.items.length > 0 ? `
+        <div class="print-section">
+          <h3>Work Order Items</h3>
+          <table class="info-table">
+            <thead>
+              <tr>
+                <th>Item Number</th>
+                <th>Description</th>
+                <th>UOM</th>
+                <th>Estimated Qty</th>
+                <th>Unit Price</th>
+                <th>Estimated Price</th>
+                <th>Management Area</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${workOrder.items.map((item: any) => `
+                <tr>
+                  <td>${item.itemNumber || 'N/A'}</td>
+                  <td>${item.shortDescription || 'N/A'}</td>
+                  <td>${item.UOM || 'N/A'}</td>
+                  <td>${item.estimatedQuantity || '0'}</td>
+                  <td>$${item.unitPrice?.toFixed(2) || '0.00'}</td>
+                  <td>$${item.estimatedPrice?.toFixed(2) || '0.00'}</td>
+                  <td>${item.managementArea || 'N/A'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+        ` : ''}
+
+        ${workOrder.permits && workOrder.permits.length > 0 ? `
+        <div class="print-section">
+          <h3>Permits</h3>
+          <table class="info-table">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Number</th>
+                <th>Authority</th>
+                <th>Issue Date</th>
+                <th>Expiry Date</th>
+                <th>Issued By</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${workOrder.permits.map((permit: any) => `
+                <tr>
+                  <td>${permit.type || 'N/A'}</td>
+                  <td>
+                    <span class="status status-${permit.status?.toLowerCase() || 'pending'}">${permit.status || 'Pending'}</span>
+                  </td>
+                  <td>${permit.number || 'N/A'}</td>
+                  <td>${permit.authority || 'N/A'}</td>
+                  <td>${formatDate(permit.issueDate)}</td>
+                  <td>${formatDate(permit.expiryDate)}</td>
+                  <td>${permit.issuedBy || 'N/A'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+        ` : ''}
+
+        ${workOrder.siteReports && workOrder.siteReports.length > 0 ? `
+        <div class="print-section">
+          <h3>Site Reports</h3>
+          ${workOrder.siteReports.map((report: any, index: number) => `
+            <div class="site-report-item" style="margin-bottom: 20px; padding: 15px; border: 1px solid #eee; border-radius: 4px;">
+              <h4 style="margin: 0 0 10px 0; color: #333;">Site Report #${index + 1}</h4>
+              <div class="detail-grid">
+                <div class="detail-item">
+                  <span class="detail-label">Report Date</span>
+                  <div class="detail-value">${formatDate(report.reportDate)}</div>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Status</span>
+                  <div class="detail-value">
+                    <span class="status status-${report.status?.toLowerCase() || 'pending'}">${report.status || 'Pending'}</span>
+                  </div>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Weather Conditions</span>
+                  <div class="detail-value">${report.weatherConditions || 'N/A'}</div>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Work Progress</span>
+                  <div class="detail-value">${report.workProgress || 'N/A'}</div>
+                </div>
+              </div>
+              ${report.observations ? `
+                <div style="margin-top: 10px;">
+                  <span class="detail-label">Observations</span>
+                  <div class="detail-value">${report.observations}</div>
+                </div>
+              ` : ''}
+              ${report.recommendations ? `
+                <div style="margin-top: 10px;">
+                  <span class="detail-label">Recommendations</span>
+                  <div class="detail-value">${report.recommendations}</div>
+                </div>
+              ` : ''}
+            </div>
+          `).join('')}
+        </div>
+        ` : ''}
+
+        ${workOrder.tasks && workOrder.tasks.length > 0 ? `
+        <div class="print-section">
+          <h3>Tasks</h3>
+          <table class="info-table">
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Status</th>
+                <th>Assigned To</th>
+                <th>Due Date</th>
+                <th>Priority</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${workOrder.tasks.map((task: any) => `
+                <tr>
+                  <td>${task.title || 'N/A'}</td>
+                  <td>
+                    <span class="status status-${task.status?.toLowerCase() || 'pending'}">${task.status || 'Pending'}</span>
+                  </td>
+                  <td>${task.assignedTo || 'N/A'}</td>
+                  <td>${formatDate(task.dueDate)}</td>
+                  <td>${task.priority || 'Normal'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+        ` : ''}
+
+        ${workOrder.issues && workOrder.issues.length > 0 ? `
+        <div class="print-section">
+          <h3>Issues</h3>
+          <table class="info-table">
+            <thead>
+              <tr>
+                <th>Issue</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Reported By</th>
+                <th>Reported Date</th>
+                <th>Resolution</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${workOrder.issues.map((issue: any) => `
+                <tr>
+                  <td>${issue.title || 'N/A'}</td>
+                  <td>
+                    <span class="status status-${issue.status?.toLowerCase() || 'open'}">${issue.status || 'Open'}</span>
+                  </td>
+                  <td>${issue.priority || 'Normal'}</td>
+                  <td>${issue.reportedBy || 'N/A'}</td>
+                  <td>${formatDate(issue.reportedDate)}</td>
+                  <td>${issue.resolution || 'N/A'}</td>
+                </tr>
+              `).join('')}
             </tbody>
           </table>
         </div>

@@ -17,6 +17,9 @@ namespace UnifiedContract.Application.DTOs
         public string Category { get; set; }
         public string Type { get; set; }
         public string Class { get; set; }
+        public string ProjectType { get; set; }
+        public string PO { get; set; }
+        public string D1 { get; set; }
         public decimal CompletionPercentage { get; set; }
         public DateTime ReceivedDate { get; set; }
         public DateTime? StartDate { get; set; }
@@ -28,5 +31,6 @@ namespace UnifiedContract.Application.DTOs
         public decimal? EstimatedPrice { get; set; }
         public string EngineerInCharge { get; set; }
         public List<PermitDto> Permits { get; set; }
+        public List<WorkOrderItemAssignmentDto> ItemAssignments { get; set; }
     }
 } 

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6xJkIeGM8mAMhwsQBiNAUzLHPfKuW+M5sjhXZLj5SXS6LnMNYhbjwMf0kev8dkbu+WtdcNo125WrDwQqc/qnzA==",
+  "dgSpecHash": "yGmw4vqSuUxbU5kDlwBzVut3xB7g/xZzPkGxivYZelvxyzKlSCBJAb2hPyuMWa7NL4i4dCul2QV/t9mvWr2wMQ==",
   "success": true,
-  "projectFilePath": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Persistence\\UnifiedContract.Persistence.csproj",
+  "projectFilePath": "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.Persistence\\UnifiedContract.Persistence.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\LENOVO\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

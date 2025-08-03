@@ -42,13 +42,6 @@ import { WorkOrder, WorkOrderStatus, WorkOrderPriority } from '../../../../model
           </div>
           
           <div class="info-item">
-            <span class="label">Priority:</span>
-            <mat-chip [ngClass]="getPriorityClass(workOrder.details.priority)">
-              {{ workOrder.details.priority | titlecase }}
-            </mat-chip>
-          </div>
-          
-          <div class="info-item">
             <span class="label">Client:</span>
             <span class="value">{{ workOrder.details.client || 'N/A' }}</span>
           </div>
@@ -64,8 +57,13 @@ import { WorkOrder, WorkOrderStatus, WorkOrderPriority } from '../../../../model
           </div>
           
           <div class="info-item">
-            <span class="label">Completion:</span>
-            <span class="value">{{ workOrder.details.completionPercentage }}%</span>
+            <span class="label">PO:</span>
+            <span class="value">{{ workOrder.details.po || 'N/A' }}</span>
+          </div>
+          
+          <div class="info-item">
+            <span class="label">D1:</span>
+            <span class="value">{{ workOrder.details.d1 || 'N/A' }}</span>
           </div>
         </div>
       </mat-card-content>
@@ -94,6 +92,11 @@ import { WorkOrder, WorkOrderStatus, WorkOrderPriority } from '../../../../model
               *ngIf="workOrder.details.status !== WorkOrderStatus.Cancelled">
         <mat-icon>cancel</mat-icon>
         <span>Cancel Work Order</span>
+      </button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="onDelete()" class="delete-action">
+        <mat-icon>delete</mat-icon>
+        <span>Delete Work Order</span>
       </button>
     </mat-menu>
   `,
@@ -147,6 +150,14 @@ import { WorkOrder, WorkOrderStatus, WorkOrderPriority } from '../../../../model
     .priority-medium { background-color: #FFB74D !important; }
     .priority-high { background-color: #FF8A65 !important; }
     .priority-critical { background-color: #E57373 !important; }
+
+    .delete-action {
+      color: #f44336 !important;
+    }
+
+    .delete-action mat-icon {
+      color: #f44336 !important;
+    }
   `],
   standalone: true,
   imports: [
@@ -167,6 +178,7 @@ export class WoHeaderComponent {
   @Output() print = new EventEmitter<void>();
   @Output() export = new EventEmitter<void>();
   @Output() duplicate = new EventEmitter<void>();
+  @Output() delete = new EventEmitter<void>();
 
   // Expose enum to template
   WorkOrderStatus = WorkOrderStatus;
@@ -189,6 +201,10 @@ export class WoHeaderComponent {
 
   onDuplicate(): void {
     this.duplicate.emit();
+  }
+
+  onDelete(): void {
+    this.delete.emit();
   }
 
   getStatusClass(status: WorkOrderStatus): string {

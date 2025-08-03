@@ -5271,6 +5271,174 @@ namespace UnifiedContract.Persistence.Migrations
                     b.ToTable("Supplier", "Resource");
                 });
 
+            modelBuilder.Entity("UnifiedContract.Domain.Entities.WorkOrder.Item", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ItemNumber")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime?>("LastModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ManagementArea")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("PaymentType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Unit")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasDefaultValue("Piece");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("Items", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("20000000-0000-0000-0000-000000000001"),
+                            ClientId = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"),
+                            CreatedAt = new DateTime(2024, 7, 20, 12, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedBy = "seed",
+                            Currency = "SAR",
+                            Description = "Concrete Mix - Grade 30 for foundation work",
+                            IsActive = true,
+                            IsDeleted = false,
+                            ItemNumber = "ITEM-001",
+                            LastModifiedAt = new DateTime(2024, 7, 20, 12, 0, 0, 0, DateTimeKind.Utc),
+                            LastModifiedBy = "seed",
+                            ManagementArea = "Construction",
+                            PaymentType = "Fixed Price",
+                            Unit = "m³",
+                            UnitPrice = 100m
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0000-0000-0000-000000000002"),
+                            ClientId = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"),
+                            CreatedAt = new DateTime(2024, 7, 20, 12, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedBy = "seed",
+                            Currency = "SAR",
+                            Description = "Steel Reinforcement - Grade 60",
+                            IsActive = true,
+                            IsDeleted = false,
+                            ItemNumber = "ITEM-002",
+                            LastModifiedAt = new DateTime(2024, 7, 20, 12, 0, 0, 0, DateTimeKind.Utc),
+                            LastModifiedBy = "seed",
+                            ManagementArea = "Construction",
+                            PaymentType = "Fixed Price",
+                            Unit = "kg",
+                            UnitPrice = 5m
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0000-0000-0000-000000000003"),
+                            ClientId = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"),
+                            CreatedAt = new DateTime(2024, 7, 20, 12, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedBy = "seed",
+                            Currency = "SAR",
+                            Description = "Electrical Cable - 3x2.5mm²",
+                            IsActive = true,
+                            IsDeleted = false,
+                            ItemNumber = "ITEM-003",
+                            LastModifiedAt = new DateTime(2024, 7, 20, 12, 0, 0, 0, DateTimeKind.Utc),
+                            LastModifiedBy = "seed",
+                            ManagementArea = "Electrical",
+                            PaymentType = "Fixed Price",
+                            Unit = "m",
+                            UnitPrice = 15m
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0000-0000-0000-000000000004"),
+                            ClientId = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"),
+                            CreatedAt = new DateTime(2024, 7, 20, 12, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedBy = "seed",
+                            Currency = "SAR",
+                            Description = "PVC Pipe - 110mm diameter",
+                            IsActive = true,
+                            IsDeleted = false,
+                            ItemNumber = "ITEM-004",
+                            LastModifiedAt = new DateTime(2024, 7, 20, 12, 0, 0, 0, DateTimeKind.Utc),
+                            LastModifiedBy = "seed",
+                            ManagementArea = "Plumbing",
+                            PaymentType = "Fixed Price",
+                            Unit = "m",
+                            UnitPrice = 25m
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0000-0000-0000-000000000005"),
+                            ClientId = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"),
+                            CreatedAt = new DateTime(2024, 7, 20, 12, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedBy = "seed",
+                            Currency = "SAR",
+                            Description = "Paint - Interior White",
+                            IsActive = true,
+                            IsDeleted = false,
+                            ItemNumber = "ITEM-005",
+                            LastModifiedAt = new DateTime(2024, 7, 20, 12, 0, 0, 0, DateTimeKind.Utc),
+                            LastModifiedBy = "seed",
+                            ManagementArea = "Finishing",
+                            PaymentType = "Fixed Price",
+                            Unit = "L",
+                            UnitPrice = 50m
+                        });
+                });
+
             modelBuilder.Entity("UnifiedContract.Domain.Entities.WorkOrder.Lookups.PriorityLevel", b =>
                 {
                     b.Property<Guid>("Id")
@@ -5724,7 +5892,8 @@ namespace UnifiedContract.Persistence.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Class")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<Guid?>("ClientId")
                         .HasColumnType("uniqueidentifier");
@@ -5738,6 +5907,10 @@ namespace UnifiedContract.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("D1")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
@@ -5781,8 +5954,16 @@ namespace UnifiedContract.Persistence.Migrations
                     b.Property<decimal>("OtherExpense")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("PO")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<Guid>("PriorityLevelId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ProjectType")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("ReceivedDate")
                         .HasColumnType("datetime2");
@@ -5798,7 +5979,8 @@ namespace UnifiedContract.Persistence.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("WorkOrderNumber")
                         .IsRequired()
@@ -6379,6 +6561,75 @@ namespace UnifiedContract.Persistence.Migrations
                             UnitPrice = 1250m,
                             WorkOrderId = new Guid("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb")
                         });
+                });
+
+            modelBuilder.Entity("UnifiedContract.Domain.Entities.WorkOrder.WorkOrderItemAssignment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("ActualPrice")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("ActualPriceWithVAT")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("ActualQuantity")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<decimal>("EstimatedPrice")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("EstimatedPriceWithVAT")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("EstimatedQuantity")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("LastModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ReasonForFinalQuantity")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid>("WorkOrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("WorkOrderId");
+
+                    b.ToTable("WorkOrderItemAssignments", (string)null);
                 });
 
             modelBuilder.Entity("UnifiedContract.Domain.Entities.WorkOrder.WorkOrderPhoto", b =>
@@ -7435,6 +7686,17 @@ namespace UnifiedContract.Persistence.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("UnifiedContract.Domain.Entities.WorkOrder.Item", b =>
+                {
+                    b.HasOne("UnifiedContract.Domain.Entities.Client.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
             modelBuilder.Entity("UnifiedContract.Domain.Entities.WorkOrder.Permit", b =>
                 {
                     b.HasOne("UnifiedContract.Domain.Entities.WorkOrder.WorkOrder", null)
@@ -7573,9 +7835,28 @@ namespace UnifiedContract.Persistence.Migrations
             modelBuilder.Entity("UnifiedContract.Domain.Entities.WorkOrder.WorkOrderItem", b =>
                 {
                     b.HasOne("UnifiedContract.Domain.Entities.WorkOrder.WorkOrder", null)
-                        .WithMany("Items")
+                        .WithMany()
                         .HasForeignKey("WorkOrderId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("UnifiedContract.Domain.Entities.WorkOrder.WorkOrderItemAssignment", b =>
+                {
+                    b.HasOne("UnifiedContract.Domain.Entities.WorkOrder.Item", "Item")
+                        .WithMany("WorkOrderAssignments")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("UnifiedContract.Domain.Entities.WorkOrder.WorkOrder", "WorkOrder")
+                        .WithMany("ItemAssignments")
+                        .HasForeignKey("WorkOrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("WorkOrder");
                 });
 
             modelBuilder.Entity("UnifiedContract.Domain.Entities.WorkOrder.WorkOrderPhoto", b =>
@@ -7743,6 +8024,11 @@ namespace UnifiedContract.Persistence.Migrations
                     b.Navigation("Materials");
                 });
 
+            modelBuilder.Entity("UnifiedContract.Domain.Entities.WorkOrder.Item", b =>
+                {
+                    b.Navigation("WorkOrderAssignments");
+                });
+
             modelBuilder.Entity("UnifiedContract.Domain.Entities.WorkOrder.Lookups.PriorityLevel", b =>
                 {
                     b.Navigation("Actions");
@@ -7778,7 +8064,7 @@ namespace UnifiedContract.Persistence.Migrations
 
                     b.Navigation("Issues");
 
-                    b.Navigation("Items");
+                    b.Navigation("ItemAssignments");
 
                     b.Navigation("Permits");
 

@@ -1,0 +1,20 @@
+### Test PUT endpoint for updating work order items
+PUT http://localhost:5275/api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa/items
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3ZWIwOGUxNC00ZTRjLTQ4MDEtOTNlNS01ZDgyMWJiYTdmZDIiLCJlbWFpbCI6ImFkbWluQHVuaWZpZWRjb250cmFjdC5jb20iLCJuYW1lIjoiU3lzdGVtIEFkbWluaXN0cmF0b3IiLCJyb2xlIjoidXNlciIsImV4cCI6MTc1MzYzMTY2NiwiaXNzIjoiVW5pZmllZENvbnRyYWN0QVBJX0RldiIsImF1ZCI6IlVuaWZpZWRDb250cmFjdENsaWVudF9EZXYifQ.8zDg3GhdItDWqR-uIyk2Y3-PsdKdz27xJNE3fIO8UMc
+
+{
+  "item": {
+    "id": "10000000-0000-0000-0000-000000000001",
+    "itemNumber": "WOI-1001-001",
+    "lineType": "Description",
+    "shortDescription": "Concrete Mix - Grade 30 for foundation work (Updated)",
+    "longDescription": "Concrete Mix - Grade 30 for foundation work (Updated)",
+    "UOM": "m3",
+    "currency": "SAR",
+    "unitPrice": 150,
+    "paymentType": "Fixed Price",
+    "managementArea": "Updated Area",
+    "estimatedQuantity": 2
+  }
+} 

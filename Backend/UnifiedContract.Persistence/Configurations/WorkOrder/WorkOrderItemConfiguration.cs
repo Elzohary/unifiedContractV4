@@ -47,10 +47,12 @@ namespace UnifiedContract.Persistence.Configurations.WorkOrder
                 .HasMaxLength(500);
                 
             // Relationships
-            builder.HasOne<Domain.Entities.WorkOrder.WorkOrder>()
-                .WithMany(wo => wo.Items)
-                .HasForeignKey(item => item.WorkOrderId)
-                .OnDelete(DeleteBehavior.Cascade);
+                            // Note: This configuration is kept for backward compatibility
+                // The new architecture uses WorkOrderItemAssignments instead
+                builder.HasOne<Domain.Entities.WorkOrder.WorkOrder>()
+                    .WithMany()
+                    .HasForeignKey(item => item.WorkOrderId)
+                    .OnDelete(DeleteBehavior.Cascade);
                 
             // Audit properties
             builder.Property(item => item.CreatedBy)

@@ -54,6 +54,10 @@ builder.Services.AddScoped<IClientMaterialRepository, ClientMaterialRepository>(
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IFileStorageService, LocalStorageService>();
 
+// Register new repositories for many-to-many item relationship
+builder.Services.AddScoped<IItemRepository, ItemRepository>();
+builder.Services.AddScoped<IWorkOrderItemAssignmentRepository, WorkOrderItemAssignmentRepository>();
+
 
 // Configure JWT Authentication
 builder.Services.AddAuthentication(options =>

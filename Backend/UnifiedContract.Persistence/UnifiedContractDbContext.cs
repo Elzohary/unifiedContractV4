@@ -43,7 +43,9 @@ namespace UnifiedContract.Persistence
 
         // WorkOrder
         public DbSet<WorkOrder> WorkOrders { get; set; }
-        public DbSet<WorkOrderItem> WorkOrderItems { get; set; }
+        public DbSet<Item> Items { get; set; }
+        public DbSet<WorkOrderItemAssignment> WorkOrderItemAssignments { get; set; }
+        public DbSet<WorkOrderItem> WorkOrderItems { get; set; } // Keep for backward compatibility during migration
         public DbSet<WorkOrderRemark> WorkOrderRemarks { get; set; }
         public DbSet<WorkOrderIssue> WorkOrderIssues { get; set; }
         public DbSet<WorkOrderTask> WorkOrderTasks { get; set; }
@@ -308,6 +310,96 @@ namespace UnifiedContract.Persistence
                     FormattedAddress = "Demo Street, Riyadh, Riyadh 12345, Saudi Arabia"
                 }
             );
+
+            // Seed demo Items for the master item catalog
+            modelBuilder.Entity<UnifiedContract.Domain.Entities.WorkOrder.Item>().HasData(
+                new UnifiedContract.Domain.Entities.WorkOrder.Item
+                {
+                    Id = new Guid("20000000-0000-0000-0000-000000000001"),
+                    ItemNumber = "ITEM-001",
+                    Description = "Concrete Mix - Grade 30 for foundation work",
+                    Unit = "m³",
+                    UnitPrice = 100m,
+                    PaymentType = "Fixed Price",
+                    ManagementArea = "Construction",
+                    Currency = "SAR",
+                    IsActive = true,
+                    ClientId = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"), // Demo client
+                    CreatedBy = "seed",
+                    CreatedAt = staticNow,
+                    LastModifiedBy = "seed",
+                    LastModifiedAt = staticNow
+                },
+                new UnifiedContract.Domain.Entities.WorkOrder.Item
+                {
+                    Id = new Guid("20000000-0000-0000-0000-000000000002"),
+                    ItemNumber = "ITEM-002",
+                    Description = "Steel Reinforcement - Grade 60",
+                    Unit = "kg",
+                    UnitPrice = 5m,
+                    PaymentType = "Fixed Price",
+                    ManagementArea = "Construction",
+                    Currency = "SAR",
+                    IsActive = true,
+                    ClientId = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"), // Demo client
+                    CreatedBy = "seed",
+                    CreatedAt = staticNow,
+                    LastModifiedBy = "seed",
+                    LastModifiedAt = staticNow
+                },
+                new UnifiedContract.Domain.Entities.WorkOrder.Item
+                {
+                    Id = new Guid("20000000-0000-0000-0000-000000000003"),
+                    ItemNumber = "ITEM-003",
+                    Description = "Electrical Cable - 3x2.5mm²",
+                    Unit = "m",
+                    UnitPrice = 15m,
+                    PaymentType = "Fixed Price",
+                    ManagementArea = "Electrical",
+                    Currency = "SAR",
+                    IsActive = true,
+                    ClientId = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"), // Demo client
+                    CreatedBy = "seed",
+                    CreatedAt = staticNow,
+                    LastModifiedBy = "seed",
+                    LastModifiedAt = staticNow
+                },
+                new UnifiedContract.Domain.Entities.WorkOrder.Item
+                {
+                    Id = new Guid("20000000-0000-0000-0000-000000000004"),
+                    ItemNumber = "ITEM-004",
+                    Description = "PVC Pipe - 110mm diameter",
+                    Unit = "m",
+                    UnitPrice = 25m,
+                    PaymentType = "Fixed Price",
+                    ManagementArea = "Plumbing",
+                    Currency = "SAR",
+                    IsActive = true,
+                    ClientId = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"), // Demo client
+                    CreatedBy = "seed",
+                    CreatedAt = staticNow,
+                    LastModifiedBy = "seed",
+                    LastModifiedAt = staticNow
+                },
+                new UnifiedContract.Domain.Entities.WorkOrder.Item
+                {
+                    Id = new Guid("20000000-0000-0000-0000-000000000005"),
+                    ItemNumber = "ITEM-005",
+                    Description = "Paint - Interior White",
+                    Unit = "L",
+                    UnitPrice = 50m,
+                    PaymentType = "Fixed Price",
+                    ManagementArea = "Finishing",
+                    Currency = "SAR",
+                    IsActive = true,
+                    ClientId = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"), // Demo client
+                    CreatedBy = "seed",
+                    CreatedAt = staticNow,
+                    LastModifiedBy = "seed",
+                    LastModifiedAt = staticNow
+                }
+            );
+
             // Seed demo WorkOrderItems for the demo work orders
             modelBuilder.Entity<UnifiedContract.Domain.Entities.WorkOrder.WorkOrderItem>().HasData(
                 new UnifiedContract.Domain.Entities.WorkOrder.WorkOrderItem

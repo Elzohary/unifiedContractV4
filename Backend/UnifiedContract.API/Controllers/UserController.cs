@@ -43,7 +43,8 @@ namespace UnifiedContract.API.Controllers
             {
                 Data = new LoginResponse { Token = token },
                 Message = "Login successful",
-                Status = true
+                Status = 200,
+                Timestamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
             };
             
             return Ok(response);

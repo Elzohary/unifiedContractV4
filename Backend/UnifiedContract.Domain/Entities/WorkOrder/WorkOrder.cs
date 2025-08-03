@@ -17,6 +17,9 @@ namespace UnifiedContract.Domain.Entities.WorkOrder
         public string? Category { get; set; }
         public string? Type { get; set; }
         public string? Class { get; set; }
+        public string? ProjectType { get; set; }
+        public string? PO { get; set; }
+        public string? D1 { get; set; }
         public decimal CompletionPercentage { get; set; }
         public DateTime ReceivedDate { get; set; }
         public DateTime? StartDate { get; set; }
@@ -36,7 +39,7 @@ namespace UnifiedContract.Domain.Entities.WorkOrder
         public virtual Client.Client Client { get; set; }
         public virtual Auth.User EngineerInCharge { get; set; }
         
-        public virtual ICollection<WorkOrderItem> Items { get; set; }
+        public virtual ICollection<WorkOrderItemAssignment> ItemAssignments { get; set; }
         public virtual ICollection<WorkOrderRemark> Remarks { get; set; }
         public virtual ICollection<WorkOrderIssue> Issues { get; set; }
         public virtual ICollection<WorkOrderTask> Tasks { get; set; }
@@ -55,7 +58,7 @@ namespace UnifiedContract.Domain.Entities.WorkOrder
         
         public WorkOrder()
         {
-            Items = new HashSet<WorkOrderItem>();
+            ItemAssignments = new HashSet<WorkOrderItemAssignment>();
             Remarks = new HashSet<WorkOrderRemark>();
             Issues = new HashSet<WorkOrderIssue>();
             Tasks = new HashSet<WorkOrderTask>();

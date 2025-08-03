@@ -3913,3 +3913,1098 @@ Error Number:515,State:2,Class:16
    at UnifiedContract.API.Middleware.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.API\Middleware\ExceptionHandlingMiddleware.cs:line 26
 2025-07-22 08:28:57.726 +03:00 [INF] HTTP POST /api/documents/upload - Response: 500: {"Status":false,"Message":"An error occurred while saving the entity changes. See the inner exception for details.","Data":"   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetAsync(Int32 startCommandIndex, RelationalDataReader reader, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable\u00601 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable\u00601 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable\u00601 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList\u00601 entries, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList\u00601 entriesToSave, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func\u00604 operation, Func\u00604 verifySucceeded, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)\r\n   at UnifiedContract.Persistence.Repositories.Repository\u00601.AddAsync(T entity) in D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Persistence\\Repositories\\Repository.cs:line 79\r\n   at UnifiedContract.API.Controllers.DocumentsController.Upload(IFormFile file, Guid entityId, String entityType) in D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.API\\Controllers\\DocumentsController.cs:line 63\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.\u003CInvokeActionMethodAsync\u003Eg__Awaited|12_0(ControllerActionInvoker invoker, ValueTask\u00601 actionResultValueTask)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.\u003CInvokeNextActionFilterAsync\u003Eg__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State\u0026 next, Scope\u0026 scope, Object\u0026 state, Boolean\u0026 isCompleted)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.\u003CInvokeInnerFilterAsync\u003Eg__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.\u003CInvokeNextResourceFilter\u003Eg__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State\u0026 next, Scope\u0026 scope, Object\u0026 state, Boolean\u0026 isCompleted)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.\u003CInvokeFilterPipelineAsync\u003Eg__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.\u003CInvokeAsync\u003Eg__Logged|17_1(ResourceInvoker invoker)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.\u003CInvokeAsync\u003Eg__Logged|17_1(ResourceInvoker invoker)\r\n   at Microsoft.AspNetCore.Routing.EndpointMiddleware.\u003CInvoke\u003Eg__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)\r\n   at UnifiedContract.API.Middleware.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.API\\Middleware\\ExceptionHandlingMiddleware.cs:line 26","ErrorCode":null,"ValidationErrors":null}
 2025-07-22 08:28:57.730 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5275/api/documents/upload - 500 null application/json 571.2244ms
+2025-07-22 08:46:06.944 +03:00 [INF] Executed DbCommand (11ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-07-22 08:46:06.976 +03:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-07-22 08:46:07.000 +03:00 [INF] Executed DbCommand (22ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-07-22 08:46:07.046 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-07-22 08:46:07.075 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-07-22 08:46:07.076 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-07-22 08:46:07.081 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-07-22 08:46:07.086 +03:00 [INF] No migrations were applied. The database is already up to date.
+2025-07-22 08:46:07.092 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_releaseapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session';
+SELECT @result
+2025-07-22 08:46:07.097 +03:00 [INF] Starting web host
+2025-07-22 08:46:07.108 +03:00 [INF] User profile is available. Using 'C:\Users\LENOVO\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-07-22 08:46:07.150 +03:00 [INF] Now listening on: http://localhost:5275
+2025-07-22 08:46:07.152 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-22 08:46:07.153 +03:00 [INF] Hosting environment: Development
+2025-07-22 08:46:07.153 +03:00 [INF] Content root path: D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.API
+2025-07-22 08:47:17.459 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5275/api/test-auth - null null
+2025-07-22 08:47:17.463 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5275/api/remarks/work-order/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - null null
+2025-07-22 08:47:17.463 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5275/api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - null null
+2025-07-22 08:47:17.488 +03:00 [WRN] Failed to determine the https port for redirect.
+2025-07-22 08:47:17.493 +03:00 [INF] HTTP OPTIONS /api/remarks/work-order/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - Request: http localhost:5275/api/remarks/work-order/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa  
+2025-07-22 08:47:17.493 +03:00 [INF] HTTP OPTIONS /api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - Request: http localhost:5275/api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa  
+2025-07-22 08:47:17.493 +03:00 [INF] HTTP OPTIONS /api/test-auth - Request: http localhost:5275/api/test-auth  
+2025-07-22 08:47:17.495 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:17.495 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:17.495 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:17.497 +03:00 [INF] HTTP OPTIONS /api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - Response: 204: 
+2025-07-22 08:47:17.498 +03:00 [INF] HTTP OPTIONS /api/remarks/work-order/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - Response: 204: 
+2025-07-22 08:47:17.498 +03:00 [INF] HTTP OPTIONS /api/test-auth - Response: 204: 
+2025-07-22 08:47:17.502 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5275/api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - 204 null null 38.7642ms
+2025-07-22 08:47:17.502 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5275/api/test-auth - 204 null null 45.0814ms
+2025-07-22 08:47:17.502 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5275/api/remarks/work-order/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - 204 null null 39.3567ms
+2025-07-22 08:47:17.506 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/test-auth - null null
+2025-07-22 08:47:17.506 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/remarks/work-order/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - null null
+2025-07-22 08:47:17.506 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - null null
+2025-07-22 08:47:17.515 +03:00 [INF] HTTP GET /api/remarks/work-order/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - Request: http localhost:5275/api/remarks/work-order/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa  
+2025-07-22 08:47:17.516 +03:00 [INF] HTTP GET /api/test-auth - Request: http localhost:5275/api/test-auth  
+2025-07-22 08:47:17.516 +03:00 [INF] HTTP GET /api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - Request: http localhost:5275/api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa  
+2025-07-22 08:47:17.517 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:17.517 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:17.517 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:17.579 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.RemarksController.GetRemarksByWorkOrder (UnifiedContract.API)'
+2025-07-22 08:47:17.581 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.WorkOrdersController.GetWorkOrder (UnifiedContract.API)'
+2025-07-22 08:47:17.581 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.TestAuthController.Get (UnifiedContract.API)'
+2025-07-22 08:47:17.588 +03:00 [INF] Route matched with {action = "Get", controller = "TestAuth"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Get() on controller UnifiedContract.API.Controllers.TestAuthController (UnifiedContract.API).
+2025-07-22 08:47:17.592 +03:00 [INF] Route matched with {action = "GetRemarksByWorkOrder", controller = "Remarks"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetRemarksByWorkOrder(System.Guid) on controller UnifiedContract.API.Controllers.RemarksController (UnifiedContract.API).
+2025-07-22 08:47:17.592 +03:00 [INF] Route matched with {action = "GetWorkOrder", controller = "WorkOrders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[UnifiedContract.API.Models.ApiResponse`1[UnifiedContract.Application.DTOs.WorkOrderDetailsDto]]] GetWorkOrder(System.Guid) on controller UnifiedContract.API.Controllers.WorkOrdersController (UnifiedContract.API).
+2025-07-22 08:47:17.595 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2025-07-22 08:47:17.601 +03:00 [INF] Executed action UnifiedContract.API.Controllers.TestAuthController.Get (UnifiedContract.API) in 9.2728ms
+2025-07-22 08:47:17.603 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.TestAuthController.Get (UnifiedContract.API)'
+2025-07-22 08:47:17.603 +03:00 [INF] HTTP GET /api/test-auth - Response: 200: Authenticated!
+2025-07-22 08:47:17.613 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/test-auth - 200 null text/plain; charset=utf-8 106.8613ms
+2025-07-22 08:47:17.779 +03:00 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [w].[Id], [w].[Content], [w].[CreatedAt], [w].[CreatedBy], [w].[IsDeleted], [w].[LastModifiedAt], [w].[LastModifiedBy], [w].[PeopleInvolved], [w].[Type], [w].[WorkOrderId]
+FROM [WorkOrderRemarks] AS [w]
+2025-07-22 08:47:17.788 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+WhereListIterator`1[[UnifiedContract.Domain.Entities.WorkOrder.WorkOrderRemark, UnifiedContract.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-22 08:47:17.826 +03:00 [INF] Executed action UnifiedContract.API.Controllers.RemarksController.GetRemarksByWorkOrder (UnifiedContract.API) in 233.9353ms
+2025-07-22 08:47:17.827 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.RemarksController.GetRemarksByWorkOrder (UnifiedContract.API)'
+2025-07-22 08:47:17.828 +03:00 [INF] HTTP GET /api/remarks/work-order/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - Response: 200: []
+2025-07-22 08:47:17.832 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/remarks/work-order/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - 200 null application/json; charset=utf-8 325.0326ms
+2025-07-22 08:47:17.879 +03:00 [INF] Executed DbCommand (20ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[Id], [w].[Category], [w].[Class], [w].[ClientId], [w].[CompletionPercentage], [w].[CreatedAt], [w].[CreatedBy], [w].[Description], [w].[DueDate], [w].[EngineerInChargeId], [w].[EstimatedCost], [w].[InternalOrderNumber], [w].[IsDeleted], [w].[LaborExpense], [w].[LastModifiedAt], [w].[LastModifiedBy], [w].[Location], [w].[MaterialsExpense], [w].[OtherExpense], [w].[PriorityLevelId], [w].[ReceivedDate], [w].[StartDate], [w].[TargetEndDate], [w].[Title], [w].[Type], [w].[WorkOrderNumber], [w].[WorkOrderStatusId], [w0].[Id], [w0].[AllowsEditing], [w0].[Code], [w0].[ColorCode], [w0].[CreatedAt], [w0].[CreatedBy], [w0].[Description], [w0].[DisplayOrder], [w0].[IsActive], [w0].[IsCompleted], [w0].[IsDeleted], [w0].[LastModifiedAt], [w0].[LastModifiedBy], [w0].[Metadata], [w0].[Name], [w0].[RequiresApproval], [p].[Id], [p].[Code], [p].[ColorCode], [p].[CreatedAt], [p].[CreatedBy], [p].[Description], [p].[DisplayOrder], [p].[IsActive], [p].[IsDeleted], [p].[LastModifiedAt], [p].[LastModifiedBy], [p].[Metadata], [p].[Name], [p].[RequiresImmediateNotification], [p].[SeverityValue], [p].[TargetResponseHours], [c].[Id], [c].[AccountManagerId], [c].[AlternatePhone], [c].[CompanyName], [c].[ContactPerson], [c].[CreatedAt], [c].[CreatedBy], [c].[Email], [c].[Industry], [c].[IsActive], [c].[IsDeleted], [c].[LastModifiedAt], [c].[LastModifiedBy], [c].[LogoUrl], [c].[Name], [c].[Notes], [c].[Phone], [c].[VatNumber], [c].[Website], [c].[City], [c].[Country], [c].[Address_FormattedAddress], [c].[Address_Latitude], [c].[Address_Longitude], [c].[PostalCode], [c].[State], [c].[Street]
+FROM [WorkOrders] AS [w]
+INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+WHERE [w].[Id] = @__id_0
+ORDER BY [w].[Id], [w0].[Id], [p].[Id], [c].[Id]
+2025-07-22 08:47:18.040 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w1].[Id], [w1].[ActualPrice], [w1].[ActualPriceWithVAT], [w1].[ActualQuantity], [w1].[CreatedAt], [w1].[CreatedBy], [w1].[Currency], [w1].[Description], [w1].[EstimatedPrice], [w1].[EstimatedPriceWithVAT], [w1].[EstimatedQuantity], [w1].[IsDeleted], [w1].[ItemNumber], [w1].[LastModifiedAt], [w1].[LastModifiedBy], [w1].[ManagementArea], [w1].[PaymentType], [w1].[ReasonForFinalQuantity], [w1].[Unit], [w1].[UnitPrice], [w1].[WorkOrderId], [s].[Id], [s].[Id0], [s].[Id1], [s].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s]
+INNER JOIN [WorkOrderItems] AS [w1] ON [s].[Id] = [w1].[WorkOrderId]
+ORDER BY [s].[Id], [s].[Id0], [s].[Id1], [s].[Id2]
+2025-07-22 08:47:18.070 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w2].[Id], [w2].[Content], [w2].[CreatedAt], [w2].[CreatedBy], [w2].[IsDeleted], [w2].[LastModifiedAt], [w2].[LastModifiedBy], [w2].[PeopleInvolved], [w2].[Type], [w2].[WorkOrderId], [s0].[Id], [s0].[Id0], [s0].[Id1], [s0].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s0]
+INNER JOIN [WorkOrderRemarks] AS [w2] ON [s0].[Id] = [w2].[WorkOrderId]
+ORDER BY [s0].[Id], [s0].[Id0], [s0].[Id1], [s0].[Id2]
+2025-07-22 08:47:18.077 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w3].[Id], [w3].[AssignedToId], [w3].[CreatedAt], [w3].[CreatedBy], [w3].[Description], [w3].[IsDeleted], [w3].[LastModifiedAt], [w3].[LastModifiedBy], [w3].[Priority], [w3].[PriorityLevelId], [w3].[ReportedById], [w3].[ReportedDate], [w3].[ResolutionDate], [w3].[ResolutionNotes], [w3].[Severity], [w3].[Status], [w3].[Title], [w3].[WorkOrderId], [s1].[Id], [s1].[Id0], [s1].[Id1], [s1].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s1]
+INNER JOIN [WorkOrderIssues] AS [w3] ON [s1].[Id] = [w3].[WorkOrderId]
+ORDER BY [s1].[Id], [s1].[Id0], [s1].[Id1], [s1].[Id2]
+2025-07-22 08:47:18.084 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w4].[Id], [w4].[Completed], [w4].[ConfirmedById], [w4].[CreatedAt], [w4].[CreatedBy], [w4].[Description], [w4].[DueDate], [w4].[IsDeleted], [w4].[LastModifiedAt], [w4].[LastModifiedBy], [w4].[Priority], [w4].[PriorityLevelId], [w4].[StartDate], [w4].[Status], [w4].[Title], [w4].[WorkOrderId], [s2].[Id], [s2].[Id0], [s2].[Id1], [s2].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s2]
+INNER JOIN [WorkOrderTasks] AS [w4] ON [s2].[Id] = [w4].[WorkOrderId]
+ORDER BY [s2].[Id], [s2].[Id0], [s2].[Id1], [s2].[Id2]
+2025-07-22 08:47:18.092 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [p0].[Id], [p0].[Authority], [p0].[CreatedAt], [p0].[CreatedBy], [p0].[Description], [p0].[DocumentRef], [p0].[ExpiryDate], [p0].[IsDeleted], [p0].[IssueDate], [p0].[IssuedBy], [p0].[LastModifiedAt], [p0].[LastModifiedBy], [p0].[Number], [p0].[Status], [p0].[Title], [p0].[Type], [p0].[WorkOrderId], [s3].[Id], [s3].[Id0], [s3].[Id1], [s3].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s3]
+INNER JOIN [Permits] AS [p0] ON [s3].[Id] = [p0].[WorkOrderId]
+ORDER BY [s3].[Id], [s3].[Id0], [s3].[Id1], [s3].[Id2]
+2025-07-22 08:47:18.119 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w5].[Id], [w5].[AssignedToId], [w5].[CompletedById], [w5].[CompletedDate], [w5].[CreatedAt], [w5].[CreatedBy], [w5].[Description], [w5].[DueDate], [w5].[IsDeleted], [w5].[LastModifiedAt], [w5].[LastModifiedBy], [w5].[Priority], [w5].[PriorityLevelId], [w5].[Status], [w5].[Title], [w5].[WorkOrderId], [s4].[Id], [s4].[Id0], [s4].[Id1], [s4].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s4]
+INNER JOIN [WorkOrderActions] AS [w5] ON [s4].[Id] = [w5].[WorkOrderId]
+ORDER BY [s4].[Id], [s4].[Id0], [s4].[Id1], [s4].[Id2]
+2025-07-22 08:47:18.127 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w6].[Id], [w6].[Caption], [w6].[CreatedAt], [w6].[CreatedBy], [w6].[IsDeleted], [w6].[LastModifiedAt], [w6].[LastModifiedBy], [w6].[Type], [w6].[UploadedById], [w6].[UploadedDate], [w6].[Url], [w6].[WorkOrderId], [s5].[Id], [s5].[Id0], [s5].[Id1], [s5].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s5]
+INNER JOIN [WorkOrderPhotos] AS [w6] ON [s5].[Id] = [w6].[WorkOrderId]
+ORDER BY [s5].[Id], [s5].[Id0], [s5].[Id1], [s5].[Id2]
+2025-07-22 08:47:18.133 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w7].[Id], [w7].[CreatedAt], [w7].[CreatedBy], [w7].[IsDeleted], [w7].[LastModifiedAt], [w7].[LastModifiedBy], [w7].[Status], [w7].[SubmittedById], [w7].[SubmittedDate], [w7].[Title], [w7].[Type], [w7].[Url], [w7].[WorkOrderId], [s6].[Id], [s6].[Id0], [s6].[Id1], [s6].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s6]
+INNER JOIN [WorkOrderForms] AS [w7] ON [s6].[Id] = [w7].[WorkOrderId]
+ORDER BY [s6].[Id], [s6].[Id0], [s6].[Id1], [s6].[Id2]
+2025-07-22 08:47:18.141 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w8].[Id], [w8].[Amount], [w8].[ApprovedById], [w8].[ApprovedDate], [w8].[Category], [w8].[CreatedAt], [w8].[CreatedBy], [w8].[Currency], [w8].[Date], [w8].[Description], [w8].[IsDeleted], [w8].[LastModifiedAt], [w8].[LastModifiedBy], [w8].[Receipt], [w8].[Status], [w8].[SubmittedById], [w8].[WorkOrderId], [s7].[Id], [s7].[Id0], [s7].[Id1], [s7].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s7]
+INNER JOIN [WorkOrderExpenses] AS [w8] ON [s7].[Id] = [w8].[WorkOrderId]
+ORDER BY [s7].[Id], [s7].[Id0], [s7].[Id1], [s7].[Id2]
+2025-07-22 08:47:18.149 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w9].[Id], [w9].[Amount], [w9].[CreatedAt], [w9].[CreatedBy], [w9].[Currency], [w9].[DueDate], [w9].[IsDeleted], [w9].[IssueDate], [w9].[LastModifiedAt], [w9].[LastModifiedBy], [w9].[Number], [w9].[PaidById], [w9].[PaidDate], [w9].[Status], [w9].[Url], [w9].[WorkOrderId], [s8].[Id], [s8].[Id0], [s8].[Id1], [s8].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s8]
+INNER JOIN [WorkOrderInvoices] AS [w9] ON [s8].[Id] = [w9].[WorkOrderId]
+ORDER BY [s8].[Id], [s8].[Id0], [s8].[Id1], [s8].[Id2]
+2025-07-22 08:47:18.153 +03:00 [INF] Executing OkObjectResult, writing value of type 'UnifiedContract.API.Models.ApiResponse`1[[UnifiedContract.Application.DTOs.WorkOrderDetailsDto, UnifiedContract.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-22 08:47:18.173 +03:00 [INF] Executed action UnifiedContract.API.Controllers.WorkOrdersController.GetWorkOrder (UnifiedContract.API) in 580.3565ms
+2025-07-22 08:47:18.174 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.WorkOrdersController.GetWorkOrder (UnifiedContract.API)'
+2025-07-22 08:47:18.175 +03:00 [INF] HTTP GET /api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - Response: 200: {"status":true,"message":"Success","data":{"id":"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa","workOrderNumber":"WO-1001","internalOrderNumber":"INT-1001","title":"Demo Work Order 1","description":"Demo work order for testing.","client":"SEC","location":"Riyadh","status":"Pending","priority":"Normal","category":"Electrical","type":"Project","class":"A","completionPercentage":30.00,"receivedDate":"2024-07-15T12:00:00","startDate":"2024-07-16T08:00:00","dueDate":"2024-07-25T17:00:00","targetEndDate":"2024-07-27T17:00:00","createdDate":"2024-07-20T12:00:00","createdBy":"seed","lastUpdated":"2024-07-20T12:00:00","estimatedPrice":0.00,"engineerInCharge":"","permits":[{"type":"Initial","status":"Pending"},{"type":"RoadDepartment","status":"Approved"},{"type":"Traffic","status":"Pending"},{"type":"Municipality","status":"Approved"}]},"errorCode":null,"validationErrors":null}
+2025-07-22 08:47:18.177 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - 200 null application/json; charset=utf-8 670.2829ms
+2025-07-22 08:47:18.691 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5275/api/work-orders - null null
+2025-07-22 08:47:18.692 +03:00 [INF] HTTP OPTIONS /api/work-orders - Request: http localhost:5275/api/work-orders  
+2025-07-22 08:47:18.693 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:18.693 +03:00 [INF] HTTP OPTIONS /api/work-orders - Response: 204: 
+2025-07-22 08:47:18.693 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5275/api/work-orders - 204 null null 2.3139ms
+2025-07-22 08:47:18.696 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/work-orders - null null
+2025-07-22 08:47:18.696 +03:00 [INF] HTTP GET /api/work-orders - Request: http localhost:5275/api/work-orders  
+2025-07-22 08:47:18.696 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:18.700 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.WorkOrdersController.GetWorkOrders (UnifiedContract.API)'
+2025-07-22 08:47:18.703 +03:00 [INF] Route matched with {action = "GetWorkOrders", controller = "WorkOrders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[UnifiedContract.API.Models.ApiResponse`1[System.Collections.Generic.IEnumerable`1[UnifiedContract.Application.DTOs.WorkOrderListItemDto]]]] GetWorkOrders() on controller UnifiedContract.API.Controllers.WorkOrdersController (UnifiedContract.API).
+2025-07-22 08:47:18.759 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [w].[Id], [w].[Category], [w].[Class], [w].[ClientId], [w].[CompletionPercentage], [w].[CreatedAt], [w].[CreatedBy], [w].[Description], [w].[DueDate], [w].[EngineerInChargeId], [w].[EstimatedCost], [w].[InternalOrderNumber], [w].[IsDeleted], [w].[LaborExpense], [w].[LastModifiedAt], [w].[LastModifiedBy], [w].[Location], [w].[MaterialsExpense], [w].[OtherExpense], [w].[PriorityLevelId], [w].[ReceivedDate], [w].[StartDate], [w].[TargetEndDate], [w].[Title], [w].[Type], [w].[WorkOrderNumber], [w].[WorkOrderStatusId], [w0].[Id], [w0].[AllowsEditing], [w0].[Code], [w0].[ColorCode], [w0].[CreatedAt], [w0].[CreatedBy], [w0].[Description], [w0].[DisplayOrder], [w0].[IsActive], [w0].[IsCompleted], [w0].[IsDeleted], [w0].[LastModifiedAt], [w0].[LastModifiedBy], [w0].[Metadata], [w0].[Name], [w0].[RequiresApproval], [p].[Id], [p].[Code], [p].[ColorCode], [p].[CreatedAt], [p].[CreatedBy], [p].[Description], [p].[DisplayOrder], [p].[IsActive], [p].[IsDeleted], [p].[LastModifiedAt], [p].[LastModifiedBy], [p].[Metadata], [p].[Name], [p].[RequiresImmediateNotification], [p].[SeverityValue], [p].[TargetResponseHours], [c].[Id], [c].[AccountManagerId], [c].[AlternatePhone], [c].[CompanyName], [c].[ContactPerson], [c].[CreatedAt], [c].[CreatedBy], [c].[Email], [c].[Industry], [c].[IsActive], [c].[IsDeleted], [c].[LastModifiedAt], [c].[LastModifiedBy], [c].[LogoUrl], [c].[Name], [c].[Notes], [c].[Phone], [c].[VatNumber], [c].[Website], [c].[City], [c].[Country], [c].[Address_FormattedAddress], [c].[Address_Latitude], [c].[Address_Longitude], [c].[PostalCode], [c].[State], [c].[Street]
+FROM [WorkOrders] AS [w]
+INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+2025-07-22 08:47:18.762 +03:00 [INF] Executing OkObjectResult, writing value of type 'UnifiedContract.API.Models.ApiResponse`1[[System.Collections.Generic.IEnumerable`1[[UnifiedContract.Application.DTOs.WorkOrderListItemDto, UnifiedContract.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-22 08:47:18.767 +03:00 [INF] Executed action UnifiedContract.API.Controllers.WorkOrdersController.GetWorkOrders (UnifiedContract.API) in 62.7621ms
+2025-07-22 08:47:18.767 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.WorkOrdersController.GetWorkOrders (UnifiedContract.API)'
+2025-07-22 08:47:18.767 +03:00 [INF] HTTP GET /api/work-orders - Response: 200: {"status":true,"message":"Success","data":[{"id":"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa","workOrderNumber":"WO-1001","internalOrderNumber":"INT-1001","title":"Demo Work Order 1","description":"Demo work order for testing.","client":"SEC","location":"Riyadh","statusCode":"PENDING","statusName":"Pending","priorityCode":"NORMAL","priorityName":"Normal","category":"Electrical","completionPercentage":30.00,"receivedDate":"2024-07-15T12:00:00","startDate":"2024-07-16T08:00:00","dueDate":"2024-07-25T17:00:00","targetEndDate":"2024-07-27T17:00:00","createdAt":"2024-07-20T12:00:00","createdBy":"seed","lastModifiedAt":"2024-07-20T12:00:00","estimatedCost":0.00},{"id":"bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb","workOrderNumber":"WO-1002","internalOrderNumber":"INT-1002","title":"Demo Work Order 2","description":"Second demo work order.","client":"SEC","location":"Jeddah","statusCode":"COMPLETED","statusName":"Completed","priorityCode":"HIGH","priorityName":"High","category":"Mechanical","completionPercentage":70.00,"receivedDate":"2024-07-10T12:00:00","startDate":"2024-07-11T08:00:00","dueDate":"2024-07-18T17:00:00","targetEndDate":"2024-07-19T17:00:00","createdAt":"2024-07-20T12:00:00","createdBy":"seed","lastModifiedAt":"2024-07-20T12:00:00","estimatedCost":0.00}],"errorCode":null,"validationErrors":null}
+2025-07-22 08:47:18.768 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/work-orders - 200 null application/json; charset=utf-8 72.4437ms
+2025-07-22 08:47:19.459 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - null null
+2025-07-22 08:47:19.460 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/remarks/work-order/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - null null
+2025-07-22 08:47:19.460 +03:00 [INF] HTTP GET /api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - Request: http localhost:5275/api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa  
+2025-07-22 08:47:19.461 +03:00 [INF] HTTP GET /api/remarks/work-order/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - Request: http localhost:5275/api/remarks/work-order/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa  
+2025-07-22 08:47:19.462 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:19.461 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:19.464 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.RemarksController.GetRemarksByWorkOrder (UnifiedContract.API)'
+2025-07-22 08:47:19.464 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.WorkOrdersController.GetWorkOrder (UnifiedContract.API)'
+2025-07-22 08:47:19.464 +03:00 [INF] Route matched with {action = "GetRemarksByWorkOrder", controller = "Remarks"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetRemarksByWorkOrder(System.Guid) on controller UnifiedContract.API.Controllers.RemarksController (UnifiedContract.API).
+2025-07-22 08:47:19.465 +03:00 [INF] Route matched with {action = "GetWorkOrder", controller = "WorkOrders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[UnifiedContract.API.Models.ApiResponse`1[UnifiedContract.Application.DTOs.WorkOrderDetailsDto]]] GetWorkOrder(System.Guid) on controller UnifiedContract.API.Controllers.WorkOrdersController (UnifiedContract.API).
+2025-07-22 08:47:19.468 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [w].[Id], [w].[Content], [w].[CreatedAt], [w].[CreatedBy], [w].[IsDeleted], [w].[LastModifiedAt], [w].[LastModifiedBy], [w].[PeopleInvolved], [w].[Type], [w].[WorkOrderId]
+FROM [WorkOrderRemarks] AS [w]
+2025-07-22 08:47:19.470 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Linq.Enumerable+WhereListIterator`1[[UnifiedContract.Domain.Entities.WorkOrder.WorkOrderRemark, UnifiedContract.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-22 08:47:19.471 +03:00 [INF] Executed action UnifiedContract.API.Controllers.RemarksController.GetRemarksByWorkOrder (UnifiedContract.API) in 5.0804ms
+2025-07-22 08:47:19.471 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.RemarksController.GetRemarksByWorkOrder (UnifiedContract.API)'
+2025-07-22 08:47:19.471 +03:00 [INF] HTTP GET /api/remarks/work-order/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - Response: 200: []
+2025-07-22 08:47:19.472 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/remarks/work-order/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - 200 null application/json; charset=utf-8 12.0827ms
+2025-07-22 08:47:19.474 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[Id], [w].[Category], [w].[Class], [w].[ClientId], [w].[CompletionPercentage], [w].[CreatedAt], [w].[CreatedBy], [w].[Description], [w].[DueDate], [w].[EngineerInChargeId], [w].[EstimatedCost], [w].[InternalOrderNumber], [w].[IsDeleted], [w].[LaborExpense], [w].[LastModifiedAt], [w].[LastModifiedBy], [w].[Location], [w].[MaterialsExpense], [w].[OtherExpense], [w].[PriorityLevelId], [w].[ReceivedDate], [w].[StartDate], [w].[TargetEndDate], [w].[Title], [w].[Type], [w].[WorkOrderNumber], [w].[WorkOrderStatusId], [w0].[Id], [w0].[AllowsEditing], [w0].[Code], [w0].[ColorCode], [w0].[CreatedAt], [w0].[CreatedBy], [w0].[Description], [w0].[DisplayOrder], [w0].[IsActive], [w0].[IsCompleted], [w0].[IsDeleted], [w0].[LastModifiedAt], [w0].[LastModifiedBy], [w0].[Metadata], [w0].[Name], [w0].[RequiresApproval], [p].[Id], [p].[Code], [p].[ColorCode], [p].[CreatedAt], [p].[CreatedBy], [p].[Description], [p].[DisplayOrder], [p].[IsActive], [p].[IsDeleted], [p].[LastModifiedAt], [p].[LastModifiedBy], [p].[Metadata], [p].[Name], [p].[RequiresImmediateNotification], [p].[SeverityValue], [p].[TargetResponseHours], [c].[Id], [c].[AccountManagerId], [c].[AlternatePhone], [c].[CompanyName], [c].[ContactPerson], [c].[CreatedAt], [c].[CreatedBy], [c].[Email], [c].[Industry], [c].[IsActive], [c].[IsDeleted], [c].[LastModifiedAt], [c].[LastModifiedBy], [c].[LogoUrl], [c].[Name], [c].[Notes], [c].[Phone], [c].[VatNumber], [c].[Website], [c].[City], [c].[Country], [c].[Address_FormattedAddress], [c].[Address_Latitude], [c].[Address_Longitude], [c].[PostalCode], [c].[State], [c].[Street]
+FROM [WorkOrders] AS [w]
+INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+WHERE [w].[Id] = @__id_0
+ORDER BY [w].[Id], [w0].[Id], [p].[Id], [c].[Id]
+2025-07-22 08:47:19.477 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w1].[Id], [w1].[ActualPrice], [w1].[ActualPriceWithVAT], [w1].[ActualQuantity], [w1].[CreatedAt], [w1].[CreatedBy], [w1].[Currency], [w1].[Description], [w1].[EstimatedPrice], [w1].[EstimatedPriceWithVAT], [w1].[EstimatedQuantity], [w1].[IsDeleted], [w1].[ItemNumber], [w1].[LastModifiedAt], [w1].[LastModifiedBy], [w1].[ManagementArea], [w1].[PaymentType], [w1].[ReasonForFinalQuantity], [w1].[Unit], [w1].[UnitPrice], [w1].[WorkOrderId], [s].[Id], [s].[Id0], [s].[Id1], [s].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s]
+INNER JOIN [WorkOrderItems] AS [w1] ON [s].[Id] = [w1].[WorkOrderId]
+ORDER BY [s].[Id], [s].[Id0], [s].[Id1], [s].[Id2]
+2025-07-22 08:47:19.481 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w2].[Id], [w2].[Content], [w2].[CreatedAt], [w2].[CreatedBy], [w2].[IsDeleted], [w2].[LastModifiedAt], [w2].[LastModifiedBy], [w2].[PeopleInvolved], [w2].[Type], [w2].[WorkOrderId], [s0].[Id], [s0].[Id0], [s0].[Id1], [s0].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s0]
+INNER JOIN [WorkOrderRemarks] AS [w2] ON [s0].[Id] = [w2].[WorkOrderId]
+ORDER BY [s0].[Id], [s0].[Id0], [s0].[Id1], [s0].[Id2]
+2025-07-22 08:47:19.485 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w3].[Id], [w3].[AssignedToId], [w3].[CreatedAt], [w3].[CreatedBy], [w3].[Description], [w3].[IsDeleted], [w3].[LastModifiedAt], [w3].[LastModifiedBy], [w3].[Priority], [w3].[PriorityLevelId], [w3].[ReportedById], [w3].[ReportedDate], [w3].[ResolutionDate], [w3].[ResolutionNotes], [w3].[Severity], [w3].[Status], [w3].[Title], [w3].[WorkOrderId], [s1].[Id], [s1].[Id0], [s1].[Id1], [s1].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s1]
+INNER JOIN [WorkOrderIssues] AS [w3] ON [s1].[Id] = [w3].[WorkOrderId]
+ORDER BY [s1].[Id], [s1].[Id0], [s1].[Id1], [s1].[Id2]
+2025-07-22 08:47:19.487 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w4].[Id], [w4].[Completed], [w4].[ConfirmedById], [w4].[CreatedAt], [w4].[CreatedBy], [w4].[Description], [w4].[DueDate], [w4].[IsDeleted], [w4].[LastModifiedAt], [w4].[LastModifiedBy], [w4].[Priority], [w4].[PriorityLevelId], [w4].[StartDate], [w4].[Status], [w4].[Title], [w4].[WorkOrderId], [s2].[Id], [s2].[Id0], [s2].[Id1], [s2].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s2]
+INNER JOIN [WorkOrderTasks] AS [w4] ON [s2].[Id] = [w4].[WorkOrderId]
+ORDER BY [s2].[Id], [s2].[Id0], [s2].[Id1], [s2].[Id2]
+2025-07-22 08:47:19.489 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [p0].[Id], [p0].[Authority], [p0].[CreatedAt], [p0].[CreatedBy], [p0].[Description], [p0].[DocumentRef], [p0].[ExpiryDate], [p0].[IsDeleted], [p0].[IssueDate], [p0].[IssuedBy], [p0].[LastModifiedAt], [p0].[LastModifiedBy], [p0].[Number], [p0].[Status], [p0].[Title], [p0].[Type], [p0].[WorkOrderId], [s3].[Id], [s3].[Id0], [s3].[Id1], [s3].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s3]
+INNER JOIN [Permits] AS [p0] ON [s3].[Id] = [p0].[WorkOrderId]
+ORDER BY [s3].[Id], [s3].[Id0], [s3].[Id1], [s3].[Id2]
+2025-07-22 08:47:19.491 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w5].[Id], [w5].[AssignedToId], [w5].[CompletedById], [w5].[CompletedDate], [w5].[CreatedAt], [w5].[CreatedBy], [w5].[Description], [w5].[DueDate], [w5].[IsDeleted], [w5].[LastModifiedAt], [w5].[LastModifiedBy], [w5].[Priority], [w5].[PriorityLevelId], [w5].[Status], [w5].[Title], [w5].[WorkOrderId], [s4].[Id], [s4].[Id0], [s4].[Id1], [s4].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s4]
+INNER JOIN [WorkOrderActions] AS [w5] ON [s4].[Id] = [w5].[WorkOrderId]
+ORDER BY [s4].[Id], [s4].[Id0], [s4].[Id1], [s4].[Id2]
+2025-07-22 08:47:19.493 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w6].[Id], [w6].[Caption], [w6].[CreatedAt], [w6].[CreatedBy], [w6].[IsDeleted], [w6].[LastModifiedAt], [w6].[LastModifiedBy], [w6].[Type], [w6].[UploadedById], [w6].[UploadedDate], [w6].[Url], [w6].[WorkOrderId], [s5].[Id], [s5].[Id0], [s5].[Id1], [s5].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s5]
+INNER JOIN [WorkOrderPhotos] AS [w6] ON [s5].[Id] = [w6].[WorkOrderId]
+ORDER BY [s5].[Id], [s5].[Id0], [s5].[Id1], [s5].[Id2]
+2025-07-22 08:47:19.495 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w7].[Id], [w7].[CreatedAt], [w7].[CreatedBy], [w7].[IsDeleted], [w7].[LastModifiedAt], [w7].[LastModifiedBy], [w7].[Status], [w7].[SubmittedById], [w7].[SubmittedDate], [w7].[Title], [w7].[Type], [w7].[Url], [w7].[WorkOrderId], [s6].[Id], [s6].[Id0], [s6].[Id1], [s6].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s6]
+INNER JOIN [WorkOrderForms] AS [w7] ON [s6].[Id] = [w7].[WorkOrderId]
+ORDER BY [s6].[Id], [s6].[Id0], [s6].[Id1], [s6].[Id2]
+2025-07-22 08:47:19.497 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w8].[Id], [w8].[Amount], [w8].[ApprovedById], [w8].[ApprovedDate], [w8].[Category], [w8].[CreatedAt], [w8].[CreatedBy], [w8].[Currency], [w8].[Date], [w8].[Description], [w8].[IsDeleted], [w8].[LastModifiedAt], [w8].[LastModifiedBy], [w8].[Receipt], [w8].[Status], [w8].[SubmittedById], [w8].[WorkOrderId], [s7].[Id], [s7].[Id0], [s7].[Id1], [s7].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s7]
+INNER JOIN [WorkOrderExpenses] AS [w8] ON [s7].[Id] = [w8].[WorkOrderId]
+ORDER BY [s7].[Id], [s7].[Id0], [s7].[Id1], [s7].[Id2]
+2025-07-22 08:47:19.499 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w9].[Id], [w9].[Amount], [w9].[CreatedAt], [w9].[CreatedBy], [w9].[Currency], [w9].[DueDate], [w9].[IsDeleted], [w9].[IssueDate], [w9].[LastModifiedAt], [w9].[LastModifiedBy], [w9].[Number], [w9].[PaidById], [w9].[PaidDate], [w9].[Status], [w9].[Url], [w9].[WorkOrderId], [s8].[Id], [s8].[Id0], [s8].[Id1], [s8].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s8]
+INNER JOIN [WorkOrderInvoices] AS [w9] ON [s8].[Id] = [w9].[WorkOrderId]
+ORDER BY [s8].[Id], [s8].[Id0], [s8].[Id1], [s8].[Id2]
+2025-07-22 08:47:19.501 +03:00 [INF] Executing OkObjectResult, writing value of type 'UnifiedContract.API.Models.ApiResponse`1[[UnifiedContract.Application.DTOs.WorkOrderDetailsDto, UnifiedContract.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-22 08:47:19.502 +03:00 [INF] Executed action UnifiedContract.API.Controllers.WorkOrdersController.GetWorkOrder (UnifiedContract.API) in 35.6705ms
+2025-07-22 08:47:19.502 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.WorkOrdersController.GetWorkOrder (UnifiedContract.API)'
+2025-07-22 08:47:19.502 +03:00 [INF] HTTP GET /api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - Response: 200: {"status":true,"message":"Success","data":{"id":"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa","workOrderNumber":"WO-1001","internalOrderNumber":"INT-1001","title":"Demo Work Order 1","description":"Demo work order for testing.","client":"SEC","location":"Riyadh","status":"Pending","priority":"Normal","category":"Electrical","type":"Project","class":"A","completionPercentage":30.00,"receivedDate":"2024-07-15T12:00:00","startDate":"2024-07-16T08:00:00","dueDate":"2024-07-25T17:00:00","targetEndDate":"2024-07-27T17:00:00","createdDate":"2024-07-20T12:00:00","createdBy":"seed","lastUpdated":"2024-07-20T12:00:00","estimatedPrice":0.00,"engineerInCharge":"","permits":[{"type":"Initial","status":"Pending"},{"type":"RoadDepartment","status":"Approved"},{"type":"Traffic","status":"Pending"},{"type":"Municipality","status":"Approved"}]},"errorCode":null,"validationErrors":null}
+2025-07-22 08:47:19.503 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - 200 null application/json; charset=utf-8 43.7095ms
+2025-07-22 08:47:22.086 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5275/api/documents/permit/undefined - null null
+2025-07-22 08:47:22.087 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5275/api/documents/permit/undefined - null null
+2025-07-22 08:47:22.087 +03:00 [INF] HTTP OPTIONS /api/documents/permit/undefined - Request: http localhost:5275/api/documents/permit/undefined  
+2025-07-22 08:47:22.088 +03:00 [INF] HTTP OPTIONS /api/documents/permit/undefined - Request: http localhost:5275/api/documents/permit/undefined  
+2025-07-22 08:47:22.088 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:22.088 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5275/api/documents/permit/undefined - null null
+2025-07-22 08:47:22.088 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:22.087 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5275/api/documents/permit/undefined - null null
+2025-07-22 08:47:22.088 +03:00 [INF] HTTP OPTIONS /api/documents/permit/undefined - Response: 204: 
+2025-07-22 08:47:22.089 +03:00 [INF] HTTP OPTIONS /api/documents/permit/undefined - Request: http localhost:5275/api/documents/permit/undefined  
+2025-07-22 08:47:22.089 +03:00 [INF] HTTP OPTIONS /api/documents/permit/undefined - Response: 204: 
+2025-07-22 08:47:22.090 +03:00 [INF] HTTP OPTIONS /api/documents/permit/undefined - Request: http localhost:5275/api/documents/permit/undefined  
+2025-07-22 08:47:22.091 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:22.090 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:22.090 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5275/api/documents/permit/undefined - 204 null null 4.0362ms
+2025-07-22 08:47:22.090 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5275/api/documents/permit/undefined - 204 null null 3.2737ms
+2025-07-22 08:47:22.091 +03:00 [INF] HTTP OPTIONS /api/documents/permit/undefined - Response: 204: 
+2025-07-22 08:47:22.091 +03:00 [INF] HTTP OPTIONS /api/documents/permit/undefined - Response: 204: 
+2025-07-22 08:47:22.093 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5275/api/documents/permit/undefined - 204 null null 5.2046ms
+2025-07-22 08:47:22.093 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5275/api/documents/permit/undefined - 204 null null 4.9163ms
+2025-07-22 08:47:22.093 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - null null
+2025-07-22 08:47:22.094 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Request: http localhost:5275/api/documents/permit/undefined  
+2025-07-22 08:47:22.095 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:22.097 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.101 +03:00 [INF] Route matched with {action = "GetDocuments", controller = "Documents"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetDocuments(System.String, System.Guid) on controller UnifiedContract.API.Controllers.DocumentsController (UnifiedContract.API).
+2025-07-22 08:47:22.106 +03:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-07-22 08:47:22.136 +03:00 [INF] Executed action UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API) in 34.5778ms
+2025-07-22 08:47:22.137 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.137 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Response: 400: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"entityId":["The value 'undefined' is not valid."]},"traceId":"00-9e0730a30b5345ea36b72c0097a0cb14-6afa39f46bf7c302-00"}
+2025-07-22 08:47:22.139 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - 400 null application/problem+json; charset=utf-8 45.4391ms
+2025-07-22 08:47:22.141 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - null null
+2025-07-22 08:47:22.142 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Request: http localhost:5275/api/documents/permit/undefined  
+2025-07-22 08:47:22.142 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:22.144 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.144 +03:00 [INF] Route matched with {action = "GetDocuments", controller = "Documents"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetDocuments(System.String, System.Guid) on controller UnifiedContract.API.Controllers.DocumentsController (UnifiedContract.API).
+2025-07-22 08:47:22.147 +03:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-07-22 08:47:22.148 +03:00 [INF] Executed action UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API) in 3.0166ms
+2025-07-22 08:47:22.149 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.149 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Response: 400: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"entityId":["The value 'undefined' is not valid."]},"traceId":"00-532b6683f47a38cbb3cd50979610f3c0-be7061a388e14ecd-00"}
+2025-07-22 08:47:22.150 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - 400 null application/problem+json; charset=utf-8 9.1207ms
+2025-07-22 08:47:22.152 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - null null
+2025-07-22 08:47:22.153 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Request: http localhost:5275/api/documents/permit/undefined  
+2025-07-22 08:47:22.154 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:22.155 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.155 +03:00 [INF] Route matched with {action = "GetDocuments", controller = "Documents"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetDocuments(System.String, System.Guid) on controller UnifiedContract.API.Controllers.DocumentsController (UnifiedContract.API).
+2025-07-22 08:47:22.158 +03:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-07-22 08:47:22.159 +03:00 [INF] Executed action UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API) in 2.5892ms
+2025-07-22 08:47:22.159 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.160 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Response: 400: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"entityId":["The value 'undefined' is not valid."]},"traceId":"00-aff82c097b10780d5a8c6503e6877357-75ef2485e2c80d35-00"}
+2025-07-22 08:47:22.161 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - 400 null application/problem+json; charset=utf-8 8.5927ms
+2025-07-22 08:47:22.163 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - null null
+2025-07-22 08:47:22.164 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Request: http localhost:5275/api/documents/permit/undefined  
+2025-07-22 08:47:22.164 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:22.165 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.166 +03:00 [INF] Route matched with {action = "GetDocuments", controller = "Documents"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetDocuments(System.String, System.Guid) on controller UnifiedContract.API.Controllers.DocumentsController (UnifiedContract.API).
+2025-07-22 08:47:22.168 +03:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-07-22 08:47:22.169 +03:00 [INF] Executed action UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API) in 1.8394ms
+2025-07-22 08:47:22.169 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.170 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Response: 400: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"entityId":["The value 'undefined' is not valid."]},"traceId":"00-05dad2796e0a0c2a1166c7efaf329239-41c35e37b6453784-00"}
+2025-07-22 08:47:22.170 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - 400 null application/problem+json; charset=utf-8 7.3003ms
+2025-07-22 08:47:22.172 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - null null
+2025-07-22 08:47:22.172 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Request: http localhost:5275/api/documents/permit/undefined  
+2025-07-22 08:47:22.173 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:22.174 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.175 +03:00 [INF] Route matched with {action = "GetDocuments", controller = "Documents"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetDocuments(System.String, System.Guid) on controller UnifiedContract.API.Controllers.DocumentsController (UnifiedContract.API).
+2025-07-22 08:47:22.176 +03:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-07-22 08:47:22.177 +03:00 [INF] Executed action UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API) in 1.4706ms
+2025-07-22 08:47:22.178 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.178 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Response: 400: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"entityId":["The value 'undefined' is not valid."]},"traceId":"00-45b13d2fd0d650f3538ef70e4c6574ec-72625d9fd6e911b6-00"}
+2025-07-22 08:47:22.179 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - 400 null application/problem+json; charset=utf-8 6.8648ms
+2025-07-22 08:47:22.180 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - null null
+2025-07-22 08:47:22.181 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Request: http localhost:5275/api/documents/permit/undefined  
+2025-07-22 08:47:22.181 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:22.183 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.184 +03:00 [INF] Route matched with {action = "GetDocuments", controller = "Documents"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetDocuments(System.String, System.Guid) on controller UnifiedContract.API.Controllers.DocumentsController (UnifiedContract.API).
+2025-07-22 08:47:22.185 +03:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-07-22 08:47:22.185 +03:00 [INF] Executed action UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API) in 1.2999ms
+2025-07-22 08:47:22.186 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.186 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Response: 400: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"entityId":["The value 'undefined' is not valid."]},"traceId":"00-daf60f426230303c832dc3376a1eb2b4-f071b609e90d27b5-00"}
+2025-07-22 08:47:22.187 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - 400 null application/problem+json; charset=utf-8 6.552ms
+2025-07-22 08:47:22.189 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - null null
+2025-07-22 08:47:22.189 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Request: http localhost:5275/api/documents/permit/undefined  
+2025-07-22 08:47:22.190 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:22.191 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.191 +03:00 [INF] Route matched with {action = "GetDocuments", controller = "Documents"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetDocuments(System.String, System.Guid) on controller UnifiedContract.API.Controllers.DocumentsController (UnifiedContract.API).
+2025-07-22 08:47:22.192 +03:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-07-22 08:47:22.192 +03:00 [INF] Executed action UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API) in 0.7776ms
+2025-07-22 08:47:22.192 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.193 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Response: 400: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"entityId":["The value 'undefined' is not valid."]},"traceId":"00-8f7a65a33d14618efe16ea9bfc23af26-218630d4d7456f4e-00"}
+2025-07-22 08:47:22.193 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - 400 null application/problem+json; charset=utf-8 4.5338ms
+2025-07-22 08:47:22.195 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - null null
+2025-07-22 08:47:22.196 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Request: http localhost:5275/api/documents/permit/undefined  
+2025-07-22 08:47:22.197 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:22.198 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.199 +03:00 [INF] Route matched with {action = "GetDocuments", controller = "Documents"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetDocuments(System.String, System.Guid) on controller UnifiedContract.API.Controllers.DocumentsController (UnifiedContract.API).
+2025-07-22 08:47:22.200 +03:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-07-22 08:47:22.200 +03:00 [INF] Executed action UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API) in 1.2986ms
+2025-07-22 08:47:22.201 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.201 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Response: 400: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"entityId":["The value 'undefined' is not valid."]},"traceId":"00-d577b07a13ff229f3b32691eadd2eced-f931b4216435c8aa-00"}
+2025-07-22 08:47:22.201 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - 400 null application/problem+json; charset=utf-8 6.0297ms
+2025-07-22 08:47:22.202 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - null null
+2025-07-22 08:47:22.203 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Request: http localhost:5275/api/documents/permit/undefined  
+2025-07-22 08:47:22.203 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:22.204 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.205 +03:00 [INF] Route matched with {action = "GetDocuments", controller = "Documents"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetDocuments(System.String, System.Guid) on controller UnifiedContract.API.Controllers.DocumentsController (UnifiedContract.API).
+2025-07-22 08:47:22.207 +03:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-07-22 08:47:22.207 +03:00 [INF] Executed action UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API) in 1.8167ms
+2025-07-22 08:47:22.207 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.208 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Response: 400: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"entityId":["The value 'undefined' is not valid."]},"traceId":"00-5615347e161e3e036d7f7f8ac3cae06c-0d5242c184348e72-00"}
+2025-07-22 08:47:22.208 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - 400 null application/problem+json; charset=utf-8 5.7456ms
+2025-07-22 08:47:22.211 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - null null
+2025-07-22 08:47:22.211 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Request: http localhost:5275/api/documents/permit/undefined  
+2025-07-22 08:47:22.212 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:22.213 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.214 +03:00 [INF] Route matched with {action = "GetDocuments", controller = "Documents"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetDocuments(System.String, System.Guid) on controller UnifiedContract.API.Controllers.DocumentsController (UnifiedContract.API).
+2025-07-22 08:47:22.215 +03:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-07-22 08:47:22.216 +03:00 [INF] Executed action UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API) in 1.5983ms
+2025-07-22 08:47:22.216 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.216 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Response: 400: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"entityId":["The value 'undefined' is not valid."]},"traceId":"00-40c470c414b147cccac18a1e3094d38e-381b4ddfc8730611-00"}
+2025-07-22 08:47:22.217 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - 400 null application/problem+json; charset=utf-8 6.1477ms
+2025-07-22 08:47:22.218 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - null null
+2025-07-22 08:47:22.219 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Request: http localhost:5275/api/documents/permit/undefined  
+2025-07-22 08:47:22.219 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:22.220 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.220 +03:00 [INF] Route matched with {action = "GetDocuments", controller = "Documents"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetDocuments(System.String, System.Guid) on controller UnifiedContract.API.Controllers.DocumentsController (UnifiedContract.API).
+2025-07-22 08:47:22.221 +03:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-07-22 08:47:22.221 +03:00 [INF] Executed action UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API) in 0.9513ms
+2025-07-22 08:47:22.221 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.222 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Response: 400: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"entityId":["The value 'undefined' is not valid."]},"traceId":"00-2c27a04d6765620df14fcdeb50970fed-09f915223440d455-00"}
+2025-07-22 08:47:22.222 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - 400 null application/problem+json; charset=utf-8 4.137ms
+2025-07-22 08:47:22.224 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - null null
+2025-07-22 08:47:22.224 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Request: http localhost:5275/api/documents/permit/undefined  
+2025-07-22 08:47:22.224 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:22.225 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.226 +03:00 [INF] Route matched with {action = "GetDocuments", controller = "Documents"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetDocuments(System.String, System.Guid) on controller UnifiedContract.API.Controllers.DocumentsController (UnifiedContract.API).
+2025-07-22 08:47:22.227 +03:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-07-22 08:47:22.228 +03:00 [INF] Executed action UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API) in 1.4561ms
+2025-07-22 08:47:22.228 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.228 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Response: 400: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"entityId":["The value 'undefined' is not valid."]},"traceId":"00-a092e91a8ae53f07f1f404b24a1663f3-18c29ae6c8663dd2-00"}
+2025-07-22 08:47:22.229 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - 400 null application/problem+json; charset=utf-8 5.3402ms
+2025-07-22 08:47:22.231 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - null null
+2025-07-22 08:47:22.232 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Request: http localhost:5275/api/documents/permit/undefined  
+2025-07-22 08:47:22.232 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:22.233 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.233 +03:00 [INF] Route matched with {action = "GetDocuments", controller = "Documents"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetDocuments(System.String, System.Guid) on controller UnifiedContract.API.Controllers.DocumentsController (UnifiedContract.API).
+2025-07-22 08:47:22.234 +03:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-07-22 08:47:22.234 +03:00 [INF] Executed action UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API) in 0.846ms
+2025-07-22 08:47:22.235 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.235 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Response: 400: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"entityId":["The value 'undefined' is not valid."]},"traceId":"00-94ca5e0aa4964e88d18e90e8046a4acb-20a9c0a14ac34bb4-00"}
+2025-07-22 08:47:22.235 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - 400 null application/problem+json; charset=utf-8 4.0405ms
+2025-07-22 08:47:22.236 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - null null
+2025-07-22 08:47:22.237 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Request: http localhost:5275/api/documents/permit/undefined  
+2025-07-22 08:47:22.237 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:22.238 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.238 +03:00 [INF] Route matched with {action = "GetDocuments", controller = "Documents"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetDocuments(System.String, System.Guid) on controller UnifiedContract.API.Controllers.DocumentsController (UnifiedContract.API).
+2025-07-22 08:47:22.239 +03:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-07-22 08:47:22.240 +03:00 [INF] Executed action UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API) in 1.6052ms
+2025-07-22 08:47:22.240 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.241 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Response: 400: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"entityId":["The value 'undefined' is not valid."]},"traceId":"00-9b2a705c0894557c1b5ced3d357c7198-8b86b692a665c608-00"}
+2025-07-22 08:47:22.242 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - 400 null application/problem+json; charset=utf-8 5.0171ms
+2025-07-22 08:47:22.243 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - null null
+2025-07-22 08:47:22.244 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Request: http localhost:5275/api/documents/permit/undefined  
+2025-07-22 08:47:22.244 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:22.245 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.245 +03:00 [INF] Route matched with {action = "GetDocuments", controller = "Documents"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetDocuments(System.String, System.Guid) on controller UnifiedContract.API.Controllers.DocumentsController (UnifiedContract.API).
+2025-07-22 08:47:22.247 +03:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-07-22 08:47:22.248 +03:00 [INF] Executed action UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API) in 2.1168ms
+2025-07-22 08:47:22.248 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.250 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Response: 400: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"entityId":["The value 'undefined' is not valid."]},"traceId":"00-d2ed83e94cd0177392bc7128fa01e4fe-72608d11650f873b-00"}
+2025-07-22 08:47:22.251 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - 400 null application/problem+json; charset=utf-8 7.9132ms
+2025-07-22 08:47:22.253 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - null null
+2025-07-22 08:47:22.253 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Request: http localhost:5275/api/documents/permit/undefined  
+2025-07-22 08:47:22.254 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:22.255 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.256 +03:00 [INF] Route matched with {action = "GetDocuments", controller = "Documents"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetDocuments(System.String, System.Guid) on controller UnifiedContract.API.Controllers.DocumentsController (UnifiedContract.API).
+2025-07-22 08:47:22.257 +03:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-07-22 08:47:22.259 +03:00 [INF] Executed action UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API) in 3.0462ms
+2025-07-22 08:47:22.260 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.DocumentsController.GetDocuments (UnifiedContract.API)'
+2025-07-22 08:47:22.260 +03:00 [INF] HTTP GET /api/documents/permit/undefined - Response: 400: {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"entityId":["The value 'undefined' is not valid."]},"traceId":"00-8c14d3ec8d41fcb5afddd4d74ed9e9e6-7d860d0fda1d0232-00"}
+2025-07-22 08:47:22.260 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/documents/permit/undefined - 400 null application/problem+json; charset=utf-8 7.6461ms
+2025-07-22 08:47:24.679 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5275/api/documents/upload - null null
+2025-07-22 08:47:24.679 +03:00 [INF] HTTP OPTIONS /api/documents/upload - Request: http localhost:5275/api/documents/upload  
+2025-07-22 08:47:24.680 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:24.680 +03:00 [INF] HTTP OPTIONS /api/documents/upload - Response: 204: 
+2025-07-22 08:47:24.681 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5275/api/documents/upload - 204 null null 1.8908ms
+2025-07-22 08:47:24.703 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5275/api/documents/upload - multipart/form-data; boundary=----WebKitFormBoundaryEDobaFg8BM5fLsYB 17833
+2025-07-22 08:47:24.705 +03:00 [INF] HTTP POST /api/documents/upload - Request: http localhost:5275/api/documents/upload  ------WebKitFormBoundaryEDobaFg8BM5fLsYB
+Content-Disposition: form-data; name="file"; filename="Updated OHPL- Final recovery Schedule - SUC Response - 19.07.2025.xlsx"
+Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+
+PK     ! ���fu  �   [Content_Types].xml �(�                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ���N�0��H�C�+j�q@��a�&1 $�-M�8���f�PY5m�Fm���ŵ3�l��!�v�d�b�2��)m%����,�(��Y(��MƷ7���f�m�du���s�54���N�B#"���B.���`����l�c��ƣg�����eC�wNd�tزJ&�7Z�HN�ڪ?�|O((3�`�=ޑ�;	����}�;�&h�L��&��7����rnY��p�JKPN��@�>�PX��i-����	~
+F��ᕍ��K�=>"�o��y��$�ĸ5��.{�#�"����&��~k�����iM-r�"uO�og�y�	p��È�ٹ'!Q�qH���H������/
+Թl��蚋�;�8O���  �� PK     ! ^�e  �   _rels/.rels �(�                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ��MK1���!̽;�*"�l/E�Md�1��`7������FAt��z��w�y��f��x�{v�E	��fӻV�K����rF��H"l���3�*���>��⢄.%��uGVł=�\i8X�rZ�J�%\����P�4��H;s�>����67M�i�zoɥ#+��DΐY���B��5�V��$��~����"c'Z����k�RRF%������8���EsܙF|�0�2�Xn/ɢ�1�=c�W�7�޲�   �� PK     ! �Z��  �     xl/workbook.xml�U�n�0}_i�������TZ5P��z�zI_*U8�*`֘&U��1��4�U�E��=�����x�g�Ɋ������Hx1���md0�-������U�����ù�O!� ��S�J�4�8e9�D�
+�L�̩����U)M��1�g�mY=3���-�'���)�Y(�:g�jA$˨�U��j������T>ե���	ϸzi@1�c�lVI'�� ZH���O,h��I`�9*�����6[�;��$d+����5%{�:�kV��IV�5VoF�/��V���I4g���G�S��q+]D���:SF��i�K|܇����D#Y�Úg`�]Bl��<�0�ܟd�ɂ*�B�ԖԿ*�;H�]��5��H܁���T#�RT��ǁ�pW��秗W㫇P̋L�%zx�>�+������&���j�?�줷��HI�g�9���>C�!���R�AXI籈�G_���8'���kt�~�pO:��'n�!�յ�7pF��X�Z�˄jhw!{;��XY���<��x���������֥k�ټڤ^������ 68��=�7�{��Tk��v�������53o1
+[F<�n���(5E�5=*a��J��a�������4�!���YB�L���4�G�I�K,��+�B�W��Ae8����6�DF���1���F�O��ԉt�t��q��<0�݌���Eߌ=�F���䴝X���i�:Ԯ,w�k�|�2���h�������bϵ秷��Q���zkBB�֭�b���G   �� PK     ! ���  ?   xl/_rels/workbook.xml.rels �(�                                                                                                                                                                                                                                                                 ���j�0E����Ѿq2}P�qf�R�m�~�p�8Lb[}��kR:���n�1H�����w��$gdI
+��veck����#��hKl�%���W�Wj��`�>��b���o��P�!q=�8���c�k٣>bMr����5 ?��R�?�� �����k��j4=;�ё�2���D��&V�['��e�͚��B��X��͖�5��?C�ǩ�8Y��_Fc��6v�9��.r�j(z*����ϳ1o��ȳ��?   �� PK     ! :v
+�3  mz     xl/worksheets/sheet1.xml��]o�0��'�?D�'���@DZ��jH�T�[wm�&qf����w�$@�ԲJ�1I��|gr��J�I�E�!���a59�����f0B�Ҥ�I)j��S�����F�G�bL;@�U�VZ7��)�bQ�hXw
+!+��\z����VT�^���W^����s�(8eׂ�+V�"YI4įV�Q=����*"�̀��Ă�\�,9M��ZH�(!�-�u�>|�ލ�~��T
+%
+��kc>M�=B�������ȓ쉛P��B��=+8��w��=̔K�k�g���j:LfI2��� Ϯ��q8�w�,N���b�s��ʑ����Ӈ�G���N�gutv4Yܳ�Q��Fγ�=%%�jF��k>�ۅ�F>�}�Ԑ�9����!��]w�h�|a��b% ���?�[Pdh!��_��]�
+)�Ym�����?C��m"U?m�s�/Y���;o�S���T�//�{���t��h4Lb����=>�U���|+��d]�;���L�P��M��c�$i��f��vBu��p�(�N��[��l���\�24t�0�C ��T�G{Öd/��X!�^�8���!dl�`��c�	�v±�z�p׺�)Fo(�N�S`�I�I`X{IrV!Ɲl'��*��μ��3İFm��>�}��Ѿ�=�y�������1�T��1�  ��   ����َ�H�EE�WRƖKC��##2��MP�����j�g���t���� 
+�|�]�3܌�N�'���/߿������/�~��_�~�|Ӹy�����G����n�����N�C��ݷ��������U���_����_�����?�}�g�n?4o�|�V5ST�|����yW~���/��>�����o"銤q�QH�2 ��@� !�K�OB�Sn?�s���>�t��E��m�9�4�fiZV��4m�YF��լ"͝լ#ͽ�l"��m�y���͝�}�q�|�4n���ƍ�)Ҹq>G7΅^yݹ�.��0"7҅^,F䆱��ǈ\>
+��rѽ�B�2#r�]�gDn���ȍw����/�5"?��%{�G<�f���G���誽�#]�~ģ����xt�>����?�ѥ��G<�v��G�q�z�[���P����vt�'5�{R���]tS������ߡ:�[T�ly�j]� ]!�����AF c���N}G��r������}	6�M�F���F���F�-�F���F�m�F��F���F�u��Q7V;m����[�������ۆ�����VaøI�0n6���`�-�l����a�6ӷaؽ��mo�0w���p�nðr���0�ۆa�6˶a���/^�~Ŧ[�M7:�Ҧ�f�g���ˍ���+�|��t#�M>Yh�a�G7V�H�li\��D�� ���Ƒ��D4��c�;秤��v�B���d� Y��@� �-�dr 9��@� EA$Uv_�Y!E�#��I��H*$GR9���Hҝ#�nv^Lo��Lp�Lq�Lr�,Ls�<Lta2m&���u��?17�Z�|��Vn�"�Z���Ő����$�$�c���!��{�p�]�C���e�e$Qq��C6�~���Y�����y�u��I�s�l;�{J���e�:��<��A K���z�h-��x9��d�9�AN g�� �I��RH��H*$GR9�Rȑ$?G��G�n����H�#Ip�$�9��Hr�#Ir���i.�炉.L����s,�6~�S�V?ߴ_.:?�I�V9Ϻx���$I��"�$�j�y��D�QL�u=J����ý�7���.�p0���P?�&ҩ���BjC��<��ABjkXJ�u}�@� �-�dr 9��@� EA�%�����}P%�7�A�&7��$��>����JRl�*&�`���`�&�0�6�Q>���}T��}���b�>�%�K�k�!��by��y���db�����6�rj�OG��/����)i:�#��d� Y����S�s6ق�@� �#�	�RDRH��%���>IQ�J)?�"�n~��*ɯ��P%6��$�f:B�\l�b�&�0�6~RN���O�V�O�YtS����0��䚟H#��I��u�a�s�Q
+�~��VV�rj�������}���7y��R��ޒ4����@�A� �%�
+d�ق�����^{��r9������D")�-TI!�*Mw>W�S"ɯ��$��[��o�J���$�9�<�H�#�i�-���xKժz�3�n�oqK�$��-��+ޒG�ld�b���H@z.+C���X�F���}��H���~�D~�U;I��N@f � s��d�ـlAv {��QHmB'���<��ԑ���D")
+c'TI!;��hJ$�5vB�d��	U�cc'TI���P%y6vB�d:����K�o`'U�j'�+�)f���zIr�N����&C�<��$�27�n���J�d�M�𧻓��&�E�D�6�v�:l��n2y��,@� +�5�d�����HV�G���(�����P�'���R5"I�󶞨�I~��P%6nB��ظ	U�e�&TI���P%�ܤ|=�v�Ҭ��3�����厞h�9�6[��zO�`f*J.s�[gc=#��G��������e��wD�ь�hN� Z���D�-юhOt :���t�{0-0c5���A��LK$�w�6�fޘN����	t�}c<�N�o�'�i�	tZ��T;z�f���H���쬥+Ac?n�'������5W?��N�m�C	���kԏHβ�zFb?������Nk��N�����z5�4��2�3ќhA�$Z��6D[�ў�@t$:�����2`���0�?R��;g96�����F�Nk���}
+��L3o���i��P�ٷ�C����uZ�������v���v��yK�|�[=k��{"�j@��+�<��O
+�$�6 7���5�Wo�Հ��������z54���A5�jA�$Z��6D[�ў�@t$:��J�P��B��Ɍ�/:k@R��Q�(`Z#ր��Sp�4`�yk@lOso�:;5 �4�ր��
+�D��@d@�&�70���2]��\��:��`'���ԛ��6�����@~C��D[����v�v�^�C�����e���+(����a1n4���A5�jA�$Z��6D[����}���bDG�љ�t#)��=���贜��=-�\7
+���n����c���[7b{�{�F�i��Q���nD�V�u#��淙���z{7�-��]�s��K�~>�6��DtՍR/遌n����g(M� �ԋ@�\�z:	j��e��)]��$2�4����@5�jA�$Z��6D[�ў�@t$:)�W��m�"�K_��������bm��i�Xۡ�)�c0ͼ������C�f��u�k;�iXۡNk ��T;�`$���6B��J��7c(�r�i��J���j�K��j����1�Q,�����u�Bң�P�}����Q����s��_w�Ԧq!��4e\�9U�%ъhM�!���D�#щ�LTN~0�Y/`ZE�Ȗ_�À�6�B��S�������Yt�����.ĝÚ}�B�i��Q�`]�:��ȅ�m�o�B�[1���V�HQ��7����G�I�X�h'�bt:27 !�����	]��ɿ��h��='ud<h&MρjNՂhI�R�m,��҆hK�#���D'�3Q�9��X/`��i����0Ѝ�eag>�V���i�4�v�l7�����j���[����(�
+(�(lؙO�)�<G�:&7�[�)j=�o>�Uϑvb�Ƀ���`�9B.���^ۍ���s�XM�w�kO��ä�24��hN� Z���D���ښv�����D'�3Q�0�8�X/`��6�(`Z�ax~��\7���[�	6�j���XM����Y��
+���lX���z�i���ٳ�.~�Y��b�d]���Kztr�A�$�֤#s�R���oA�	Uݕ�и_m>��c�­��9��*=��8P:�@@�<pN� Z���D�-юhOt :��Ί��BX~t�X?`Z8v��=����q�&Ӽ[
+v)�j��c5�9��[b�~�@�i�:� �@�~e�;�U����?����lsL��,K��ߵ,���ziʛ4l�I�W�vR0� !�[v,�HjA���wui��m>ҿ� 7sz��i,(g,�ΉDK�њhC�%��DG�љ��atʥ�^��l�Q���,�{1U]f�3av$WW�Oso-�:�~���[�Z ւ���uZ���F��[���5�vu�s��s��� ��YD�<H%�x�vN�$�y������Oh�A��K��[l5���z��r"�=͉DK�њhC�%��DG�љ�(�X/`��6�(`�M��i���A� ��%���i��I�ƃ�`<(�i	2:�A~�si�r"�>�=���|M�T�������Y}��|/�wA7e�r�������Q�\#�En��W�ؓ[{�Q�����WkF���r��ָ�'�N��vw��5�{ݢ�Z�˧ID�Ds�ђhE�&�m�vD{�ё�Dt&*-
+cXt������:2o��c�Ӣɏ�ə�y�7�,`A�K���/��A��K�3{��ŝ�Z֢r���j�"���Ӥ�%R��o�.�����M���<ɹI_4�dg�M�s��o>7r������4tn�y_���|��_�k�׍'�j�F@3i*F4'Z-�VDk�іhG�':�NDg��x0`����ec����cG�������c�2_΍�^��rnD]���x��_\
+ 3#� �D$�Y�I}D�go���6?6����Gɻn���-�~��������Lbr�}�;^>y��B���d��Z}ʹ\�n6�od�5�?��㗉�۵�=��>�E4#z&�-��D+�5цhK�#���D'�3Q�2��]�Y/`��i��N1tZvz�~5�vzC�4�#�|�2<6�}�2��/]�� ���PT@�@q����ӛj;P>����+u��J5+������d���Z�7�"�o�DC�јh"��ra��w4]����������߂5�H��FٌdZ����Z��߀hH4"M��2�{.���x�C5���j��nߩ�E�z�qב����;������;��ԆT���D���c���hKͿf�6��W�˂�噿p���R�����P-,���d3���u_Z2�z9�T�M��A�j�����x����������A,�G<���Q9.�R�.�dhX7��9"M��3��
+�K��.ܗf^�b�M�a�Dd�	�Fzm�S}ܥƈFDc�����K����o�  ��   ��l��N�0E����ӼFi$+���
+�p����#~�R`��y|4���`�`3M�x�_G��*�u��-��ײQ%oT)��$�y�Ā�J�~T
+���N%��JC��,��<��"��@���R�O���T�+�j%�kB�Z��S��~Pǋ��`�$M8)o�������
+�Vp����]h
+ZQ�y��K�e缅�~��K�],G�[W�n0����YL�G_�R��0.ooO��T�7�=,�h���Q"Eo�_�p�ѷu��h��   �� PK     ! 3`o!y  �     xl/theme/theme1.xml�Y�n7��;sO�]�9���m�İ�9R#j�g8 );�ɱ@��i�K��z(�H�^ҧq��M��B�#ihQ����%���r�^{�0tH��<m�˥ �4�C�F��N�w�J����3��V0%2����{W�IBЧr��X�lcmM����e�����H���"Z
+||�V)�k	�i�R� �ۣ	���.�J�\
+6g����Jꅐ�-���@P5t�����-���:Ĭ��!?�*@KZA��k�W��FN��
+�]���t9�p\12E4�����֜�0���6��nc�� p��V�g�Ү���~���4;ղ�/�.�U׿ހ,����k��Y|}	_�^�����K�fi�Sk:�(f4/�K�F�=�vq�ㅯ�k�f%g�@A6�3M��T�������`Mİ�)Rӌ�p����@P����O�R(���\$CA3�
+>�0T͂߫�߿z��z�����??zt��G��!��iT$|��g~�1���7/���"��>�����@���F/�|�۳'/�����{�[��>M�D����	�f�jN�|�S����ú�bxk���M\���H|�������(�|#N�.�l��nhY�'i�.&E�>Ƈ>�m�:��N2観�t|ߎ���é�I�B�����_wi(��#��Q����%}:piA�C���g3�����]�͙��9t�P�y����:�(��X�q��U�S�`*�"�+D:"���H飹-��B�o`�]ް�i�"��cϛ��"����'�Wg��E�r)��W>�.w+D�8�te��R�������	��L�'��	w�q�F��.����	MOkیB�~׶g��lb���9ѬW���-��'���Xޢ�u�w:��w�U�|�}yъ�K/�n3�'g�G��5e�4s���h؃EsX0���-��c>�;�H`C�WQ�8��l����YGe\�9�,�09��c)���Z�N�E$V�|h���s蜍9�F��;T��*��|;ae��J�����j�A:��M�x.��so�`6/7�"@�g��P�ݞ�gaѢ/4D2�C��H۽��	�,Wfi�����^+H[�l�B�Y�TW[!n�����`%]�'ʑ���d):j��J=@!�Z����1� �R��Ep?*a����l���?-˥�;} Ru��mj�Gy
+�����:������ZT�@2�mZ@��Вш����1����"� ���}�ש
+����������6���7��e���u̲��V�謒-���\��jk�ۼ���o�)�2����3S�~�ա�@��#]���s�BYLÞ�K4�; [��CR����/ȡ�ok��0e�J�O#$(�G*��A[2��f�|�,Y��dTA]�Y�䐰����(�T7�$ow2���y"=��S'[���t`G,K�Y�Vh���`�?�>�,T8�Vk;֒ŕ����.����!#&�������[�װ�#��Kv�@�A��8���.�dҬ���O�>F��w>���B��ɤ{Ngχ3W�S��O��sv�a���<���d���hv�1�1o֊/���>��&LI���\!�)þ����5��  �� PK     ! �8	�  �^     xl/styles.xml�\[��F~����P_Y.۸���n,EJ���J��>`�(\,�;U�{�`f�`���6k0���̹͙33~��L�Uw=ñ'�� ��n/��a�'�/3n�2���K�tl}�t�}3���L��F�}H�ބ���v���b�[���lu�Y9���p�yo����C/Y&/	B��4�f
+#kAC���/�-�p���s�4���2�b�~m;�67�^�������ݨ|7Վe,\�sV�����X�i�*���"���Q^���݊�d��_4|�tl﬙�{����>��|�~	7�2����,���������gβ������/,?�!��x��M�G=;�b;_��.h	=6{ߘẄ́;"�pL�e��|��f�A�m�҃�^K����W�w��l��Fs=+LFd& �?
+Q3�%I�khf����#��f�!D�O�$���®�DA��9!i�.���An\ڟ��2:J���V��H/"��)U׫�HIh���fh�S�q���	��"[YB����3b�2O5tK�hV�4�=8�4��f�ݘ��/��k���	?���il!��<�v��(a�����9��D(�O����@����{����:�A����X��fz,���
+UU�b8�rO�e	5� ��OW�b�[q+�@��V{C�/A���L�#N ����Q�d���R=��q��G\�p�����W>�k�7��l�X9�!�t�4��ck&����M�!b���"��ȌG��mP���`8�/ �7���<Z���YG.O���1��F�{p�OU#MP��1-/���i���ntcY�l���9�W�՚y����e���r�`��SKV����g�ñ{ڀ��oJ�Y�q#S:�{㱴q��8� S�S���	��!�g��L�|�|Axu�xѤ�������B�S��v>D>�x�t'<�dȾ��~�?=e8��{�<5����!�UA��լ����c�,pQ�qAW%"貦��݋��K,C���݄��"ij��_Gh�=u��%��.ޗ
+�y7�T���F����jMlT��5��+:�@��M�Z��s���ٯ���BK���}����c� \��"�Z@� ;�a�<]f�
+[Ӷ[���4ֶ�G�HZt�l��(Q�r.,�C�����Ng�*�@���G���������Ud_]m���qu��saI8��SQU���_܇ԈN$-�4,KZR�?��pq_��Q>��k�_^�����+R+�bR<Z�
+��yr48e�rDauR������B�]IG��	C�]I��^�o2S��*IAAp.��D h.��< *k̯Q�ޔ*z�.���d:�J���\2P�D��3���k�Y̋�īF"Ea�H�K�0b0���"���:�S�\ e��FU<�n,�c��^W2Og�Y3�"��6���`�2��=���=�&r����ɾxG�}d�2�N��ǥ5�}�����h�oa���`�Yo6��G�
+0��Nĉ�-a&;��fq��I�ZPd��@��m�L4J�Xk0�W��&fx5C��$���NNZۜH���OBJ
+;S:k&���x"_�-bn|�P"o�J�Ej�U3i��ۜR�}+z��8xk��"���S�qvI��L�D�So�2��!S:��x�E���0Y��ɐ��^Ւh.YY�|�~ ��OU���K�� ��%�5,i�
+��,g7/L�^��X?�V�%|B�F���E2Q���:z�b="��d �?':U7u$4o���CBsHe�I��P*��R��f��5� �HP������N��3�� ��ӆMi�#�R,�(W�_�8BFe��2ǘp�RJ�i
+,o�.���f���W�R&B$���1m�{-Q��D�^�i#�t����Գ��*�[2[�8�WOΤp�����N1b;Zb3�q[��Ν��>!���a���р�rom��Y��@o����
+0��W���_�_N����@��ߌW��$&l��:J�:�7l����ɇ�ٹƄ����@}~7����8�䞮p����)�����L$��_�	�~>�#�/8T��;�Dy�p��2��ߛ��E o��$vU�oQ�f=A��6�����Qz�ˏB`W*>.�c��+#N�6;�h�Ȼ0Hpy�	>	>>b~�   �� PK     ! ��	�  d     xl/sharedStrings.xml�XmO�H�~������Q��!�V�*
+P�+%"p�7���j��vׁ��o�v^p�wj%s� y��y{f���}~IX��\�s/8�=@ɘ�����p�x�1K��so���<���3�������S����L�I��J��G5��L!��ѤI7���nʸ� ��0d7$����8.Oox���Lѿ	��u���,9�G}�Օ�<)�{��R�����tm3���|�{�$��)��	�� � �w��<�@��p�5V�~��]��O��(�犲
+�L���(U-��l'�����OdM@0�6�L��KĖ�`�RL7���$�Vm�2I�Icd
+�)
+�NQ�".�n�^c�Ff��nmG����	����
+L0{W���)�{y�_ x/?��+�h!պ���������|9�;M���v�������ZS�O�٪�ީY���Ea�jY�.1n��c�QĨ�B�ɬ,���P�lu�ft�$lE�m'ډ�q����� "F���Id���-����CK��4R��`�a� SLD�o���<^�13�A��珂W`��$����|�T{�6��ק�cb�:�BW.n��m2��]�D�L���R����l�.0�%���1C	�'m���h`4'�E|'�-A]A��W�P;�����XD����F�Doh�k���3��גl=�$�{2���[r_�ۻ��Ϲ`IIja�P�m������)���!�A���
+��͂^?�"��Vq��ȲQ���KA�a�(}�W!)s���
+�Q0��$��%���1��¦$k�|�|r�ܫ����A�0k�z�u�V� ��9)��ǖ%C�i���jP�l;G�]5���%��*i��jE��'�L��V�ٹwu5���oMEjM�Eo(�Fӵ7M�{����<��N=e���N�"b��ا1Oس�d2Bj!�]��b'�u<#~/pc����x�p�a���}���Cm�Pbe�����dA�_m5%dJF��o�h�RZ/+79jZi��6oJVT�^�
+U�7|�{�2Q_y�ݕ�����4O�OZ���m�m�T=mxR�uw�6�{���{uqm���#����g*��	.����`���J��r���pA�5���@x���M���#�]�S�����^���k�M��Y�4�߇��4�����!�C�&�6��Ap��=���l�Z�4x�Pv�5C��l`�2���f��!���Κ�8phB7k��Kn�0�s�Ь@���p���ݥ�%�  �� PK     ! y���   �     xl/calcChain.xmlt�K�� D�#���16�����4�L�p'X�c%�OK3q>K���uӮβ_�i^BS�����~/a��|������#&Xw��V+�7F�Q�OL��'�It*UaDO7���t�{�ƈ�O1;�E]�rGе�E	�u0K(���������I�Ώ#�s�����vP����]ԗ}7d��(d�%���,ALka/�ҝ   �� PK     ! ��S:e  �   docProps/core.xml �(�                                                                                                                                                                                                                                                                 ��]O� ��M��-�pΑ�K���%K����-� ���Kۭn�/��y!��d|���QJ��XÅ��Z�7(��*N�FA��`Ѽ��ș&�1�2������%Lh�&[�Im�ʋ��H���l���n �q|�%8ʩ���z$����?M�8�P��,N��xi�<�+'N)�^�N���l�qt��m�Fm������|x쫆Bu�b�ʜ3Å��z�UM�T uM�x�tff��Ɣ�~���J#���r���Ժ��� ~�/=G)�R9��yf�w |2�=*/��}�@e��0��ɬ�'$��,{�>;�56�!�?�3'$������}���o   �� PK     ! �dʮ�     docProps/app.xml �(�                                                                                                                                                                                                                                                                 ���N�0��#��W��N:#�*�#��� k��4��^���'%V������cˋ�Ʊ"����2���PY�.�C����3$�+킇�� ��:�%�1���d��Q�M����iS��єڸ�����`^7�I̳�L���WP��{C>:.:��iLχ��M�J^���FS����&5���'�t)�
+�k��S��V��vp��U��y�m�mD%;Zt`(D��-�6��Y#�8�t��S��ec3ԮE��)�l �H�q8�S���T>Rq(�F��8D,-9��RG��8�#�S�g,g��/�ý�q�����2\k�� �r��U�|�~ oSv��&W��k��5_�s?�Z�g��w�^r2������   �� PK     ! ��lS�  V   docProps/custom.xml �(�                                                                                                                                                                                                                                                                 ���j�0��}�S{��(uۥ����B�z3�8X��&IC�Wڇ蓭�&������ ���o>F�Ńn��W��qJ�H[+����b�F�x�L]��@Nw��Eq�#�q��
+<	��t�؍�����G!mB��NW�nۦQJ+�Ƃ�A,��f�Q���7�Q���g:��u����;�hTuN�dR�	O�����+���!�#�ŕ�����oJ��bA��th}�B���Ǎj��Bp�0>d�����˺���+����'I�oH�{%i��GW\+鬷>�!�	m��{r<'�A����eX��_��y�yߢ��-J,a 굄���OP������)gdr���|mKΣQ$�H���0o�ۨ��ֶ>�V��ga��C  �� PK-      ! ���fu  �                   [Content_Types].xmlPK-      ! ^�e  �               �  _rels/.relsPK-      ! �Z��  �               �  xl/workbook.xmlPK-      ! ���  ?                
+  xl/_rels/workbook.xml.relsPK-      ! :v
+�3  mz               d  xl/worksheets/sheet1.xmlPK-      ! 3`o!y  �               �"  xl/theme/theme1.xmlPK-      ! �8	�  �^               w)  xl/styles.xmlPK-      ! ��	�  d               )2  xl/sharedStrings.xmlPK-      ! y���   �               a7  xl/calcChain.xmlPK-      ! ��S:e  �               g8  docProps/core.xmlPK-      ! �dʮ�                 ;  docProps/app.xmlPK-      ! ��lS�  V               �=  docProps/custom.xmlPK      �  |@    
+------WebKitFormBoundaryEDobaFg8BM5fLsYB
+Content-Disposition: form-data; name="entityId"
+
+aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa
+------WebKitFormBoundaryEDobaFg8BM5fLsYB
+Content-Disposition: form-data; name="entityType"
+
+WorkOrder
+------WebKitFormBoundaryEDobaFg8BM5fLsYB--
+
+2025-07-22 08:47:24.719 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:24.721 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.DocumentsController.Upload (UnifiedContract.API)'
+2025-07-22 08:47:24.725 +03:00 [INF] Route matched with {action = "Upload", controller = "Documents"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Upload(Microsoft.AspNetCore.Http.IFormFile, System.Guid, System.String) on controller UnifiedContract.API.Controllers.DocumentsController (UnifiedContract.API).
+2025-07-22 08:47:24.822 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (Size = 100), @p3='?' (DbType = Guid), @p4='?' (Size = 50), @p5='?' (Size = 255), @p6='?' (Size = 1000), @p7='?' (DbType = Int64), @p8='?' (Size = 100), @p9='?' (DbType = Boolean), @p10='?' (Size = 100), @p11='?' (DbType = DateTime2), @p12='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Common].[Attachments] ([Id], [CreatedAt], [CreatedBy], [EntityId], [EntityType], [FileName], [FilePath], [FileSize], [FileType], [IsDeleted], [LastModifiedBy], [UploadDate], [UploadedById])
+OUTPUT INSERTED.[LastModifiedAt]
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12);
+2025-07-22 08:47:24.835 +03:00 [ERR] An exception occurred in the database while saving changes for context type 'UnifiedContract.Persistence.UnifiedContractDbContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot insert the value NULL into column 'LastModifiedBy', table 'UnifiedContract_Dev.Common.Attachments'; column does not allow nulls. INSERT fails.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryHasMoreRows(Boolean& moreRows)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
+   at Microsoft.Data.SqlClient.SqlDataReader.ReadAsyncExecute(Task task, Object state)
+   at Microsoft.Data.SqlClient.SqlDataReader.InvokeAsyncCall[T](SqlDataReaderBaseAsyncCallContext`1 context)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetAsync(Int32 startCommandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+ClientConnectionId:1ff18644-b785-4635-a01f-af8ede695df5
+Error Number:515,State:2,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetAsync(Int32 startCommandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot insert the value NULL into column 'LastModifiedBy', table 'UnifiedContract_Dev.Common.Attachments'; column does not allow nulls. INSERT fails.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryHasMoreRows(Boolean& moreRows)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
+   at Microsoft.Data.SqlClient.SqlDataReader.ReadAsyncExecute(Task task, Object state)
+   at Microsoft.Data.SqlClient.SqlDataReader.InvokeAsyncCall[T](SqlDataReaderBaseAsyncCallContext`1 context)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetAsync(Int32 startCommandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+ClientConnectionId:1ff18644-b785-4635-a01f-af8ede695df5
+Error Number:515,State:2,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetAsync(Int32 startCommandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2025-07-22 08:47:24.844 +03:00 [INF] Executed action UnifiedContract.API.Controllers.DocumentsController.Upload (UnifiedContract.API) in 117.5826ms
+2025-07-22 08:47:24.844 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.DocumentsController.Upload (UnifiedContract.API)'
+2025-07-22 08:47:24.844 +03:00 [ERR] An unhandled exception occurred.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot insert the value NULL into column 'LastModifiedBy', table 'UnifiedContract_Dev.Common.Attachments'; column does not allow nulls. INSERT fails.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryHasMoreRows(Boolean& moreRows)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
+   at Microsoft.Data.SqlClient.SqlDataReader.ReadAsyncExecute(Task task, Object state)
+   at Microsoft.Data.SqlClient.SqlDataReader.InvokeAsyncCall[T](SqlDataReaderBaseAsyncCallContext`1 context)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetAsync(Int32 startCommandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+ClientConnectionId:1ff18644-b785-4635-a01f-af8ede695df5
+Error Number:515,State:2,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetAsync(Int32 startCommandIndex, RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at UnifiedContract.Persistence.Repositories.Repository`1.AddAsync(T entity) in D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.Persistence\Repositories\Repository.cs:line 79
+   at UnifiedContract.API.Controllers.DocumentsController.Upload(IFormFile file, Guid entityId, String entityType) in D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.API\Controllers\DocumentsController.cs:line 63
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at UnifiedContract.API.Middleware.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\Zohary\Development\Repos\V2\unifiedContractV2-main\Backend\UnifiedContract.API\Middleware\ExceptionHandlingMiddleware.cs:line 26
+2025-07-22 08:47:24.879 +03:00 [INF] HTTP POST /api/documents/upload - Response: 500: {"Status":false,"Message":"An error occurred while saving the entity changes. See the inner exception for details.","Data":"   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeResultSetAsync(Int32 startCommandIndex, RelationalDataReader reader, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Update.AffectedCountModificationCommandBatch.ConsumeAsync(RelationalDataReader reader, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.SqlServer.Update.Internal.SqlServerModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable\u00601 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable\u00601 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable\u00601 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList\u00601 entries, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList\u00601 entriesToSave, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func\u00604 operation, Func\u00604 verifySucceeded, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)\r\n   at UnifiedContract.Persistence.Repositories.Repository\u00601.AddAsync(T entity) in D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Persistence\\Repositories\\Repository.cs:line 79\r\n   at UnifiedContract.API.Controllers.DocumentsController.Upload(IFormFile file, Guid entityId, String entityType) in D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.API\\Controllers\\DocumentsController.cs:line 63\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.\u003CInvokeActionMethodAsync\u003Eg__Awaited|12_0(ControllerActionInvoker invoker, ValueTask\u00601 actionResultValueTask)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.\u003CInvokeNextActionFilterAsync\u003Eg__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State\u0026 next, Scope\u0026 scope, Object\u0026 state, Boolean\u0026 isCompleted)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.\u003CInvokeInnerFilterAsync\u003Eg__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.\u003CInvokeNextResourceFilter\u003Eg__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State\u0026 next, Scope\u0026 scope, Object\u0026 state, Boolean\u0026 isCompleted)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.\u003CInvokeFilterPipelineAsync\u003Eg__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.\u003CInvokeAsync\u003Eg__Logged|17_1(ResourceInvoker invoker)\r\n   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.\u003CInvokeAsync\u003Eg__Logged|17_1(ResourceInvoker invoker)\r\n   at Microsoft.AspNetCore.Routing.EndpointMiddleware.\u003CInvoke\u003Eg__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)\r\n   at UnifiedContract.API.Middleware.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.API\\Middleware\\ExceptionHandlingMiddleware.cs:line 26","ErrorCode":null,"ValidationErrors":null}
+2025-07-22 08:47:24.881 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5275/api/documents/upload - 500 null application/json 178.4818ms
+2025-07-22 08:47:49.644 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5275/api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - null null
+2025-07-22 08:47:49.645 +03:00 [INF] HTTP OPTIONS /api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - Request: http localhost:5275/api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa  
+2025-07-22 08:47:49.645 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:49.646 +03:00 [INF] HTTP OPTIONS /api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - Response: 204: 
+2025-07-22 08:47:49.646 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5275/api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - 204 null null 1.809ms
+2025-07-22 08:47:49.648 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - null null
+2025-07-22 08:47:49.649 +03:00 [INF] HTTP GET /api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - Request: http localhost:5275/api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa  
+2025-07-22 08:47:49.649 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:49.650 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.WorkOrdersController.GetWorkOrder (UnifiedContract.API)'
+2025-07-22 08:47:49.650 +03:00 [INF] Route matched with {action = "GetWorkOrder", controller = "WorkOrders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[UnifiedContract.API.Models.ApiResponse`1[UnifiedContract.Application.DTOs.WorkOrderDetailsDto]]] GetWorkOrder(System.Guid) on controller UnifiedContract.API.Controllers.WorkOrdersController (UnifiedContract.API).
+2025-07-22 08:47:49.654 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [w].[Id], [w].[Category], [w].[Class], [w].[ClientId], [w].[CompletionPercentage], [w].[CreatedAt], [w].[CreatedBy], [w].[Description], [w].[DueDate], [w].[EngineerInChargeId], [w].[EstimatedCost], [w].[InternalOrderNumber], [w].[IsDeleted], [w].[LaborExpense], [w].[LastModifiedAt], [w].[LastModifiedBy], [w].[Location], [w].[MaterialsExpense], [w].[OtherExpense], [w].[PriorityLevelId], [w].[ReceivedDate], [w].[StartDate], [w].[TargetEndDate], [w].[Title], [w].[Type], [w].[WorkOrderNumber], [w].[WorkOrderStatusId], [w0].[Id], [w0].[AllowsEditing], [w0].[Code], [w0].[ColorCode], [w0].[CreatedAt], [w0].[CreatedBy], [w0].[Description], [w0].[DisplayOrder], [w0].[IsActive], [w0].[IsCompleted], [w0].[IsDeleted], [w0].[LastModifiedAt], [w0].[LastModifiedBy], [w0].[Metadata], [w0].[Name], [w0].[RequiresApproval], [p].[Id], [p].[Code], [p].[ColorCode], [p].[CreatedAt], [p].[CreatedBy], [p].[Description], [p].[DisplayOrder], [p].[IsActive], [p].[IsDeleted], [p].[LastModifiedAt], [p].[LastModifiedBy], [p].[Metadata], [p].[Name], [p].[RequiresImmediateNotification], [p].[SeverityValue], [p].[TargetResponseHours], [c].[Id], [c].[AccountManagerId], [c].[AlternatePhone], [c].[CompanyName], [c].[ContactPerson], [c].[CreatedAt], [c].[CreatedBy], [c].[Email], [c].[Industry], [c].[IsActive], [c].[IsDeleted], [c].[LastModifiedAt], [c].[LastModifiedBy], [c].[LogoUrl], [c].[Name], [c].[Notes], [c].[Phone], [c].[VatNumber], [c].[Website], [c].[City], [c].[Country], [c].[Address_FormattedAddress], [c].[Address_Latitude], [c].[Address_Longitude], [c].[PostalCode], [c].[State], [c].[Street]
+FROM [WorkOrders] AS [w]
+INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+WHERE [w].[Id] = @__id_0
+ORDER BY [w].[Id], [w0].[Id], [p].[Id], [c].[Id]
+2025-07-22 08:47:49.657 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w1].[Id], [w1].[ActualPrice], [w1].[ActualPriceWithVAT], [w1].[ActualQuantity], [w1].[CreatedAt], [w1].[CreatedBy], [w1].[Currency], [w1].[Description], [w1].[EstimatedPrice], [w1].[EstimatedPriceWithVAT], [w1].[EstimatedQuantity], [w1].[IsDeleted], [w1].[ItemNumber], [w1].[LastModifiedAt], [w1].[LastModifiedBy], [w1].[ManagementArea], [w1].[PaymentType], [w1].[ReasonForFinalQuantity], [w1].[Unit], [w1].[UnitPrice], [w1].[WorkOrderId], [s].[Id], [s].[Id0], [s].[Id1], [s].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s]
+INNER JOIN [WorkOrderItems] AS [w1] ON [s].[Id] = [w1].[WorkOrderId]
+ORDER BY [s].[Id], [s].[Id0], [s].[Id1], [s].[Id2]
+2025-07-22 08:47:49.659 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w2].[Id], [w2].[Content], [w2].[CreatedAt], [w2].[CreatedBy], [w2].[IsDeleted], [w2].[LastModifiedAt], [w2].[LastModifiedBy], [w2].[PeopleInvolved], [w2].[Type], [w2].[WorkOrderId], [s0].[Id], [s0].[Id0], [s0].[Id1], [s0].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s0]
+INNER JOIN [WorkOrderRemarks] AS [w2] ON [s0].[Id] = [w2].[WorkOrderId]
+ORDER BY [s0].[Id], [s0].[Id0], [s0].[Id1], [s0].[Id2]
+2025-07-22 08:47:49.661 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w3].[Id], [w3].[AssignedToId], [w3].[CreatedAt], [w3].[CreatedBy], [w3].[Description], [w3].[IsDeleted], [w3].[LastModifiedAt], [w3].[LastModifiedBy], [w3].[Priority], [w3].[PriorityLevelId], [w3].[ReportedById], [w3].[ReportedDate], [w3].[ResolutionDate], [w3].[ResolutionNotes], [w3].[Severity], [w3].[Status], [w3].[Title], [w3].[WorkOrderId], [s1].[Id], [s1].[Id0], [s1].[Id1], [s1].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s1]
+INNER JOIN [WorkOrderIssues] AS [w3] ON [s1].[Id] = [w3].[WorkOrderId]
+ORDER BY [s1].[Id], [s1].[Id0], [s1].[Id1], [s1].[Id2]
+2025-07-22 08:47:49.663 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w4].[Id], [w4].[Completed], [w4].[ConfirmedById], [w4].[CreatedAt], [w4].[CreatedBy], [w4].[Description], [w4].[DueDate], [w4].[IsDeleted], [w4].[LastModifiedAt], [w4].[LastModifiedBy], [w4].[Priority], [w4].[PriorityLevelId], [w4].[StartDate], [w4].[Status], [w4].[Title], [w4].[WorkOrderId], [s2].[Id], [s2].[Id0], [s2].[Id1], [s2].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s2]
+INNER JOIN [WorkOrderTasks] AS [w4] ON [s2].[Id] = [w4].[WorkOrderId]
+ORDER BY [s2].[Id], [s2].[Id0], [s2].[Id1], [s2].[Id2]
+2025-07-22 08:47:49.664 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [p0].[Id], [p0].[Authority], [p0].[CreatedAt], [p0].[CreatedBy], [p0].[Description], [p0].[DocumentRef], [p0].[ExpiryDate], [p0].[IsDeleted], [p0].[IssueDate], [p0].[IssuedBy], [p0].[LastModifiedAt], [p0].[LastModifiedBy], [p0].[Number], [p0].[Status], [p0].[Title], [p0].[Type], [p0].[WorkOrderId], [s3].[Id], [s3].[Id0], [s3].[Id1], [s3].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s3]
+INNER JOIN [Permits] AS [p0] ON [s3].[Id] = [p0].[WorkOrderId]
+ORDER BY [s3].[Id], [s3].[Id0], [s3].[Id1], [s3].[Id2]
+2025-07-22 08:47:49.666 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w5].[Id], [w5].[AssignedToId], [w5].[CompletedById], [w5].[CompletedDate], [w5].[CreatedAt], [w5].[CreatedBy], [w5].[Description], [w5].[DueDate], [w5].[IsDeleted], [w5].[LastModifiedAt], [w5].[LastModifiedBy], [w5].[Priority], [w5].[PriorityLevelId], [w5].[Status], [w5].[Title], [w5].[WorkOrderId], [s4].[Id], [s4].[Id0], [s4].[Id1], [s4].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s4]
+INNER JOIN [WorkOrderActions] AS [w5] ON [s4].[Id] = [w5].[WorkOrderId]
+ORDER BY [s4].[Id], [s4].[Id0], [s4].[Id1], [s4].[Id2]
+2025-07-22 08:47:49.669 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w6].[Id], [w6].[Caption], [w6].[CreatedAt], [w6].[CreatedBy], [w6].[IsDeleted], [w6].[LastModifiedAt], [w6].[LastModifiedBy], [w6].[Type], [w6].[UploadedById], [w6].[UploadedDate], [w6].[Url], [w6].[WorkOrderId], [s5].[Id], [s5].[Id0], [s5].[Id1], [s5].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s5]
+INNER JOIN [WorkOrderPhotos] AS [w6] ON [s5].[Id] = [w6].[WorkOrderId]
+ORDER BY [s5].[Id], [s5].[Id0], [s5].[Id1], [s5].[Id2]
+2025-07-22 08:47:49.671 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w7].[Id], [w7].[CreatedAt], [w7].[CreatedBy], [w7].[IsDeleted], [w7].[LastModifiedAt], [w7].[LastModifiedBy], [w7].[Status], [w7].[SubmittedById], [w7].[SubmittedDate], [w7].[Title], [w7].[Type], [w7].[Url], [w7].[WorkOrderId], [s6].[Id], [s6].[Id0], [s6].[Id1], [s6].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s6]
+INNER JOIN [WorkOrderForms] AS [w7] ON [s6].[Id] = [w7].[WorkOrderId]
+ORDER BY [s6].[Id], [s6].[Id0], [s6].[Id1], [s6].[Id2]
+2025-07-22 08:47:49.672 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w8].[Id], [w8].[Amount], [w8].[ApprovedById], [w8].[ApprovedDate], [w8].[Category], [w8].[CreatedAt], [w8].[CreatedBy], [w8].[Currency], [w8].[Date], [w8].[Description], [w8].[IsDeleted], [w8].[LastModifiedAt], [w8].[LastModifiedBy], [w8].[Receipt], [w8].[Status], [w8].[SubmittedById], [w8].[WorkOrderId], [s7].[Id], [s7].[Id0], [s7].[Id1], [s7].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s7]
+INNER JOIN [WorkOrderExpenses] AS [w8] ON [s7].[Id] = [w8].[WorkOrderId]
+ORDER BY [s7].[Id], [s7].[Id0], [s7].[Id1], [s7].[Id2]
+2025-07-22 08:47:49.673 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [w9].[Id], [w9].[Amount], [w9].[CreatedAt], [w9].[CreatedBy], [w9].[Currency], [w9].[DueDate], [w9].[IsDeleted], [w9].[IssueDate], [w9].[LastModifiedAt], [w9].[LastModifiedBy], [w9].[Number], [w9].[PaidById], [w9].[PaidDate], [w9].[Status], [w9].[Url], [w9].[WorkOrderId], [s8].[Id], [s8].[Id0], [s8].[Id1], [s8].[Id2]
+FROM (
+    SELECT TOP(1) [w].[Id], [w0].[Id] AS [Id0], [p].[Id] AS [Id1], [c].[Id] AS [Id2]
+    FROM [WorkOrders] AS [w]
+    INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+    INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+    LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+    WHERE [w].[Id] = @__id_0
+) AS [s8]
+INNER JOIN [WorkOrderInvoices] AS [w9] ON [s8].[Id] = [w9].[WorkOrderId]
+ORDER BY [s8].[Id], [s8].[Id0], [s8].[Id1], [s8].[Id2]
+2025-07-22 08:47:49.674 +03:00 [INF] Executing OkObjectResult, writing value of type 'UnifiedContract.API.Models.ApiResponse`1[[UnifiedContract.Application.DTOs.WorkOrderDetailsDto, UnifiedContract.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-22 08:47:49.674 +03:00 [INF] Executed action UnifiedContract.API.Controllers.WorkOrdersController.GetWorkOrder (UnifiedContract.API) in 22.9094ms
+2025-07-22 08:47:49.674 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.WorkOrdersController.GetWorkOrder (UnifiedContract.API)'
+2025-07-22 08:47:49.674 +03:00 [INF] HTTP GET /api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - Response: 200: {"status":true,"message":"Success","data":{"id":"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa","workOrderNumber":"WO-1001","internalOrderNumber":"INT-1001","title":"Demo Work Order 1","description":"Demo work order for testing.","client":"SEC","location":"Riyadh","status":"Pending","priority":"Normal","category":"Electrical","type":"Project","class":"A","completionPercentage":30.00,"receivedDate":"2024-07-15T12:00:00","startDate":"2024-07-16T08:00:00","dueDate":"2024-07-25T17:00:00","targetEndDate":"2024-07-27T17:00:00","createdDate":"2024-07-20T12:00:00","createdBy":"seed","lastUpdated":"2024-07-20T12:00:00","estimatedPrice":0.00,"engineerInCharge":"","permits":[{"type":"Initial","status":"Pending"},{"type":"RoadDepartment","status":"Approved"},{"type":"Traffic","status":"Pending"},{"type":"Municipality","status":"Approved"}]},"errorCode":null,"validationErrors":null}
+2025-07-22 08:47:49.675 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/work-orders/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa - 200 null application/json; charset=utf-8 26.7525ms
+2025-07-22 08:47:49.683 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5275/api/materials - null null
+2025-07-22 08:47:49.685 +03:00 [INF] HTTP OPTIONS /api/materials - Request: http localhost:5275/api/materials  
+2025-07-22 08:47:49.685 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:49.685 +03:00 [INF] HTTP OPTIONS /api/materials - Response: 204: 
+2025-07-22 08:47:49.685 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5275/api/materials - 204 null null 1.7247ms
+2025-07-22 08:47:49.687 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/materials - null null
+2025-07-22 08:47:49.687 +03:00 [INF] HTTP GET /api/materials - Request: http localhost:5275/api/materials  
+2025-07-22 08:47:49.688 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:49.688 +03:00 [INF] HTTP GET /api/materials - Response: 404: 
+2025-07-22 08:47:49.689 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/materials - 404 0 null 1.7309ms
+2025-07-22 08:47:49.689 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5275/api/materials, Response status code: 404
+2025-07-22 08:47:49.695 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/materials - null null
+2025-07-22 08:47:49.696 +03:00 [INF] HTTP GET /api/materials - Request: http localhost:5275/api/materials  
+2025-07-22 08:47:49.696 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:49.697 +03:00 [INF] HTTP GET /api/materials - Response: 404: 
+2025-07-22 08:47:49.697 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/materials - 404 0 null 1.2924ms
+2025-07-22 08:47:49.698 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5275/api/materials, Response status code: 404
+2025-07-22 08:47:49.703 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/materials - null null
+2025-07-22 08:47:49.703 +03:00 [INF] HTTP GET /api/materials - Request: http localhost:5275/api/materials  
+2025-07-22 08:47:49.703 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:49.704 +03:00 [INF] HTTP GET /api/materials - Response: 404: 
+2025-07-22 08:47:49.704 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/materials - 404 0 null 1.6443ms
+2025-07-22 08:47:49.705 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5275/api/materials, Response status code: 404
+2025-07-22 08:47:49.712 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/materials - null null
+2025-07-22 08:47:49.713 +03:00 [INF] HTTP GET /api/materials - Request: http localhost:5275/api/materials  
+2025-07-22 08:47:49.713 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:47:49.714 +03:00 [INF] HTTP GET /api/materials - Response: 404: 
+2025-07-22 08:47:49.715 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/materials - 404 0 null 2.64ms
+2025-07-22 08:47:49.716 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5275/api/materials, Response status code: 404
+2025-07-22 08:47:56.656 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5275/api/test-auth - null null
+2025-07-22 08:47:56.656 +03:00 [INF] HTTP OPTIONS /api/test-auth - Request: http localhost:5275/api/test-auth  
+2025-07-22 08:47:56.656 +03:00 [INF] CORS policy execution failed.
+2025-07-22 08:47:56.657 +03:00 [INF] Request origin https://unified-contract-v4.vercel.app does not have permission to access the resource.
+2025-07-22 08:47:56.657 +03:00 [INF] HTTP OPTIONS /api/test-auth - Response: 204: 
+2025-07-22 08:47:56.657 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5275/api/test-auth - 204 null null 1.2227ms
+2025-07-22 08:47:56.658 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/test-auth - null null
+2025-07-22 08:47:56.659 +03:00 [INF] HTTP GET /api/test-auth - Request: http localhost:5275/api/test-auth  
+2025-07-22 08:47:56.659 +03:00 [INF] CORS policy execution failed.
+2025-07-22 08:47:56.659 +03:00 [INF] Request origin https://unified-contract-v4.vercel.app does not have permission to access the resource.
+2025-07-22 08:47:56.660 +03:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2025-07-22 08:47:56.663 +03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-07-22 08:47:56.663 +03:00 [INF] HTTP GET /api/test-auth - Response: 401: 
+2025-07-22 08:47:56.663 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/test-auth - 401 0 null 4.9184ms
+2025-07-22 08:48:34.186 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5275/api/user/login - null null
+2025-07-22 08:48:34.187 +03:00 [INF] HTTP OPTIONS /api/user/login - Request: http localhost:5275/api/user/login  
+2025-07-22 08:48:34.187 +03:00 [INF] CORS policy execution failed.
+2025-07-22 08:48:34.187 +03:00 [INF] Request origin https://unified-contract-v4.vercel.app does not have permission to access the resource.
+2025-07-22 08:48:34.188 +03:00 [INF] HTTP OPTIONS /api/user/login - Response: 204: 
+2025-07-22 08:48:34.188 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5275/api/user/login - 204 null null 2.1107ms
+2025-07-22 08:48:51.118 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5275/api/user/login - null null
+2025-07-22 08:48:51.118 +03:00 [INF] HTTP OPTIONS /api/user/login - Request: http localhost:5275/api/user/login  
+2025-07-22 08:48:51.118 +03:00 [INF] CORS policy execution failed.
+2025-07-22 08:48:51.118 +03:00 [INF] Request origin https://unified-contract-v4.vercel.app does not have permission to access the resource.
+2025-07-22 08:48:51.119 +03:00 [INF] HTTP OPTIONS /api/user/login - Response: 204: 
+2025-07-22 08:48:51.119 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5275/api/user/login - 204 null null 1.3519ms
+2025-07-22 08:49:38.996 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5275/api/user/login - null null
+2025-07-22 08:49:38.997 +03:00 [INF] HTTP OPTIONS /api/user/login - Request: http localhost:5275/api/user/login  
+2025-07-22 08:49:38.997 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:49:38.998 +03:00 [INF] HTTP OPTIONS /api/user/login - Response: 204: 
+2025-07-22 08:49:38.998 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5275/api/user/login - 204 null null 2.1598ms
+2025-07-22 08:49:39.000 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5275/api/user/login - application/json 57
+2025-07-22 08:49:39.001 +03:00 [INF] HTTP POST /api/user/login - Request: http localhost:5275/api/user/login  {"email":"admin@unifiedcontract.com","password":"zzzzzz"}
+2025-07-22 08:49:39.001 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:49:39.002 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.UserController.Login (UnifiedContract.API)'
+2025-07-22 08:49:39.004 +03:00 [INF] Route matched with {action = "Login", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(UnifiedContract.API.Controllers.LoginRequest) on controller UnifiedContract.API.Controllers.UserController (UnifiedContract.API).
+2025-07-22 08:49:39.021 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__email_0='?' (Size = 100)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Avatar], [u].[CreatedAt], [u].[CreatedBy], [u].[Email], [u].[EmployeeId], [u].[FullName], [u].[IsActive], [u].[IsDeleted], [u].[IsEmployee], [u].[LastModifiedAt], [u].[LastModifiedBy], [u].[PasswordHash], [u].[UserName]
+FROM [Auth].[Users] AS [u]
+WHERE [u].[Email] = @__email_0
+2025-07-22 08:49:39.091 +03:00 [INF] Executing OkObjectResult, writing value of type 'UnifiedContract.API.Models.ApiResponse`1[[UnifiedContract.API.Controllers.LoginResponse, UnifiedContract.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-22 08:49:39.093 +03:00 [INF] Executed action UnifiedContract.API.Controllers.UserController.Login (UnifiedContract.API) in 88.5752ms
+2025-07-22 08:49:39.094 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.UserController.Login (UnifiedContract.API)'
+2025-07-22 08:49:39.094 +03:00 [INF] HTTP POST /api/user/login - Response: 200: {"status":true,"message":"Login successful","data":{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3ZWIwOGUxNC00ZTRjLTQ4MDEtOTNlNS01ZDgyMWJiYTdmZDIiLCJlbWFpbCI6ImFkbWluQHVuaWZpZWRjb250cmFjdC5jb20iLCJuYW1lIjoiU3lzdGVtIEFkbWluaXN0cmF0b3IiLCJyb2xlIjoidXNlciIsImV4cCI6MTc1MzE3MDU3OSwiaXNzIjoiVW5pZmllZENvbnRyYWN0QVBJX0RldiIsImF1ZCI6IlVuaWZpZWRDb250cmFjdENsaWVudF9EZXYifQ.Tz6JCvcIlQmtVKTwKVuAdteGOOTFUieWmlP8mskATWI"},"errorCode":null,"validationErrors":null}
+2025-07-22 08:49:39.095 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5275/api/user/login - 200 null application/json; charset=utf-8 94.6631ms
+2025-07-22 08:49:44.510 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5275/api/user/login - null null
+2025-07-22 08:49:44.511 +03:00 [INF] HTTP OPTIONS /api/user/login - Request: http localhost:5275/api/user/login  
+2025-07-22 08:49:44.511 +03:00 [INF] CORS policy execution failed.
+2025-07-22 08:49:44.512 +03:00 [INF] Request origin https://unified-contract-v4.vercel.app does not have permission to access the resource.
+2025-07-22 08:49:44.512 +03:00 [INF] HTTP OPTIONS /api/user/login - Response: 204: 
+2025-07-22 08:49:44.513 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5275/api/user/login - 204 null null 2.5888ms
+2025-07-22 08:49:59.444 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5275/api/user/login - null null
+2025-07-22 08:49:59.444 +03:00 [INF] HTTP OPTIONS /api/user/login - Request: http localhost:5275/api/user/login  
+2025-07-22 08:49:59.445 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:49:59.445 +03:00 [INF] HTTP OPTIONS /api/user/login - Response: 204: 
+2025-07-22 08:49:59.445 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5275/api/user/login - 204 null null 2.0735ms
+2025-07-22 08:49:59.447 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5275/api/user/login - application/json 57
+2025-07-22 08:49:59.447 +03:00 [INF] HTTP POST /api/user/login - Request: http localhost:5275/api/user/login  {"email":"admin@unifiedcontract.com","password":"zzzzzz"}
+2025-07-22 08:49:59.448 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:49:59.448 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.UserController.Login (UnifiedContract.API)'
+2025-07-22 08:49:59.448 +03:00 [INF] Route matched with {action = "Login", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(UnifiedContract.API.Controllers.LoginRequest) on controller UnifiedContract.API.Controllers.UserController (UnifiedContract.API).
+2025-07-22 08:49:59.451 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__email_0='?' (Size = 100)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Avatar], [u].[CreatedAt], [u].[CreatedBy], [u].[Email], [u].[EmployeeId], [u].[FullName], [u].[IsActive], [u].[IsDeleted], [u].[IsEmployee], [u].[LastModifiedAt], [u].[LastModifiedBy], [u].[PasswordHash], [u].[UserName]
+FROM [Auth].[Users] AS [u]
+WHERE [u].[Email] = @__email_0
+2025-07-22 08:49:59.498 +03:00 [INF] Executing OkObjectResult, writing value of type 'UnifiedContract.API.Models.ApiResponse`1[[UnifiedContract.API.Controllers.LoginResponse, UnifiedContract.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-22 08:49:59.498 +03:00 [INF] Executed action UnifiedContract.API.Controllers.UserController.Login (UnifiedContract.API) in 49.5096ms
+2025-07-22 08:49:59.499 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.UserController.Login (UnifiedContract.API)'
+2025-07-22 08:49:59.500 +03:00 [INF] HTTP POST /api/user/login - Response: 200: {"status":true,"message":"Login successful","data":{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3ZWIwOGUxNC00ZTRjLTQ4MDEtOTNlNS01ZDgyMWJiYTdmZDIiLCJlbWFpbCI6ImFkbWluQHVuaWZpZWRjb250cmFjdC5jb20iLCJuYW1lIjoiU3lzdGVtIEFkbWluaXN0cmF0b3IiLCJyb2xlIjoidXNlciIsImV4cCI6MTc1MzE3MDU5OSwiaXNzIjoiVW5pZmllZENvbnRyYWN0QVBJX0RldiIsImF1ZCI6IlVuaWZpZWRDb250cmFjdENsaWVudF9EZXYifQ.slmLfhaR7HmaRxOcIpuKhdidaEpz0ocKcdIjkFh_tNc"},"errorCode":null,"validationErrors":null}
+2025-07-22 08:49:59.501 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5275/api/user/login - 200 null application/json; charset=utf-8 54.0914ms
+2025-07-22 08:50:06.137 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5275/api/user/login - null null
+2025-07-22 08:50:06.138 +03:00 [INF] HTTP OPTIONS /api/user/login - Request: http localhost:5275/api/user/login  
+2025-07-22 08:50:06.138 +03:00 [INF] CORS policy execution failed.
+2025-07-22 08:50:06.138 +03:00 [INF] Request origin https://unified-contract-v4.vercel.app does not have permission to access the resource.
+2025-07-22 08:50:06.139 +03:00 [INF] HTTP OPTIONS /api/user/login - Response: 204: 
+2025-07-22 08:50:06.139 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5275/api/user/login - 204 null null 1.671ms
+2025-07-22 08:50:16.050 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5275/api/test-auth - null null
+2025-07-22 08:50:16.051 +03:00 [INF] HTTP OPTIONS /api/test-auth - Request: http localhost:5275/api/test-auth  
+2025-07-22 08:50:16.051 +03:00 [INF] CORS policy execution failed.
+2025-07-22 08:50:16.052 +03:00 [INF] Request origin https://unified-contract-v4.vercel.app does not have permission to access the resource.
+2025-07-22 08:50:16.052 +03:00 [INF] HTTP OPTIONS /api/test-auth - Response: 204: 
+2025-07-22 08:50:16.052 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5275/api/test-auth - 204 null null 1.6384ms
+2025-07-22 08:50:16.053 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/test-auth - null null
+2025-07-22 08:50:16.054 +03:00 [INF] HTTP GET /api/test-auth - Request: http localhost:5275/api/test-auth  
+2025-07-22 08:50:16.054 +03:00 [INF] CORS policy execution failed.
+2025-07-22 08:50:16.054 +03:00 [INF] Request origin https://unified-contract-v4.vercel.app does not have permission to access the resource.
+2025-07-22 08:50:16.054 +03:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2025-07-22 08:50:16.055 +03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-07-22 08:50:16.055 +03:00 [INF] HTTP GET /api/test-auth - Response: 401: 
+2025-07-22 08:50:16.055 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/test-auth - 401 0 null 2.1031ms
+2025-07-22 08:50:33.992 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5275/api/user/login - null null
+2025-07-22 08:50:33.993 +03:00 [INF] HTTP OPTIONS /api/user/login - Request: http localhost:5275/api/user/login  
+2025-07-22 08:50:33.993 +03:00 [INF] CORS policy execution failed.
+2025-07-22 08:50:33.993 +03:00 [INF] Request origin https://unified-contract-v4.vercel.app does not have permission to access the resource.
+2025-07-22 08:50:33.994 +03:00 [INF] HTTP OPTIONS /api/user/login - Response: 204: 
+2025-07-22 08:50:33.994 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5275/api/user/login - 204 null null 1.4264ms
+2025-07-22 08:52:11.311 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5275/api/user/login - null null
+2025-07-22 08:52:11.311 +03:00 [INF] HTTP OPTIONS /api/user/login - Request: http localhost:5275/api/user/login  
+2025-07-22 08:52:11.312 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:52:11.312 +03:00 [INF] HTTP OPTIONS /api/user/login - Response: 204: 
+2025-07-22 08:52:11.313 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5275/api/user/login - 204 null null 1.8899ms
+2025-07-22 08:52:11.314 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5275/api/user/login - application/json 57
+2025-07-22 08:52:11.314 +03:00 [INF] HTTP POST /api/user/login - Request: http localhost:5275/api/user/login  {"email":"admin@unifiedcontract.com","password":"zzzzzz"}
+2025-07-22 08:52:11.314 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:52:11.315 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.UserController.Login (UnifiedContract.API)'
+2025-07-22 08:52:11.315 +03:00 [INF] Route matched with {action = "Login", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(UnifiedContract.API.Controllers.LoginRequest) on controller UnifiedContract.API.Controllers.UserController (UnifiedContract.API).
+2025-07-22 08:52:11.318 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__email_0='?' (Size = 100)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Avatar], [u].[CreatedAt], [u].[CreatedBy], [u].[Email], [u].[EmployeeId], [u].[FullName], [u].[IsActive], [u].[IsDeleted], [u].[IsEmployee], [u].[LastModifiedAt], [u].[LastModifiedBy], [u].[PasswordHash], [u].[UserName]
+FROM [Auth].[Users] AS [u]
+WHERE [u].[Email] = @__email_0
+2025-07-22 08:52:11.364 +03:00 [INF] Executing OkObjectResult, writing value of type 'UnifiedContract.API.Models.ApiResponse`1[[UnifiedContract.API.Controllers.LoginResponse, UnifiedContract.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-22 08:52:11.366 +03:00 [INF] Executed action UnifiedContract.API.Controllers.UserController.Login (UnifiedContract.API) in 50.3649ms
+2025-07-22 08:52:11.366 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.UserController.Login (UnifiedContract.API)'
+2025-07-22 08:52:11.367 +03:00 [INF] HTTP POST /api/user/login - Response: 200: {"status":true,"message":"Login successful","data":{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3ZWIwOGUxNC00ZTRjLTQ4MDEtOTNlNS01ZDgyMWJiYTdmZDIiLCJlbWFpbCI6ImFkbWluQHVuaWZpZWRjb250cmFjdC5jb20iLCJuYW1lIjoiU3lzdGVtIEFkbWluaXN0cmF0b3IiLCJyb2xlIjoidXNlciIsImV4cCI6MTc1MzE3MDczMSwiaXNzIjoiVW5pZmllZENvbnRyYWN0QVBJX0RldiIsImF1ZCI6IlVuaWZpZWRDb250cmFjdENsaWVudF9EZXYifQ.m8PoEKci51jb--s2VuZUKiAWqmOfbjz4kyApUXYAzPk"},"errorCode":null,"validationErrors":null}
+2025-07-22 08:52:11.368 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5275/api/user/login - 200 null application/json; charset=utf-8 53.8792ms
+2025-07-22 08:52:48.780 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5275/api/work-orders - null null
+2025-07-22 08:52:48.781 +03:00 [INF] HTTP OPTIONS /api/work-orders - Request: http localhost:5275/api/work-orders  
+2025-07-22 08:52:48.781 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:52:48.781 +03:00 [INF] HTTP OPTIONS /api/work-orders - Response: 204: 
+2025-07-22 08:52:48.782 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5275/api/work-orders - 204 null null 1.7094ms
+2025-07-22 08:52:48.784 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/work-orders - null null
+2025-07-22 08:52:48.784 +03:00 [INF] HTTP GET /api/work-orders - Request: http localhost:5275/api/work-orders  
+2025-07-22 08:52:48.785 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:52:48.786 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.WorkOrdersController.GetWorkOrders (UnifiedContract.API)'
+2025-07-22 08:52:48.787 +03:00 [INF] Route matched with {action = "GetWorkOrders", controller = "WorkOrders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[UnifiedContract.API.Models.ApiResponse`1[System.Collections.Generic.IEnumerable`1[UnifiedContract.Application.DTOs.WorkOrderListItemDto]]]] GetWorkOrders() on controller UnifiedContract.API.Controllers.WorkOrdersController (UnifiedContract.API).
+2025-07-22 08:52:48.790 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [w].[Id], [w].[Category], [w].[Class], [w].[ClientId], [w].[CompletionPercentage], [w].[CreatedAt], [w].[CreatedBy], [w].[Description], [w].[DueDate], [w].[EngineerInChargeId], [w].[EstimatedCost], [w].[InternalOrderNumber], [w].[IsDeleted], [w].[LaborExpense], [w].[LastModifiedAt], [w].[LastModifiedBy], [w].[Location], [w].[MaterialsExpense], [w].[OtherExpense], [w].[PriorityLevelId], [w].[ReceivedDate], [w].[StartDate], [w].[TargetEndDate], [w].[Title], [w].[Type], [w].[WorkOrderNumber], [w].[WorkOrderStatusId], [w0].[Id], [w0].[AllowsEditing], [w0].[Code], [w0].[ColorCode], [w0].[CreatedAt], [w0].[CreatedBy], [w0].[Description], [w0].[DisplayOrder], [w0].[IsActive], [w0].[IsCompleted], [w0].[IsDeleted], [w0].[LastModifiedAt], [w0].[LastModifiedBy], [w0].[Metadata], [w0].[Name], [w0].[RequiresApproval], [p].[Id], [p].[Code], [p].[ColorCode], [p].[CreatedAt], [p].[CreatedBy], [p].[Description], [p].[DisplayOrder], [p].[IsActive], [p].[IsDeleted], [p].[LastModifiedAt], [p].[LastModifiedBy], [p].[Metadata], [p].[Name], [p].[RequiresImmediateNotification], [p].[SeverityValue], [p].[TargetResponseHours], [c].[Id], [c].[AccountManagerId], [c].[AlternatePhone], [c].[CompanyName], [c].[ContactPerson], [c].[CreatedAt], [c].[CreatedBy], [c].[Email], [c].[Industry], [c].[IsActive], [c].[IsDeleted], [c].[LastModifiedAt], [c].[LastModifiedBy], [c].[LogoUrl], [c].[Name], [c].[Notes], [c].[Phone], [c].[VatNumber], [c].[Website], [c].[City], [c].[Country], [c].[Address_FormattedAddress], [c].[Address_Latitude], [c].[Address_Longitude], [c].[PostalCode], [c].[State], [c].[Street]
+FROM [WorkOrders] AS [w]
+INNER JOIN [WorkOrderStatus] AS [w0] ON [w].[WorkOrderStatusId] = [w0].[Id]
+INNER JOIN [PriorityLevel] AS [p] ON [w].[PriorityLevelId] = [p].[Id]
+LEFT JOIN [Client].[Client] AS [c] ON [w].[ClientId] = [c].[Id]
+2025-07-22 08:52:48.793 +03:00 [INF] Executing OkObjectResult, writing value of type 'UnifiedContract.API.Models.ApiResponse`1[[System.Collections.Generic.IEnumerable`1[[UnifiedContract.Application.DTOs.WorkOrderListItemDto, UnifiedContract.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-22 08:52:48.795 +03:00 [INF] Executed action UnifiedContract.API.Controllers.WorkOrdersController.GetWorkOrders (UnifiedContract.API) in 7.5019ms
+2025-07-22 08:52:48.795 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.WorkOrdersController.GetWorkOrders (UnifiedContract.API)'
+2025-07-22 08:52:48.796 +03:00 [INF] HTTP GET /api/work-orders - Response: 200: {"status":true,"message":"Success","data":[{"id":"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa","workOrderNumber":"WO-1001","internalOrderNumber":"INT-1001","title":"Demo Work Order 1","description":"Demo work order for testing.","client":"SEC","location":"Riyadh","statusCode":"PENDING","statusName":"Pending","priorityCode":"NORMAL","priorityName":"Normal","category":"Electrical","completionPercentage":30.00,"receivedDate":"2024-07-15T12:00:00","startDate":"2024-07-16T08:00:00","dueDate":"2024-07-25T17:00:00","targetEndDate":"2024-07-27T17:00:00","createdAt":"2024-07-20T12:00:00","createdBy":"seed","lastModifiedAt":"2024-07-20T12:00:00","estimatedCost":0.00},{"id":"bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb","workOrderNumber":"WO-1002","internalOrderNumber":"INT-1002","title":"Demo Work Order 2","description":"Second demo work order.","client":"SEC","location":"Jeddah","statusCode":"COMPLETED","statusName":"Completed","priorityCode":"HIGH","priorityName":"High","category":"Mechanical","completionPercentage":70.00,"receivedDate":"2024-07-10T12:00:00","startDate":"2024-07-11T08:00:00","dueDate":"2024-07-18T17:00:00","targetEndDate":"2024-07-19T17:00:00","createdAt":"2024-07-20T12:00:00","createdBy":"seed","lastModifiedAt":"2024-07-20T12:00:00","estimatedCost":0.00}],"errorCode":null,"validationErrors":null}
+2025-07-22 08:52:48.798 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/work-orders - 200 null application/json; charset=utf-8 14.0648ms
+2025-07-22 08:52:50.322 +03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5275/api/work-order-items - null null
+2025-07-22 08:52:50.323 +03:00 [INF] HTTP OPTIONS /api/work-order-items - Request: http localhost:5275/api/work-order-items  
+2025-07-22 08:52:50.323 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:52:50.323 +03:00 [INF] HTTP OPTIONS /api/work-order-items - Response: 204: 
+2025-07-22 08:52:50.324 +03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5275/api/work-order-items - 204 null null 1.6938ms
+2025-07-22 08:52:50.325 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/api/work-order-items - null null
+2025-07-22 08:52:50.326 +03:00 [INF] HTTP GET /api/work-order-items - Request: http localhost:5275/api/work-order-items  
+2025-07-22 08:52:50.326 +03:00 [INF] CORS policy execution successful.
+2025-07-22 08:52:50.327 +03:00 [INF] Executing endpoint 'UnifiedContract.API.Controllers.WorkOrdersController.GetAllWorkOrderItems (UnifiedContract.API)'
+2025-07-22 08:52:50.332 +03:00 [INF] Route matched with {action = "GetAllWorkOrderItems", controller = "WorkOrders"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[UnifiedContract.API.Models.ApiResponse`1[System.Collections.Generic.IEnumerable`1[UnifiedContract.Domain.Entities.WorkOrder.WorkOrderItem]]]] GetAllWorkOrderItems() on controller UnifiedContract.API.Controllers.WorkOrdersController (UnifiedContract.API).
+2025-07-22 08:52:50.345 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [w].[Id], [w].[ActualPrice], [w].[ActualPriceWithVAT], [w].[ActualQuantity], [w].[CreatedAt], [w].[CreatedBy], [w].[Currency], [w].[Description], [w].[EstimatedPrice], [w].[EstimatedPriceWithVAT], [w].[EstimatedQuantity], [w].[IsDeleted], [w].[ItemNumber], [w].[LastModifiedAt], [w].[LastModifiedBy], [w].[ManagementArea], [w].[PaymentType], [w].[ReasonForFinalQuantity], [w].[Unit], [w].[UnitPrice], [w].[WorkOrderId]
+FROM [WorkOrderItems] AS [w]
+2025-07-22 08:52:50.349 +03:00 [INF] Executing OkObjectResult, writing value of type 'UnifiedContract.API.Models.ApiResponse`1[[System.Collections.Generic.IEnumerable`1[[UnifiedContract.Domain.Entities.WorkOrder.WorkOrderItem, UnifiedContract.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-22 08:52:50.355 +03:00 [INF] Executed action UnifiedContract.API.Controllers.WorkOrdersController.GetAllWorkOrderItems (UnifiedContract.API) in 22.4676ms
+2025-07-22 08:52:50.356 +03:00 [INF] Executed endpoint 'UnifiedContract.API.Controllers.WorkOrdersController.GetAllWorkOrderItems (UnifiedContract.API)'
+2025-07-22 08:52:50.357 +03:00 [INF] HTTP GET /api/work-order-items - Response: 200: {"status":true,"message":"Success","data":[{"itemNumber":"WOI-1001-001","description":"Concrete Mix - Grade 30 for foundation work","unit":"m³","unitPrice":100.00,"estimatedQuantity":10.00,"estimatedPrice":1000.00,"estimatedPriceWithVAT":1150.00,"actualQuantity":10.00,"actualPrice":1000.00,"actualPriceWithVAT":1150.00,"reasonForFinalQuantity":"Used as planned","paymentType":"Fixed Price","managementArea":"Default Area","currency":"SAR","workOrderId":"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa","id":"10000000-0000-0000-0000-000000000001","createdAt":"2024-07-20T12:00:00","createdBy":"seed","lastModifiedAt":"2024-07-20T12:00:00","lastModifiedBy":"seed","isDeleted":false,"domainEvents":[]},{"itemNumber":"WOI-1001-002","description":"Steel Bars - 12mm for structural support","unit":"ton","unitPrice":120.00,"estimatedQuantity":5.00,"estimatedPrice":600.00,"estimatedPriceWithVAT":690.00,"actualQuantity":5.00,"actualPrice":600.00,"actualPriceWithVAT":690.00,"reasonForFinalQuantity":"Used as planned","paymentType":"Fixed Price","managementArea":"Default Area","currency":"SAR","workOrderId":"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa","id":"10000000-0000-0000-0000-000000000002","createdAt":"2024-07-20T12:00:00","createdBy":"seed","lastModifiedAt":"2024-07-20T12:00:00","lastModifiedBy":"seed","isDeleted":false,"domainEvents":[]},{"itemNumber":"WOI-1002-001","description":"Electrical Wiring - 2.5mm² for power distribution","unit":"m","unitPrice":1250.00,"estimatedQuantity":2.00,"estimatedPrice":2500.00,"estimatedPriceWithVAT":2875.00,"actualQuantity":2.00,"actualPrice":2500.00,"actualPriceWithVAT":2875.00,"reasonForFinalQuantity":"Used as planned","paymentType":"Fixed Price","managementArea":"Default Area","currency":"SAR","workOrderId":"bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb","id":"10000000-0000-0000-0000-000000000003","createdAt":"2024-07-20T12:00:00","createdBy":"seed","lastModifiedAt":"2024-07-20T12:00:00","lastModifiedBy":"seed","isDeleted":false,"domainEvents":[]}],"errorCode":null,"validationErrors":null}
+2025-07-22 08:52:50.359 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/api/work-order-items - 200 null application/json; charset=utf-8 34.3443ms
+2025-07-22 08:52:58.567 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/swagger/index.html - null null
+2025-07-22 08:52:58.584 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/swagger/index.html - 200 null text/html;charset=utf-8 16.4803ms
+2025-07-22 08:52:58.665 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/swagger/v1/swagger.json - null null
+2025-07-22 08:52:58.798 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 132.9713ms
+2025-07-22 08:52:58.974 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/swagger/index.html - null null
+2025-07-22 08:52:58.976 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/swagger/index.html - 200 null text/html;charset=utf-8 1.2915ms
+2025-07-22 08:52:59.015 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5275/swagger/v1/swagger.json - null null
+2025-07-22 08:52:59.051 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5275/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 36.3604ms

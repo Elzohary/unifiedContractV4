@@ -1,12 +1,12 @@
 <div class="overview-container">
   <!-- Primary Information Section -->
   <div class="primary-info-grid">
-    <!-- Status Card -->
+    <!-- Information Card -->
     <mat-card class="status-card">
       <mat-card-header>
         <mat-card-title>
           <mat-icon>info</mat-icon>
-          Status Information
+          Information
         </mat-card-title>
       </mat-card-header>
       <mat-card-content>
@@ -20,8 +20,8 @@
             <span class="info-value">{{ workOrder.details['type'] || 'N/A' }}</span>
           </div>
           <div class="info-item">
-            <span class="info-label">Class</span>
-            <span class="info-value">{{ workOrder.details['class'] || 'N/A' }}</span>
+            <span class="info-label">Category</span>
+            <span class="info-value">{{ workOrder.details['category'] || 'N/A' }}</span>
           </div>
           <div class="info-item">
             <span class="info-label">Invoice Status</span>

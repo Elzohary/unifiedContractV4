@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UnifiedContract.Persistence")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e58f3008fe670a6d0e5d3ccf500e09881de89cad")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e2acee7711aa7553d934b762cdfdae6e8f4aa1d7")]
 [assembly: System.Reflection.AssemblyProductAttribute("UnifiedContract.Persistence")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UnifiedContract.Persistence")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

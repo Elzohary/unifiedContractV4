@@ -14,6 +14,11 @@ namespace UnifiedContract.Persistence.Configurations.WorkOrder
             builder.Property(x => x.Description).HasMaxLength(1000);
             builder.Property(x => x.Location).IsRequired().HasMaxLength(200);
             builder.Property(x => x.Category).HasMaxLength(100);
+            builder.Property(x => x.Type).HasMaxLength(100);
+            builder.Property(x => x.Class).HasMaxLength(100);
+            builder.Property(x => x.ProjectType).HasMaxLength(100);
+            builder.Property(x => x.PO).HasMaxLength(100);
+            builder.Property(x => x.D1).HasMaxLength(100);
             builder.Property(x => x.CompletionPercentage).HasColumnType("decimal(5,2)");
             builder.Property(x => x.ReceivedDate).IsRequired();
             builder.Property(x => x.StartDate);
@@ -24,7 +29,9 @@ namespace UnifiedContract.Persistence.Configurations.WorkOrder
             builder.Property(x => x.LaborExpense).HasColumnType("decimal(18,2)");
             builder.Property(x => x.OtherExpense).HasColumnType("decimal(18,2)");
 
-            builder.HasMany(x => x.Items).WithOne().HasForeignKey(x => x.WorkOrderId).OnDelete(DeleteBehavior.Cascade);
+            // Note: Items relationship is kept for backward compatibility
+            // The new architecture uses ItemAssignments instead
+            builder.HasMany(x => x.ItemAssignments).WithOne().HasForeignKey(x => x.WorkOrderId).OnDelete(DeleteBehavior.Cascade);
             builder.HasMany(x => x.Remarks).WithOne().HasForeignKey(x => x.WorkOrderId).OnDelete(DeleteBehavior.Cascade);
             builder.HasMany(x => x.Issues).WithOne().HasForeignKey(x => x.WorkOrderId).OnDelete(DeleteBehavior.Cascade);
             builder.HasMany(x => x.Tasks).WithOne().HasForeignKey(x => x.WorkOrderId).OnDelete(DeleteBehavior.Cascade);

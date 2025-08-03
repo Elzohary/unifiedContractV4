@@ -39,8 +39,9 @@ namespace UnifiedContract.API.Middleware
 
             var response = new ApiResponse<string>
             {
-                Status = false,
-                Message = "An error occurred while processing your request."
+                Status = 500,
+                Message = "An error occurred while processing your request.",
+                Timestamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
             };
 
             // In development, you might want to include the exception details

@@ -2,8 +2,11 @@
   "ExpandedNodes": [
     "",
     "\\UnifiedContract.Domain",
-    "\\UnifiedContract.Domain\\ValueObjects"
+    "\\UnifiedContract.Domain\\Events",
+    "\\UnifiedContract.Domain\\Events\\HR",
+    "\\UnifiedContract.Persistence",
+    "\\UnifiedContract.Tests"
   ],
-  "SelectedNode": "\\UnifiedContract.Domain\\ValueObjects\\Address.cs",
+  "SelectedNode": "\\UnifiedContract.Domain\\Events\\HR\\BankAccountEvents.cs",
   "PreviewInSolutionExplorer": false
 }

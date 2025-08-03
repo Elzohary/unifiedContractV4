@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using UnifiedContract.Domain.Entities.WorkOrder;
+using UnifiedContract.Domain.Entities.Resource;
 using UnifiedContract.Domain.Interfaces.Repositories;
 
 namespace UnifiedContract.Persistence.Repositories
@@ -20,7 +21,9 @@ namespace UnifiedContract.Persistence.Repositories
                 .Include(w => w.Status)
                 .Include(w => w.Priority)
                 .Include(w => w.Client)
-                .Include(w => w.Items)
+                .Include(w => w.ItemAssignments)
+                    .ThenInclude(ia => ia.Item)
+                        .ThenInclude(item => item.Client)
                 .Include(w => w.Remarks)
                 .Include(w => w.Issues)
                 .Include(w => w.Tasks)
@@ -64,7 +67,7 @@ namespace UnifiedContract.Persistence.Repositories
         public async Task<decimal> GetTotalEstimatedCostAsync(Guid id)
         {
             var workOrder = await _dbContext.WorkOrders
-                .Include(w => w.Items)
+                .Include(w => w.ItemAssignments)
                 .FirstOrDefaultAsync(w => w.Id == id);
 
             if (workOrder == null)
@@ -76,7 +79,7 @@ namespace UnifiedContract.Persistence.Repositories
         public async Task<decimal> GetTotalActualCostAsync(Guid id)
         {
             var workOrder = await _dbContext.WorkOrders
-                .Include(w => w.Items)
+                .Include(w => w.ItemAssignments)
                 .Include(w => w.Expenses)
                 .FirstOrDefaultAsync(w => w.Id == id);
 
@@ -109,6 +112,16 @@ namespace UnifiedContract.Persistence.Repositories
         public async Task AddItemAsync(WorkOrderItem item)
         {
             await _dbContext.WorkOrderItems.AddAsync(item);
+        }
+
+        public async Task<WorkOrderItem> GetItemByIdAsync(Guid itemId)
+        {
+            return await _dbContext.WorkOrderItems.FirstOrDefaultAsync(item => item.Id == itemId);
+        }
+
+        public async Task UpdateItemAsync(WorkOrderItem item)
+        {
+            _dbContext.WorkOrderItems.Update(item);
         }
 
         public async Task<IEnumerable<WorkOrderItem>> GetAllItemsAsync()
@@ -168,6 +181,43 @@ namespace UnifiedContract.Persistence.Repositories
             await _dbContext.Permits.AddRangeAsync(permitsToAdd);
 
             await _dbContext.SaveChangesAsync();
+        }
+
+        // Material assignment methods
+        public async Task AddMaterialAssignmentAsync(MaterialAssignment materialAssignment)
+        {
+            await _dbContext.MaterialAssignments.AddAsync(materialAssignment);
+        }
+
+        public async Task<MaterialAssignment> GetMaterialAssignmentByIdAsync(Guid assignmentId)
+        {
+            return await _dbContext.MaterialAssignments
+                .Include(ma => ma.PurchasableMaterial)
+                .Include(ma => ma.ReceivableMaterial)
+                .FirstOrDefaultAsync(ma => ma.Id == assignmentId);
+        }
+
+        public async Task<IEnumerable<MaterialAssignment>> GetMaterialAssignmentsByWorkOrderIdAsync(Guid workOrderId)
+        {
+            return await _dbContext.MaterialAssignments
+                .Include(ma => ma.PurchasableMaterial)
+                .Include(ma => ma.ReceivableMaterial)
+                .Where(ma => ma.WorkOrderId == workOrderId)
+                .ToListAsync();
+        }
+
+        public async Task UpdateMaterialAssignmentAsync(MaterialAssignment materialAssignment)
+        {
+            _dbContext.MaterialAssignments.Update(materialAssignment);
+        }
+
+        public async Task RemoveMaterialAssignmentAsync(Guid assignmentId)
+        {
+            var materialAssignment = await _dbContext.MaterialAssignments.FindAsync(assignmentId);
+            if (materialAssignment != null)
+            {
+                _dbContext.MaterialAssignments.Remove(materialAssignment);
+            }
         }
     }
 } 

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Infrastructure\\UnifiedContract.Infrastructure.csproj": {}
+    "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.Infrastructure\\UnifiedContract.Infrastructure.csproj": {}
   },
   "projects": {
-    "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Application\\UnifiedContract.Application.csproj": {
+    "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.Application\\UnifiedContract.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Application\\UnifiedContract.Application.csproj",
+        "projectUniqueName": "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.Application\\UnifiedContract.Application.csproj",
         "projectName": "UnifiedContract.Application",
-        "projectPath": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Application\\UnifiedContract.Application.csproj",
+        "projectPath": "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.Application\\UnifiedContract.Application.csproj",
         "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-        "outputPath": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Application\\obj\\",
+        "outputPath": "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,8 +32,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj": {
-                "projectPath": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj"
+              "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj": {
+                "projectPath": "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj"
               }
             }
           }
@@ -98,14 +98,14 @@
         }
       }
     },
-    "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj": {
+    "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj",
+        "projectUniqueName": "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj",
         "projectName": "UnifiedContract.Domain",
-        "projectPath": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj",
+        "projectPath": "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj",
         "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-        "outputPath": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\obj\\",
+        "outputPath": "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -168,14 +168,14 @@
         }
       }
     },
-    "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Infrastructure\\UnifiedContract.Infrastructure.csproj": {
+    "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.Infrastructure\\UnifiedContract.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Infrastructure\\UnifiedContract.Infrastructure.csproj",
+        "projectUniqueName": "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.Infrastructure\\UnifiedContract.Infrastructure.csproj",
         "projectName": "UnifiedContract.Infrastructure",
-        "projectPath": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Infrastructure\\UnifiedContract.Infrastructure.csproj",
+        "projectPath": "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.Infrastructure\\UnifiedContract.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-        "outputPath": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Infrastructure\\obj\\",
+        "outputPath": "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -196,11 +196,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Application\\UnifiedContract.Application.csproj": {
-                "projectPath": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Application\\UnifiedContract.Application.csproj"
+              "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.Application\\UnifiedContract.Application.csproj": {
+                "projectPath": "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.Application\\UnifiedContract.Application.csproj"
               },
-              "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj": {
-                "projectPath": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj"
+              "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj": {
+                "projectPath": "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.Domain\\UnifiedContract.Domain.csproj"
               }
             }
           }

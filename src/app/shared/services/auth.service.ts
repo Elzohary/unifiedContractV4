@@ -137,4 +137,31 @@ export class AuthService {
     this.currentUserSubject.next(null);
     this.redirectUrl = null;
   }
+
+  // Method to get client ID from token
+  getClientIdFromToken(): string | null {
+    const token = localStorage.getItem('auth_token');
+    if (!token) return null;
+    
+    try {
+      const decodedToken = this.decodeToken(token);
+      return decodedToken.clientId || decodedToken.client_id || null;
+    } catch (error) {
+      console.error('Error getting client ID from token:', error);
+      return null;
+    }
+  }
+
+  // Method to get decoded token
+  getDecodedToken(): any {
+    const token = localStorage.getItem('auth_token');
+    if (!token) return null;
+    
+    try {
+      return this.decodeToken(token);
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+    }
+  }
 } 

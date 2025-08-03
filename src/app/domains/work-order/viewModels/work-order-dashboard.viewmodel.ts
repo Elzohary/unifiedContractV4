@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { WorkOrder, WorkOrderStatus } from '../models/work-order.model';
 import { WorkOrderService } from '../services/work-order.service';
+import { DashboardMetrics } from '../models/dashboard-metrics.model';
 
 export interface WorkOrderDashboardStats {
   total: number;
@@ -13,6 +14,12 @@ export interface WorkOrderDashboardStats {
   cancelled: number;
   trends: { label: string; value: number; trend: number }[];
   recent: WorkOrder[];
+  // New financial metrics
+  totalPartiallyInvoicedAmount: number;
+  totalInvoicedAmount: number;
+  totalRemainingAmountToBeInvoiced: number;
+  totalExpectedAmount: number;
+  workOrdersWithoutPO: number;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -21,18 +28,35 @@ export class WorkOrderDashboardViewModel {
   public stats$: Observable<WorkOrderDashboardStats>;
 
   constructor(private workOrderService: WorkOrderService) {
-    this.stats$ = this.workOrderService.workOrders$.pipe(
-      map((workOrders: WorkOrder[]) => {
+    // Get dashboard metrics from database
+    const dashboardMetrics$ = this.workOrderService.getDashboardMetrics().pipe(
+      map((response: any) => response.data as DashboardMetrics),
+      catchError(error => {
+        console.error('Error fetching dashboard metrics:', error);
+        // Return default values if API fails
+        return [{
+          completedWorkOrders: 0,
+          ongoingWorkOrders: 0,
+          totalPartiallyInvoicedAmount: 0,
+          totalInvoicedAmount: 0,
+          totalRemainingAmountToBeInvoiced: 0,
+          totalExpectedAmount: 0,
+          workOrdersWithoutPO: 0,
+          totalWorkOrders: 0,
+          pendingWorkOrders: 0,
+          overdueWorkOrders: 0,
+          cancelledWorkOrders: 0
+        }];
+      })
+    );
+
+    // Combine database metrics with work orders for trends and recent data
+    this.stats$ = combineLatest([
+      dashboardMetrics$,
+      this.workOrderService.workOrders$
+    ]).pipe(
+      map(([metrics, workOrders]: [DashboardMetrics, WorkOrder[]]) => {
         const now = new Date();
-        const total = workOrders.length;
-        const active = workOrders.filter(wo => wo.details.status === WorkOrderStatus.InProgress).length;
-        const pending = workOrders.filter(wo => wo.details.status === WorkOrderStatus.Pending).length;
-        const overdue = workOrders.filter(wo => {
-          const due = wo.details.dueDate ? new Date(wo.details.dueDate) : null;
-          return due && due < now && wo.details.status !== WorkOrderStatus.Completed && wo.details.status !== WorkOrderStatus.Cancelled;
-        }).length;
-        const completed = workOrders.filter(wo => wo.details.status === WorkOrderStatus.Completed).length;
-        const cancelled = workOrders.filter(wo => wo.details.status === WorkOrderStatus.Cancelled).length;
 
         // Trends: compare last 30 days to previous 30 days
         const getCountInRange = (start: Date, end: Date) =>
@@ -55,17 +79,23 @@ export class WorkOrderDashboardViewModel {
         }).slice(0, 5);
 
         return {
-          total,
-          active,
-          pending,
-          overdue,
-          completed,
-          cancelled,
+          total: metrics.totalWorkOrders,
+          active: metrics.ongoingWorkOrders,
+          pending: metrics.pendingWorkOrders,
+          overdue: metrics.overdueWorkOrders,
+          completed: metrics.completedWorkOrders,
+          cancelled: metrics.cancelledWorkOrders,
           trends: [
             { label: 'Last 30 days', value: countLast30, trend },
             { label: 'Previous 30 days', value: countPrev30, trend: 0 }
           ],
-          recent
+          recent,
+          // Financial metrics from database
+          totalPartiallyInvoicedAmount: metrics.totalPartiallyInvoicedAmount,
+          totalInvoicedAmount: metrics.totalInvoicedAmount,
+          totalRemainingAmountToBeInvoiced: metrics.totalRemainingAmountToBeInvoiced,
+          totalExpectedAmount: metrics.totalExpectedAmount,
+          workOrdersWithoutPO: metrics.workOrdersWithoutPO
         };
       })
     );

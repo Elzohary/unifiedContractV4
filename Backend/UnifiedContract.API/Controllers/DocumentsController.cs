@@ -64,9 +64,10 @@ namespace UnifiedContract.API.Controllers
 
             return Ok(new ApiResponse<object> 
             { 
-                Status = true, 
+                Status = 200, 
                 Message = "File uploaded successfully.", 
-                Data = new { FilePath = filePath, Id = attachment.Id } 
+                Data = new { FilePath = filePath, Id = attachment.Id },
+                Timestamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
             });
         }
 
@@ -78,9 +79,10 @@ namespace UnifiedContract.API.Controllers
             
             return Ok(new ApiResponse<IEnumerable<Attachment>> 
             { 
-                Status = true, 
+                Status = 200, 
                 Message = "Documents retrieved successfully.", 
-                Data = filteredAttachments 
+                Data = filteredAttachments,
+                Timestamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
             });
         }
 
@@ -90,13 +92,13 @@ namespace UnifiedContract.API.Controllers
             var attachment = await _attachmentRepository.GetByIdAsync(id);
             if (attachment == null)
             {
-                return NotFound(new ApiResponse<object> { Status = false, Message = "Attachment not found." });
+                return NotFound(new ApiResponse<object> { Status = 404, Message = "Attachment not found." });
             }
 
             await _attachmentRepository.DeleteAsync(attachment);
             await _fileStorageService.DeleteFileAsync(attachment.FilePath);
 
-            return Ok(new ApiResponse<object> { Status = true, Message = "Attachment deleted successfully." });
+            return Ok(new ApiResponse<object> { Status = 200, Message = "Attachment deleted successfully.", Timestamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ") });
         }
     }
 } 

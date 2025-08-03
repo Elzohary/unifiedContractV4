@@ -1,120 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Iitem } from '../models/work-order-item.model';
 import { environment } from '../../../../environments/environment';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WorkOrderItemService {
-  private mockItems: Iitem[] = [
-    {
-      id: '1',
-      itemNumber: 'WOI-001',
-      lineType: 'Description',
-      shortDescription: 'Concrete Mix',
-      longDescription: 'Concrete Mix - Grade 30 for foundation work',
-      UOM: 'm³',
-      currency: 'SAR',
-      unitPrice: 100,
-      paymentType: 'Fixed Price',
-      managementArea: 'Western Region'
-    },
-    {
-      id: '2',
-      itemNumber: 'WOI-002',
-      lineType: 'Description',
-      shortDescription: 'Steel Bars',
-      longDescription: 'Steel Reinforcement Bars - 12mm for structural support',
-      UOM: 'ton',
-      currency: 'SAR',
-      unitPrice: 120,
-      paymentType: 'Fixed Price',
-      managementArea: 'Western Region'
-    },
-    {
-      id: '3',
-      itemNumber: 'WOI-003',
-      lineType: 'Description',
-      shortDescription: 'Electrical Wiring',
-      longDescription: 'Electrical Wiring - 2.5mm² for power distribution',
-      UOM: 'm',
-      currency: 'SAR',
-      unitPrice: 1250,
-      paymentType: 'Fixed Price',
-      managementArea: 'Western Region'
-    },
-    {
-      id: '4',
-      itemNumber: 'WOI-004',
-      lineType: 'Description',
-      shortDescription: 'PVC Pipes',
-      longDescription: 'PVC Pipes - 50mm for plumbing installation',
-      UOM: 'm',
-      currency: 'SAR',
-      unitPrice: 300,
-      paymentType: 'Fixed Price',
-      managementArea: 'Western Region'
-    },
-    {
-      id: '5',
-      itemNumber: 'WOI-005',
-      lineType: 'Description',
-      shortDescription: 'Interior Paint',
-      longDescription: 'Paint - Interior White for wall finishing',
-      UOM: 'L',
-      currency: 'SAR',
-      unitPrice: 710,
-      paymentType: 'Fixed Price',
-      managementArea: 'Western Region'
-    },
-    {
-      id: '6',
-      itemNumber: 'WOI-005',
-      lineType: 'Description',
-      shortDescription: 'Interior Paint',
-      longDescription: 'Paint - Interior White for wall finishing',
-      UOM: 'L',
-      currency: 'SAR',
-      unitPrice: 582,
-      paymentType: 'Fixed Price',
-      managementArea: 'Eastern Region'
-    }
-  ];
-
-  // Subject to notify subscribers when items change
-  private itemsSubject = new BehaviorSubject<Iitem[]>(this.mockItems);
-  items$ = this.itemsSubject.asObservable();
-
   constructor(private http: HttpClient) {}
 
   getItems(workOrderId: string): Observable<Iitem[]> {
-    if (environment.useMockData) {
-      return this.items$;
-    } else {
-      // Call backend API: GET /api/work-orders/{id}/items
-      return this.http.get<any>(`${environment.apiUrl}/work-orders/${workOrderId}/items`).pipe(
-        // The backend returns ApiResponse<{ data: WorkOrderItem[] }>
-        map(response => (response.data || []).map((item: any) => ({
-          id: item.id,
-          itemNumber: item.itemNumber,
-          lineType: 'Description', // or map if available
-          shortDescription: item.description,
-          longDescription: item.description,
-          UOM: item.unit,
-          currency: 'SAR', // or map if available
-          unitPrice: item.unitPrice,
-          paymentType: 'Fixed Price', // or map if available
-          managementArea: '', // or map if available
-        } as Iitem)))
-      );
-    }
-  }
-
-  getAllItems(): Observable<Iitem[]> {
-    return this.http.get<any>(`${environment.apiUrl}/work-order-items`).pipe(
+    // Call backend API: GET /api/work-orders/{id}/items
+    return this.http.get<any>(`${environment.apiUrl}/work-orders/${workOrderId}/items`).pipe(
+      // The backend returns ApiResponse<{ data: WorkOrderItem[] }>
       map(response => (response.data || []).map((item: any) => ({
         id: item.id,
         itemNumber: item.itemNumber,
@@ -122,17 +22,99 @@ export class WorkOrderItemService {
         shortDescription: item.description,
         longDescription: item.description,
         UOM: item.unit,
-        currency: 'SAR',
+        currency: item.currency || 'SAR',
         unitPrice: item.unitPrice,
-        paymentType: 'Fixed Price',
-        managementArea: '',
+        paymentType: item.paymentType || 'Fixed Price',
+        managementArea: item.managementArea || '',
       } as Iitem)))
     );
   }
 
+  getAllItems(): Observable<Iitem[]> {
+    // For the items list page, we need to get all available items from the master items table
+    // This should call the endpoint that returns all items from dbo.items (master catalog)
+    return this.http.get<any>(`${environment.apiUrl}/work-orders/available-items`).pipe(
+      map(response => (response.data || []).map((item: any) => ({
+        id: item.id,
+        itemNumber: item.itemNumber,
+        lineType: 'Description',
+        shortDescription: item.description,
+        longDescription: item.description,
+        UOM: item.unit,
+        currency: item.currency || 'SAR',
+        unitPrice: item.unitPrice,
+        paymentType: item.paymentType || 'Fixed Price',
+        managementArea: item.managementArea || '',
+      } as Iitem)))
+    );
+  }
+
+  getAvailableItems(): Observable<Iitem[]> {
+    // For the work order form dropdown, get all available items
+    console.log('Making API call to:', `${environment.apiUrl}/work-orders/available-items`);
+    return this.http.get<any>(`${environment.apiUrl}/work-orders/available-items`).pipe(
+      map(response => {
+        console.log('API response:', response);
+        return (response.data || []).map((item: any) => ({
+          id: item.id,
+          itemNumber: item.itemNumber,
+          lineType: 'Description',
+          shortDescription: item.description,
+          longDescription: item.description,
+          UOM: item.unit,
+          currency: item.currency || 'SAR',
+          unitPrice: item.unitPrice,
+          paymentType: item.paymentType || 'Fixed Price',
+          managementArea: item.managementArea || '',
+        } as Iitem));
+      })
+    );
+  }
+
+  getAvailableItemsForWorkOrder(workOrderId: string): Observable<Iitem[]> {
+    // For the work order assignment dialog, get available items for a specific work order
+    console.log('Making API call to:', `${environment.apiUrl}/work-orders/${workOrderId}/available-items`);
+    return this.http.get<any>(`${environment.apiUrl}/work-orders/${workOrderId}/available-items`).pipe(
+      map(response => {
+        console.log('API response for work order items:', response);
+        return (response.data || []).map((item: any) => ({
+          id: item.id,
+          itemNumber: item.itemNumber,
+          lineType: 'Description',
+          shortDescription: item.description,
+          longDescription: item.description,
+          UOM: item.unit,
+          currency: item.currency || 'SAR',
+          unitPrice: item.unitPrice,
+          paymentType: item.paymentType || 'Fixed Price',
+          managementArea: item.managementArea || '',
+        } as Iitem));
+      })
+    );
+  }
+
   getItemById(id: string): Observable<Iitem | null> {
-    const item = this.mockItems.find(item => item.id === id);
-    return of(item || null);
+    // Call backend API to get master item by ID
+    return this.http.get<any>(`${environment.apiUrl}/work-orders/master-items/${id}`).pipe(
+      map(response => {
+        if (response.data) {
+          const item = response.data;
+          return {
+            id: item.id,
+            itemNumber: item.itemNumber,
+            lineType: 'Description',
+            shortDescription: item.description,
+            longDescription: item.description,
+            UOM: item.unit,
+            currency: item.currency || 'SAR',
+            unitPrice: item.unitPrice,
+            paymentType: item.paymentType || 'Fixed Price',
+            managementArea: item.managementArea || '',
+          } as Iitem;
+        }
+        return null;
+      })
+    );
   }
 
   createItem(item: Partial<Iitem>): Observable<Iitem> {
@@ -144,8 +126,57 @@ export class WorkOrderItemService {
       paymentType: item.paymentType,
       managementArea: item.managementArea,
       currency: item.currency,
+      clientId: item.clientId || '00000000-0000-0000-0000-000000000000', // Default client ID
     };
-    return this.http.post<any>(`${environment.apiUrl}/work-order-items`, payload)
+    
+    console.log('=== DEBUG: createItem payload ===');
+    console.log('Item data:', item);
+    console.log('Payload being sent:', payload);
+    
+    return this.http.post<any>(`${environment.apiUrl}/work-orders/master-items`, payload)
+      .pipe(
+        map(response => {
+          console.log('=== DEBUG: createItem response ===');
+          console.log('Response:', response);
+          return {
+            id: response.data.id,
+            itemNumber: response.data.itemNumber,
+            lineType: 'Description',
+            shortDescription: response.data.description,
+            longDescription: response.data.description,
+            UOM: response.data.unit,
+            currency: response.data.currency || 'SAR',
+            unitPrice: response.data.unitPrice,
+            paymentType: response.data.paymentType || 'Fixed Price',
+            managementArea: response.data.managementArea || '',
+          } as Iitem;
+        }),
+        catchError(error => {
+          console.error('=== DEBUG: createItem error ===');
+          console.error('Error response:', error);
+          console.error('Error status:', error.status);
+          console.error('Error message:', error.message);
+          if (error.error) {
+            console.error('Error details:', error.error);
+          }
+          throw error;
+        })
+      );
+  }
+
+  updateItem(id: string, item: Partial<Iitem>): Observable<Iitem> {
+    const payload = {
+      itemNumber: item.itemNumber,
+      description: item.shortDescription || item.longDescription || '',
+      unit: item.UOM,
+      unitPrice: item.unitPrice,
+      paymentType: item.paymentType,
+      managementArea: item.managementArea,
+      currency: item.currency,
+      isActive: item.isActive !== false, // Default to true if not specified
+      clientId: item.clientId || '00000000-0000-0000-0000-000000000000', // Default client ID
+    };
+    return this.http.put<any>(`${environment.apiUrl}/work-orders/master-items/${id}`, payload)
       .pipe(
         map(response => ({
           id: response.data.id,
@@ -162,77 +193,69 @@ export class WorkOrderItemService {
       );
   }
 
-  updateItem(id: string, item: Partial<Iitem>): Observable<Iitem> {
-    const index = this.mockItems.findIndex(i => i.id === id);
-    if (index !== -1) {
-      this.mockItems[index] = {
-        ...this.mockItems[index],
-        ...item
-      };
-      this.itemsSubject.next(this.mockItems);
-      return of(this.mockItems[index]);
-    }
-    return of({} as Iitem);
-  }
-
   deleteItem(id: string): Observable<boolean> {
-    const index = this.mockItems.findIndex(item => item.id === id);
-    if (index !== -1) {
-      this.mockItems.splice(index, 1);
-      this.itemsSubject.next(this.mockItems);
-      return of(true);
-    }
-    return of(false);
+    return this.http.delete<any>(`${environment.apiUrl}/work-orders/master-items/${id}`)
+      .pipe(
+        map(response => true)
+      );
   }
 
-  // Create items from a work order
+  // Assign items to a work order
   createItemsFromWorkOrder(workOrderItems: any[], workOrderId: string): Observable<Iitem[]> {
+    console.log('=== DEBUG: createItemsFromWorkOrder called ===');
+    console.log('Work order items:', workOrderItems);
+    console.log('Work order ID:', workOrderId);
+    
     if (!workOrderItems || workOrderItems.length === 0) {
+      console.log('=== DEBUG: No items to assign ===');
       return of([]);
     }
 
-    const newItems: Iitem[] = [];
+    const assignedItems: Iitem[] = [];
 
+    // Assign items one by one to the work order
     workOrderItems.forEach((workOrderItem, index) => {
-      // Create a new item based on the work order item
-      const newItem: Iitem = {
-        id: (this.mockItems.length + index + 1).toString(),
-        itemNumber: `WOI-${workOrderId}-${String(index + 1).padStart(3, '0')}`,
-        lineType: 'Description',
-        shortDescription: workOrderItem.name || `Item ${index + 1}`,
-        longDescription: workOrderItem.description || '',
-        UOM: workOrderItem.uom || '',
-        currency: workOrderItem.currency || 'SAR',
-        paymentType: workOrderItem.paymentType || 'Fixed Price',
-        managementArea: workOrderItem.managementArea || '',
-        unitPrice: workOrderItem.unitPrice || 0
+      console.log(`=== DEBUG: Processing item ${index + 1} ===`);
+      console.log('Item data:', workOrderItem);
+      
+      // Create the item object with the estimated quantity
+      const itemToAssign = {
+        ...workOrderItem,
+        estimatedQuantity: workOrderItem.estimatedQuantity || 1
       };
 
-      this.mockItems.push(newItem);
-      newItems.push(newItem);
+      console.log('Item to assign:', itemToAssign);
+
+      this.assignItemToWorkOrder(workOrderId, itemToAssign).subscribe({
+        next: (assignedItem) => {
+          console.log(`=== DEBUG: Successfully assigned item ${index + 1} ===`);
+          console.log('Assigned item response:', assignedItem);
+          assignedItems.push(assignedItem);
+        },
+        error: (error) => {
+          console.error(`=== DEBUG: Error assigning item ${index + 1} ===`, error);
+        }
+      });
     });
 
-    // Notify subscribers of the changes
-    this.itemsSubject.next(this.mockItems);
-
-    return of(newItems);
+    return of(assignedItems);
   }
 
   assignItemToWorkOrder(workOrderId: string, item: Iitem): Observable<any> {
+    console.log('=== DEBUG: assignItemToWorkOrder called ===');
+    console.log('Work order ID:', workOrderId);
+    console.log('Item:', item);
+    
     const quantity = (item as any).estimatedQuantity || 1;
     const payload = {
-      itemNumber: item.itemNumber,
-      description: item.shortDescription || item.longDescription || '',
-      unit: item.UOM,
-      unitPrice: item.unitPrice,
+      itemId: item.id, // Use the item ID from the master catalog
       estimatedQuantity: quantity,
-      estimatedPrice: quantity * item.unitPrice,
-      estimatedPriceWithVAT: quantity * item.unitPrice * 1.15,
-      actualQuantity: 0,
-      actualPrice: 0,
-      actualPriceWithVAT: 0,
-      reasonForFinalQuantity: '',
+      reasonForFinalQuantity: ''
     };
-    return this.http.post(`${environment.apiUrl}/work-orders/${workOrderId}/items`, payload);
+    
+    console.log('Payload to send:', payload);
+    console.log('API URL:', `${environment.apiUrl}/work-orders/${workOrderId}/assign-item`);
+    
+    return this.http.post(`${environment.apiUrl}/work-orders/${workOrderId}/assign-item`, payload);
   }
 }

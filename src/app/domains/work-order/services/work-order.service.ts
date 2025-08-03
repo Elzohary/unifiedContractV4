@@ -203,8 +203,33 @@ export class WorkOrderService {
       return this.apiService.get<any>(`${this.endpoint}/${id}`).pipe(
         map(response => {
           const wo = response.data;
+          
+          // Map itemAssignments to items for frontend compatibility
+          const items = wo.itemAssignments?.map((assignment: any) => ({
+            id: assignment.id,
+            itemDetail: {
+              id: assignment.item?.id,
+              itemNumber: assignment.item?.itemNumber,
+              shortDescription: assignment.item?.description,
+              longDescription: assignment.item?.description,
+              UOM: assignment.item?.unit,
+              currency: assignment.item?.currency || 'SAR',
+              unitPrice: assignment.item?.unitPrice,
+              paymentType: assignment.item?.paymentType || 'Fixed Price',
+              managementArea: assignment.item?.managementArea || ''
+            },
+            estimatedQuantity: assignment.estimatedQuantity,
+            estimatedPrice: assignment.estimatedPrice,
+            estimatedPriceWithVAT: assignment.estimatedPriceWithVAT,
+            actualQuantity: assignment.actualQuantity || 0,
+            actualPrice: assignment.actualPrice || 0,
+            actualPriceWithVAT: assignment.actualPriceWithVAT || 0,
+            reasonForFinalQuantity: assignment.reasonForFinalQuantity || ''
+          })) || [];
+
           return {
             ...wo,
+            items: items, // Map itemAssignments to items
             details: {
               workOrderNumber: wo.workOrderNumber,
               internalOrderNumber: wo.internalOrderNumber,
@@ -215,8 +240,11 @@ export class WorkOrderService {
               status: wo.status || '',
               priority: wo.priority || '',
               category: wo.category,
-              type: wo.type, // <-- Add this line
-              class: wo.class, // <-- Add this line
+              type: wo.type,
+              class: wo.class,
+              projectType: wo.projectType,
+              po: wo.po,
+              d1: wo.d1,
               completionPercentage: wo.completionPercentage,
               receivedDate: wo.receivedDate,
               startDate: wo.startDate,
@@ -234,30 +262,29 @@ export class WorkOrderService {
     }
   }
 
-  createWorkOrder(workOrderData: Partial<WorkOrder>): Observable<WorkOrder> {
+  createWorkOrder(workOrderData: any): Observable<WorkOrder> {
     if (environment.useMockData) {
       // Create a new work order with proper structure
       const newWorkOrder: Partial<WorkOrder> = {
-        ...workOrderData,
         details: {
-          workOrderNumber: workOrderData.details?.workOrderNumber || `WO-${new Date().getFullYear()}-${Date.now()}`,
-          internalOrderNumber: workOrderData.details?.internalOrderNumber || `INT-${new Date().getFullYear()}-${Date.now()}`,
-          title: workOrderData.details?.title || '',
-          description: workOrderData.details?.description || '',
-          client: workOrderData.details?.client || '',
-          location: workOrderData.details?.location || '',
+          workOrderNumber: workOrderData.workOrderNumber || `WO-${new Date().getFullYear()}-${Date.now()}`,
+          internalOrderNumber: workOrderData.internalOrderNumber || `INT-${new Date().getFullYear()}-${Date.now()}`,
+          title: workOrderData.title || '',
+          description: workOrderData.description || '',
+          client: workOrderData.client || '',
+          location: workOrderData.location || '',
           status: WorkOrderStatus.Pending,
           priority: 'medium' as WorkOrderPriority,
-          category: workOrderData.details?.category || '',
-          completionPercentage: 0,
-          receivedDate: workOrderData.details?.receivedDate || new Date().toISOString(),
-          startDate: workOrderData.details?.startDate || new Date().toISOString(),
-          dueDate: workOrderData.details?.dueDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-          targetEndDate: workOrderData.details?.targetEndDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+          category: workOrderData.category || '',
+          completionPercentage: workOrderData.completionPercentage || 0,
+          receivedDate: workOrderData.receivedDate || new Date().toISOString(),
+          startDate: workOrderData.startDate || new Date().toISOString(),
+          dueDate: workOrderData.dueDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+          targetEndDate: workOrderData.targetEndDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
           createdDate: new Date().toISOString(),
-          createdBy: 'Current User' // This should come from auth service
+          createdBy: workOrderData.createdBy || 'Current User'
         },
-        items: workOrderData.items || [],
+        items: [],
         remarks: [],
         issues: [],
         materials: [],
@@ -272,8 +299,17 @@ export class WorkOrderService {
         })
       );
     } else {
-      return this.apiService.post<WorkOrder>(this.endpoint, workOrderData).pipe(
-        map(response => response.data)
+      console.log('=== DEBUG: WorkOrderService.createWorkOrder ===');
+      console.log('Sending payload:', workOrderData);
+      
+      return this.apiService.post<any>(this.endpoint, workOrderData).pipe(
+        map(response => {
+          console.log('=== DEBUG: ApiService.post response ===');
+          console.log('Full API response:', response);
+          console.log('Response.data:', response?.data);
+          console.log('Returning:', response?.data);
+          return response.data;
+        })
       );
     }
   }
@@ -299,7 +335,22 @@ export class WorkOrderService {
       return this.mockDatabaseService.deleteWorkOrder(id);
     } else {
       return this.apiService.delete<boolean>(`${this.endpoint}/${id}`).pipe(
-        map(response => response.data)
+        map(response => {
+          console.log('Delete work order response:', response);
+          // Handle both ApiResponse format and direct boolean response
+          if (response && typeof response === 'object' && 'data' in response) {
+            return response.data;
+          } else if (typeof response === 'boolean') {
+            return response;
+          } else {
+            console.error('Unexpected response format:', response);
+            return false;
+          }
+        }),
+        catchError(error => {
+          console.error('Error in deleteWorkOrder service:', error);
+          return of(false);
+        })
       );
     }
   }
@@ -784,9 +835,13 @@ export class WorkOrderService {
         })
       );
     } else {
-      // Real API call (assumes PUT endpoint for items)
-      // Should also wrap the item as above if needed by backend
-      return this.apiService.put<WorkOrder>(`${this.endpoint}/${workOrderId}/items`, { item: newItem }).pipe(
+      // Real API call - use the correct assign-item endpoint
+      const payload = {
+        itemId: newItem.id,
+        estimatedQuantity: newItem.estimatedQuantity || 1,
+        reasonForFinalQuantity: newItem.reasonForFinalQuantity || ''
+      };
+      return this.apiService.post<any>(`${this.endpoint}/${workOrderId}/assign-item`, payload).pipe(
         map((response: any) => response.data)
       );
     }
@@ -794,5 +849,9 @@ export class WorkOrderService {
 
   updateWorkOrderPermits(workOrderId: string, permits: { type: string, status: string }[]): Observable<any> {
     return this.apiService.post<any>(`${this.endpoint}/${workOrderId}/permits`, permits);
+  }
+
+  getDashboardMetrics(): Observable<any> {
+    return this.apiService.get<any>(`${this.endpoint}/dashboard-metrics`);
   }
 }

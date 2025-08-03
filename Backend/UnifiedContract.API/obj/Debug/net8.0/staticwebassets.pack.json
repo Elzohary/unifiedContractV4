@@ -1,12 +1,20 @@
 {
   "Files": [
     {
-      "Id": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.API\\wwwroot\\uploads\\48a88160-2cc2-47a4-b332-08bf17e48132.xlsx",
+      "Id": "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.API\\wwwroot\\uploads\\09db174c-2a96-4653-8c23-68c90786cd31.xlsb",
+      "PackagePath": "staticwebassets\\uploads\\09db174c-2a96-4653-8c23-68c90786cd31.xlsb"
+    },
+    {
+      "Id": "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.API\\wwwroot\\uploads\\48a88160-2cc2-47a4-b332-08bf17e48132.xlsx",
       "PackagePath": "staticwebassets\\uploads\\48a88160-2cc2-47a4-b332-08bf17e48132.xlsx"
     },
     {
-      "Id": "D:\\Zohary\\Development\\Repos\\V2\\unifiedContractV2-main\\Backend\\UnifiedContract.API\\wwwroot\\uploads\\c9df78df-c7f6-4339-9814-0dd843f3a1ba.xlsb",
+      "Id": "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.API\\wwwroot\\uploads\\c9df78df-c7f6-4339-9814-0dd843f3a1ba.xlsb",
       "PackagePath": "staticwebassets\\uploads\\c9df78df-c7f6-4339-9814-0dd843f3a1ba.xlsb"
+    },
+    {
+      "Id": "D:\\Zohary\\Development\\Repos\\V2\\For Cursor\\unifiedContractV2-main\\Backend\\UnifiedContract.API\\wwwroot\\uploads\\e0b17861-a81d-4199-b0b3-1a0b572af4d3.xlsx",
+      "PackagePath": "staticwebassets\\uploads\\e0b17861-a81d-4199-b0b3-1a0b572af4d3.xlsx"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.UnifiedContract.API.Microsoft.AspNetCore.StaticWebAssets.props",

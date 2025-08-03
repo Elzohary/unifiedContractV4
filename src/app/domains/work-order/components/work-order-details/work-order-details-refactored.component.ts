@@ -12,6 +12,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTableModule } from '@angular/material/table';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 // ViewModels
 import { WorkOrderDetailsViewModel } from '../../viewModels/work-order-details.viewmodel';
@@ -30,6 +31,8 @@ import { WoIssuesTabComponent } from './components/wo-issues-tab/wo-issues-tab.c
 import { WoMaterialsTabComponent } from './components/wo-materials-tab/wo-materials-tab.component';
 import { WoDocumentsTabComponent } from './components/wo-documents-tab/wo-documents-tab.component';
 import { WoSiteReportTabComponent } from './components/wo-site-report-tab/wo-site-report-tab.component';
+import { PrintService } from '../../../../shared/services/print.service';
+import { DeleteConfirmationDialogComponent } from '../../../../shared/components/delete-confirmation-dialog/delete-confirmation-dialog.component';
 
 @Component({
   selector: 'app-work-order-details-refactored',
@@ -48,6 +51,7 @@ import { WoSiteReportTabComponent } from './components/wo-site-report-tab/wo-sit
     MatCardModule,
     MatProgressBarModule,
     MatTableModule,
+    MatDialogModule,
     // Sub-components
     WoHeaderComponent,
     WoOverviewTabComponent,
@@ -98,7 +102,9 @@ export class WorkOrderDetailsRefactoredComponent implements OnInit, OnDestroy {
     private workOrderDetailsViewModel: WorkOrderDetailsViewModel,
     private workOrderRemarksViewModel: WorkOrderRemarksViewModel,
     private workOrderMaterialsViewModel: WorkOrderMaterialsViewModel,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog,
+    private printService: PrintService
   ) {
     // Initialize observables from ViewModels
     this.workOrder$ = this.workOrderDetailsViewModel.workOrder$;
@@ -224,8 +230,12 @@ export class WorkOrderDetailsRefactoredComponent implements OnInit, OnDestroy {
    * Handle print action
    */
   onPrint(): void {
-    // TODO: Implement print functionality
-    this.snackBar.open('Print functionality coming soon', 'Close', { duration: 3000 });
+    this.workOrder$.subscribe(workOrder => {
+      if (workOrder) {
+        this.printService.printWorkOrder(workOrder);
+        this.snackBar.open('Printing work order...', 'Close', { duration: 3000 });
+      }
+    }).unsubscribe();
   }
 
   /**
@@ -242,6 +252,65 @@ export class WorkOrderDetailsRefactoredComponent implements OnInit, OnDestroy {
   onDuplicate(): void {
     // TODO: Implement duplicate functionality
     this.snackBar.open('Duplicate functionality coming soon', 'Close', { duration: 3000 });
+  }
+
+  /**
+   * Handle delete action
+   */
+  onDelete(): void {
+    this.workOrder$.subscribe(workOrder => {
+      if (workOrder) {
+        this.showDeleteConfirmationDialog(workOrder);
+      }
+    }).unsubscribe();
+  }
+
+  /**
+   * Show delete confirmation dialog
+   */
+  private showDeleteConfirmationDialog(workOrder: WorkOrder): void {
+    const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Delete Work Order',
+        message: `Are you sure you want to delete Work Order #${workOrder.details.workOrderNumber}?`,
+        details: 'This action will permanently delete all work order data including items, remarks, tasks, materials, and related records. This action cannot be undone.',
+        confirmButton: 'Delete',
+        cancelButton: 'Cancel'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteWorkOrder(workOrder.id);
+      }
+    });
+  }
+
+  /**
+   * Delete work order
+   */
+  private deleteWorkOrder(workOrderId: string): void {
+    this.workOrderDetailsViewModel.deleteWorkOrder(workOrderId).subscribe({
+      next: (success) => {
+        if (success) {
+          this.snackBar.open('Work order deleted successfully', 'Close', { duration: 3000 });
+          console.log('Navigating to work orders list after successful deletion');
+          // Use replaceUrl to prevent back navigation to deleted work order
+          this.router.navigate(['/work-orders'], { replaceUrl: true }).then(() => {
+            console.log('Navigation to work orders list completed');
+          }).catch(err => {
+            console.error('Navigation failed:', err);
+          });
+        } else {
+          this.snackBar.open('Failed to delete work order', 'Close', { duration: 3000 });
+        }
+      },
+      error: (error) => {
+        console.error('Error deleting work order:', error);
+        this.snackBar.open('Error deleting work order', 'Close', { duration: 3000 });
+      }
+    });
   }
 
   /**

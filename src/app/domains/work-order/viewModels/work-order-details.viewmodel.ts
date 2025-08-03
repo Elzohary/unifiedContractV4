@@ -259,6 +259,31 @@ export class WorkOrderDetailsViewModel {
   }
 
   /**
+   * Delete work order
+   */
+  deleteWorkOrder(workOrderId: string): Observable<boolean> {
+    return this.workOrderService.deleteWorkOrder(workOrderId)
+      .pipe(
+        map(success => {
+          if (success) {
+            // Clear the state after successful deletion
+            this.updateState({
+              workOrder: null,
+              activityLogs: [],
+              tasks: [],
+              error: null
+            });
+          }
+          return success;
+        }),
+        catchError(error => {
+          console.error('Error deleting work order:', error);
+          return of(false);
+        })
+      );
+  }
+
+  /**
    * Get current state
    */
   private getCurrentState(): WorkOrderDetailsState {
